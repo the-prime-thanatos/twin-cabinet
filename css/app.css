@@ -202,12 +202,14 @@ a.btn { text-decoration: none; }
 .rel-line { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; line-height: 16px; color: var(--lightdark); }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-/* Named entity mention — ordinary gray chip, type in the label. */
+/* Unique entity chip — kind color + icon + name. Same pill as .chip, not a card. */
 .entity-chip {
   max-width: 100%;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   vertical-align: middle;
 }
+.entity-chip .icon { width: 14px; height: 14px; flex: 0 0 14px; color: inherit; }
+.entity-chip .icon svg { width: 14px; height: 14px; }
 a.entity-chip-link { display: inline-flex; max-width: 100%; text-decoration: none; }
 .entity-dates {
   display: flex; flex-wrap: wrap; gap: 8px;

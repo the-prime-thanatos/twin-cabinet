@@ -1,4 +1,4 @@
-/* js/kinds.js — Ordinary chips vs named entity mentions. Lookups. */
+/* js/kinds.js — Ordinary chips vs unique entity chips. Lookups. */
 function chip(status) {
   const map = {
     draft: ['chip-draft', 'черновик'],
@@ -162,12 +162,14 @@ function navChip(navId) {
   return `<span class="chip${cls ? ' ' + cls : ''}">${nav.label}</span>`
 }
 
-/* Named instance outside the unique card: ordinary gray chip. Kind lives in the label. */
+/* Unique entity chip: named instance. Kind color + icon + name. Pill, not a mini-card. */
 function entityChip(kind, name) {
   if (!name) return ''
   const k = KINDS[kind]
-  const text = k ? `${k.label} · ${name}` : name
-  return `<span class="chip entity-chip">${text}</span>`
+  const cls = KIND_CHIP[kind] || ''
+  const title = k ? `${k.label} · ${name}` : name
+  const ico = k ? icon(k.icon, 14) : ''
+  return `<span class="chip entity-chip${cls ? ` ${cls}` : ''}" title="${attrEsc(title)}">${ico}${name}</span>`
 }
 
 function entityRef(kind, name, opts) {
