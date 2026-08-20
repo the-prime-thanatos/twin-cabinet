@@ -30,39 +30,6 @@ function screenAgents(pid, empty) {
   )
 }
 
-<<<<<<< HEAD
-=======
-function screenAgent(pid, aid) {
-  const a = (AGENTS[pid] || []).find((x) => x.id === aid) || (AGENTS.courier || [])[0]
-  const settings = formCard(`
-    <div class="field"><label>Имя</label><input class="input" value="${a.name}" /></div>
-    <div class="field"><label>Язык</label><select class="select"><option>Русский</option><option>English</option></select></div>
-    <div class="field"><label>ID</label>${copyField(a.id)}</div>
-    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>`)
-  const kb = `<div class="card"><table class="table">
-    <thead><tr><th>Документ</th><th>Обновлён</th><th></th></tr></thead>
-    <tbody>
-      <tr><td>${entityRef('doc', 'Скрипт скрининга.pdf')}</td><td class="muted">${when('18 авг')}</td><td></td></tr>
-      <tr><td>${entityRef('doc', 'FAQ по слотам.docx')}</td><td class="muted">${when('12 авг')}</td><td></td></tr>
-    </tbody>
-  </table>
-  <div class="card-foot">
-    <button class="btn btn-secondary" type="button" data-nav="#/p/${pid}/knowledge">Все документы проекта</button>
-    <p class="hint mt-8">В v1 это список файлов, не редактор базы. Полный список — в «Базе знаний».</p>
-  </div></div>`
-  return shell(
-    pid,
-    'agents',
-    `${header(a.name, 'agents', `<div class="chips">${kindChip(a.kind || 'ai')}${mediumChip(a.medium || 'voice')}${chip(a.status)}</div>`, 'agent')}
-    <div class="tabs">
-      <button class="tab ${ui.tab === 'settings' ? 'is-active' : ''}" data-action="tab" data-tab="settings">Настройки</button>
-      <button class="tab ${ui.tab === 'kb' ? 'is-active' : ''}" data-action="tab" data-tab="kb">База знаний</button>
-    </div>
-    ${ui.tab === 'kb' ? kb : settings}`,
-  )
-}
-
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 function screenBots(pid, empty) {
   const list = BOTS[pid] || []
   const body = empty || !list.length
@@ -72,36 +39,7 @@ function screenBots(pid, empty) {
         <button class="btn mt-16" type="button" data-nav="#/p/${pid}/bots/new">Создать сценарий</button>
       </div></div>`
     : `<div class="entity-grid">${list.map((b) => botCard(pid, b)).join('')}</div>`
-<<<<<<< HEAD
   return shell(pid, 'bots', `${header('Сценарии', 'bots', entCreateBtn(pid, 'bot'))}${body}`)
-=======
-  return shell(pid, 'bots', `${header('Сценарии', 'bots', `<button class="btn" type="button" data-action="create-bot">${icon('plus', 16)} Создать сценарий</button>`)}${body}`)
-}
-
-function screenBot(pid, bid) {
-  const b = findBot(pid, bid) || (BOTS[pid] || BOTS.courier || [])[0]
-  const nlu = b.nluId && findNlu(pid, b.nluId)
-  const ai = b.aiId && findAgent(pid, b.aiId)
-  const nluField = nlu
-    ? `<div class="field"><label>NLU-модель</label>${entityPick(entityRef('nlu', nlu.name))}<button class="btn btn-ghost table-link" type="button" data-nav="#/p/${pid}/nlu/${nlu.id}">Открыть</button></div>`
-    : `<div class="field"><label>NLU-модель</label>${entityPick('<span class="muted">Не выбрана</span>')}</div>`
-  const aiField = ai
-    ? `<div class="field"><label>AI-агент</label>${entityPick(entityRef('ai', ai.name))}<button class="btn btn-ghost table-link" type="button" data-nav="#/p/${pid}/agents/${ai.id}">Открыть</button></div>`
-    : `<div class="field"><label>AI-агент</label>${entityPick('<span class="muted">Не выбран</span>')}</div>`
-  return shell(
-    pid,
-    'bots',
-    `${header(b.name, 'bots', `<div class="chips">${kindChip('graph')}${mediumChip(b.medium || 'text')}${chip(b.status)}</div>`, 'bot')}
-    ${formCard(`
-      <p class="muted flush">Сценарий отвечает блоками. Canvas в v1 не входит. В полях — те же упоминания, что на карточках: по имени видно, NLU это или AI-агент.</p>
-      <div class="field"><label>ID</label>${copyField(b.id)}</div>
-      <div class="field"><label>Канал доставки</label><div>${b.channel}</div></div>
-      ${nluField}
-      ${aiField}
-      <button class="btn btn-secondary" type="button" data-action="toast" data-toast="Редактор в v1 старый, сюда не рисуем">Открыть редактор</button>
-    `)}`,
-  )
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function screenNluList(pid, empty) {
@@ -113,28 +51,7 @@ function screenNluList(pid, empty) {
         <button class="btn mt-16" type="button" data-nav="#/p/${pid}/nlu/new">Создать NLU-модель</button>
       </div></div>`
     : `<div class="entity-grid">${list.map((n) => nluCard(pid, n)).join('')}</div>`
-<<<<<<< HEAD
   return shell(pid, 'nlu', `${header('NLU-модели', 'nlu', entCreateBtn(pid, 'nlu'))}${body}`)
-=======
-  return shell(pid, 'nlu', `${header('NLU-модели', 'nlu', `<button class="btn" type="button" data-action="create-nlu">${icon('plus', 16)} Создать NLU-модель</button>`)}${body}`)
-}
-
-function screenNlu(pid, nid) {
-  const n = findNlu(pid, nid) || (NLU[pid] || NLU.courier || [])[0]
-  const host = n.usedIn && findBot(pid, n.usedIn)
-  return shell(
-    pid,
-    'nlu',
-    `${header(n.name, 'nlu', `<div class="chips">${kindChip('nlu')}${chip(n.status)}</div>`, 'nlu-one')}
-    ${formCard(`
-      <p class="muted flush">NLU-модель не отвечает клиенту напрямую. Её вызывает сценарий.</p>
-      <div class="field"><label>ID</label>${copyField(n.id)}</div>
-      <div class="field"><label>Намерения</label><div>${n.intents || 0}</div></div>
-      <div class="field"><label>Сущности</label><div>${n.entities || 0}</div></div>
-      ${host ? `<div class="field"><label>Вызывает сценарий</label>${entityPick(entityRef('graph', host.name))}<button class="btn btn-ghost table-link" type="button" data-nav="#/p/${pid}/bots/${host.id}">Открыть</button></div>` : '<p class="muted flush">Пока не подключён к сценарию.</p>'}
-    `)}`,
-  )
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function screenCalls(pid, empty) {
@@ -242,50 +159,6 @@ function screenBlacklist(pid) {
   )
 }
 
-<<<<<<< HEAD
-=======
-function screenJob(pid, jid) {
-  const j = (JOBS[pid] || []).find((x) => x.id === jid) || (JOBS.courier || [])[0]
-  const playing = j.status === 'running'
-  const people = [
-    ['Игорь Смирнов', '+7 999 120-44-11', 'ответил', '0:42'],
-    ['Мария Ким', '+7 913 220-11-04', 'нет ответа', '—'],
-    ['Павел Орлов', '+7 905 441-90-12', 'перезвон', '0:11'],
-    ['Алина Бек', '+7 777 102-33-90', 'ошибка', '—'],
-  ]
-  const rows = people
-    .map(
-      (r) => `<tr><td>${r[0]}</td><td class="mono">${r[1]}</td><td>${r[2]}</td><td class="muted">${r[3]}</td></tr>`,
-    )
-    .join('')
-  return shell(
-    pid,
-    'calls',
-    `${header(
-      j.name,
-      'calls',
-      `<div class="row gap-8">${j.brain ? entityRef(j.brain.kind, j.brain.name) : ''}${chip(j.status)}
-        <button class="btn ${playing ? 'btn-secondary' : ''}" type="button">${playing ? icon('pause', 16) + ' Пауза' : icon('play', 16) + ' Запустить'}</button>
-      </div>`,
-      'job',
-    )}
-    <div class="card card-pad">
-      <div class="h5">Кто отвечает</div>
-      <p class="small muted flush mt-8">Один объект: AI-агент или сценарий. По имени видно тип.</p>
-      <div class="field mt-8">
-        <label>Мозг</label>
-        ${entityPick(j.brain ? entityRef(j.brain.kind, j.brain.name) : '<span class="muted">Не назначен</span>')}
-        ${j.brain && brainHref(pid, j.brain) ? `<button class="btn btn-ghost table-link" type="button" data-nav="${brainHref(pid, j.brain)}">Открыть</button>` : ''}
-      </div>
-    </div>
-    <div class="card mt-16"><table class="table">
-      <thead><tr><th>Кандидат</th><th>Номер</th><th>Результат</th><th>Длительность</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>`,
-  )
-}
-
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 function screenChats(pid, tab) {
   const p = project(pid)
   const list = chatsOf(pid)

@@ -168,68 +168,6 @@ document.addEventListener('click', (e) => {
     markSetup(pid, action.getAttribute('data-step'))
     maybePromote(pid)
   }
-<<<<<<< HEAD
-=======
-  if (type === 'create-agent-save') {
-    const pid = ui.currentPid
-    const nameEl = document.getElementById('agent-name')
-    const langEl = document.getElementById('agent-lang')
-    const mediumEl = document.getElementById('agent-medium')
-    const name = (nameEl && nameEl.value.trim()) || 'Новый AI-агент'
-    const lang = (langEl && langEl.value) || 'Русский'
-    const medium = (mediumEl && mediumEl.value) || 'voice'
-    AGENTS[pid] = AGENTS[pid] || []
-    const id = 'agt_' + Math.random().toString(36).slice(2, 6)
-    AGENTS[pid].unshift({ id, name, lang, status: 'draft', created: 'только что', updated: 'только что', kind: 'ai', medium })
-    project(pid).agents = AGENTS[pid].length
-    ui.modal = null
-    maybePromote(pid)
-    go(`#/p/${pid}/agents/${id}`)
-    return
-  }
-  if (type === 'create-bot') {
-    const pid = ui.currentPid
-    BOTS[pid] = BOTS[pid] || []
-    const id = 'bot_' + Math.random().toString(36).slice(2, 6)
-    BOTS[pid].unshift({ id, name: 'Новый сценарий', channel: 'WhatsApp', status: 'draft', created: 'только что', updated: 'только что', kind: 'graph', medium: 'text' })
-    project(pid).bots = BOTS[pid].length
-    if (!maybePromote(pid)) {
-      ui.toast = 'Сценарий создали'
-      setTimeout(() => {
-        ui.toast = null
-        render()
-      }, 1600)
-    }
-  }
-  if (type === 'create-nlu') {
-    const pid = ui.currentPid
-    NLU[pid] = NLU[pid] || []
-    const id = 'nlu_' + Math.random().toString(36).slice(2, 6)
-    NLU[pid].unshift({ id, name: 'Новая NLU-модель', status: 'draft', created: 'только что', updated: 'только что', intents: 0, entities: 0 })
-    project(pid).nlu = NLU[pid].length
-    if (!maybePromote(pid)) {
-      ui.toast = 'NLU-модель создали'
-      setTimeout(() => {
-        ui.toast = null
-        render()
-      }, 1600)
-    }
-  }
-  if (type === 'create-job') {
-    const pid = ui.currentPid
-    JOBS[pid] = JOBS[pid] || []
-    const id = 'job_' + Math.random().toString(36).slice(2, 6)
-    JOBS[pid].unshift({ id, name: 'Первый обзвон', status: 'draft', progress: 0, from: 'сегодня', to: 'сегодня', created: 'только что', updated: 'только что' })
-    project(pid).calls = JOBS[pid].length
-    if (!maybePromote(pid)) {
-      ui.toast = 'Задание создали'
-      setTimeout(() => {
-        ui.toast = null
-        render()
-      }, 1600)
-    }
-  }
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
   if (type === 'connect-int') {
     const pid = ui.currentPid
     const id = action.getAttribute('data-id')

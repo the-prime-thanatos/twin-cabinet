@@ -13,14 +13,9 @@ function projectCard(p) {
     ${entityFoot([
       `<div class="small muted">${p.desc}</div>`,
       entityDates(p),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid: p.id, type: 'project', id: p.id, title: p.name, view: href, edit: `#/p/${p.id}/settings` }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function createChrome(inner) {

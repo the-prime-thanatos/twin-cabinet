@@ -37,45 +37,30 @@ function agentCard(pid, a, mini) {
       `<div class="chips">${mediumChip(a.medium || 'voice')}</div>`,
       mini ? '' : `<div class="small muted">${a.lang}</div>`,
       entityDates(a),
-<<<<<<< HEAD
     ])}`,
     cardActions({ mini, pid, type: 'agent', id: a.id, title: a.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function botCard(pid, b, mini) {
   const nlu = b.nluId && findNlu(pid, b.nluId)
   const ai = b.aiId && findAgent(pid, b.aiId)
   const inside = [nlu && entityRef('nlu', nlu.name), ai && entityRef('ai', ai.name)].filter(Boolean)
-<<<<<<< HEAD
   const href = `#/p/${pid}/bots/${b.id}`
   return entityCard(
     'is-graph',
     mini ? 'is-mini' : '',
     href,
     `${entityHead('graph', chip(b.status))}
-=======
-  return `<button class="entity-card is-graph ${mini ? 'is-mini' : ''}" type="button" data-nav="#/p/${pid}/bots/${b.id}">
-    ${entityHead('graph', chip(b.status))}
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
     <div class="h5 entity-title">${b.name}</div>
     <div class="entity-sig" aria-hidden="true"><div class="flow-sig"><i></i><span></span><i></i><span></span><i></i></div></div>
     ${entityFoot([
       `<div class="chips">${mediumChip(b.medium || 'text')}</div>`,
       !mini && inside.length ? `<div class="rel-line">${inside.join('')}</div>` : '',
       entityDates(b),
-<<<<<<< HEAD
     ])}`,
     cardActions({ mini, pid, type: 'bot', id: b.id, title: b.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function nluCard(pid, n, mini) {
@@ -92,14 +77,9 @@ function nluCard(pid, n, mini) {
       `<div class="small muted">${n.entities || 0} сущностей</div>`,
       mini ? '' : (host ? entityRef('graph', host.name) : '<div class="rel-line">С клиентом не говорит</div>'),
       entityDates(n),
-<<<<<<< HEAD
     ])}`,
     cardActions({ mini, pid, type: 'nlu', id: n.id, title: n.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function jobCard(pid, j, mini) {
@@ -118,14 +98,9 @@ function jobCard(pid, j, mini) {
       j.brain ? brainMark(j.brain) : '',
       `<div class="verysmall muted">${j.from} → ${j.to}</div>`,
       entityDates(j),
-<<<<<<< HEAD
     ])}`,
     cardActions({ mini, pid, type: 'job', id: j.id, title: j.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function chatCard(pid, c) {
@@ -144,14 +119,9 @@ function chatCard(pid, c) {
         <span class="chip">${c.channel}</span>
       </div>`,
       entityDates(c),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'chat', id: c.id, title: c.title, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function campaignCard(pid, c) {
@@ -170,14 +140,9 @@ function campaignCard(pid, c) {
     ${entityFoot([
       `<div class="small muted">${c.channel}</div>`,
       entityDates(c),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'campaign', id: c.id, title: c.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function docCard(pid, d) {
@@ -192,14 +157,9 @@ function docCard(pid, d) {
     ${entityFoot([
       d.agent ? entityRef('ai', d.agent) : '',
       entityDates(d),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'doc', id: d.id, title: d.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function phoneCard(pid, ph) {
@@ -214,14 +174,9 @@ function phoneCard(pid, ph) {
     ${entityFoot([
       `<div class="verysmall muted">${ph.until}</div>`,
       entityDates(ph),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'phone', id: ph.id, title: ph.city, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function offerCard(pid, ph) {
@@ -236,14 +191,9 @@ function offerCard(pid, ph) {
     ${entityFoot([
       `<div class="small muted">${ph.price}</div>`,
       entityDates(ph),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'offer', id: ph.id, title: ph.city, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function tplCard(kind, skin, t, pid) {
@@ -259,14 +209,9 @@ function tplCard(kind, skin, t, pid) {
       t.brain ? brainMark(t.brain) : '',
       t.medium ? `<div class="chips">${mediumChip(t.medium)}</div>` : '',
       entityDates(t),
-<<<<<<< HEAD
     ])}`,
     pid ? cardActions({ pid, type: kind, id: t.id, title: t.name, view: href }) : '',
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function reportCard(pid, r) {
@@ -285,14 +230,9 @@ function reportCard(pid, r) {
           ? `<div class="small muted">${r.service}</div>`
           : '',
       entityDates(r),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'report', id: r.id, title: r.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function marketCard(pid, m) {
@@ -307,14 +247,9 @@ function marketCard(pid, m) {
     ${entityFoot([
       `<div class="small muted">Готовый объект в магазин компании</div>`,
       entityDates(m),
-<<<<<<< HEAD
     ])}`,
     cardActions({ pid, type: 'market', id: m.id, title: m.name, view: href }),
   )
-=======
-    ])}
-  </button>`
->>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 }
 
 function sectionTabs(pid, base, tabs, active) {
