@@ -162,18 +162,23 @@ function navChip(navId) {
   return `<span class="chip${cls ? ' ' + cls : ''}">${nav.label}</span>`
 }
 
-/* Named instance only. Not a type label, not a nav section. */
-function entityRef(kind, name, opts) {
+/* Named instance: same pill as kindChip, name instead of type label. Not a mini-card. */
+function entityChip(kind, name) {
   if (!name) return ''
+  const k = KINDS[kind]
+  const cls = KIND_CHIP[kind] || ''
+  const title = k ? k.label + ' · ' + name : name
+  return `<span class="chip entity-chip${cls ? ' ' + cls : ''}" title="${attrEsc(title)}">${name}</span>`
+}
+
+function entityRef(kind, name, opts) {
   const o = opts || {}
-  const k = KINDS[kind] || KINDS.ai
-  const skin = KIND_SKIN[kind] || 'is-ai'
-  const title = k.label + ' · ' + name
-  const inner = '<span class="entity-ref-mark">' + icon(k.icon, 16) + '</span><span class="entity-ref-name">' + name + '</span>'
+  const inner = entityChip(kind, name)
+  if (!inner) return ''
   if (o.href) {
-    return '<a class="entity-ref ' + skin + '" href="' + o.href + '" data-nav="' + o.href + '" title="' + attrEsc(title) + '">' + inner + '</a>'
+    return `<a class="entity-chip-link" href="${o.href}" data-nav="${o.href}">${inner}</a>`
   }
-  return '<span class="entity-ref ' + skin + '" title="' + attrEsc(title) + '">' + inner + '</span>'
+  return inner
 }
 
 function entityPick(inner) {

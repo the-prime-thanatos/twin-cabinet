@@ -149,17 +149,17 @@ function screenCardCanon() {
         <li><strong>Полоска</strong> — цвет типа, не статуса. Статус живёт чипом в шапке.</li>
         <li><strong>Тип</strong> — uppercase подпись из <span class="mono">KINDS</span>. Должна читаться с карточки, без легенды сетки.</li>
         <li><strong>Сигнатура</strong> — единственное место, где виды расходятся. Не дублировать тип картинкой-героем.</li>
-        <li><strong>Подвал</strong> — канал чипом, кто внутри — упоминанием объекта, даты коротко (полные в <span class="mono">title</span>). Чип не притворяется сущностью.</li>
+        <li><strong>Подвал</strong> — канал обычным чипом, кто внутри — чипом сущности (имя + цвет типа, без иконки). Даты коротко, полные в <span class="mono">title</span>.</li>
       </ol>
       <p class="hint">Интеграции — плитки <span class="mono">.int-card</span>, не это семейство. Не делать третью систему карточек.</p>
     </div>
     <div class="canon-shared card card-pad">
-      <div class="h5">Два знака, не один</div>
-      <p class="small">Чип <span class="mono">.chip</span> — статус, канал, тип, раздел. Пилюля без иконки. Упоминание <span class="mono">.entity-ref</span> — конкретный объект: иконка + цвет типа + имя. Не подменять одно другим.</p>
+      <div class="h5">Два чипа</div>
+      <p class="small">Обычный <span class="mono">.chip</span> — статус, канал, раздел. Чип сущности <span class="mono">.entity-chip</span> — имя объекта, цвет типа, без иконки и полоски. Это не мини-карточка.</p>
       <p class="verysmall muted mt-16">Обычный чип</p>
-      <div class="chips">${chip('active')}${mediumChip('voice')}${kindChip('ai')}${navChip('knowledge')}${navChip('bots')}</div>
-      <p class="verysmall muted mt-16">Упоминание сущности</p>
-      <p class="small canon-inline">Мозг чата — ${entityRef('ai', 'FAQ магазина')} или ${entityRef('graph', 'WhatsApp · квалификация')}.</p>
+      <div class="chips">${chip('active')}${mediumChip('voice')}${navChip('knowledge')}${navChip('bots')}</div>
+      <p class="verysmall muted mt-16">Чип сущности</p>
+      <div class="chips">${entityRef('ai', 'Уточнение слота доставки')}${entityRef('nlu', 'Квалификация курьера')}</div>
       <div class="field canon-pick">
         <label>Мозг</label>
         ${entityPick(entityRef('ai', 'Скрининг курьера'))}
