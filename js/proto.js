@@ -1,38 +1,11 @@
-/* js/proto.js — Cover + screen map FAB. */
-function screenCover() {
-  return `<div class="cover">
-    <div>
-      <div class="small muted-dark">TWIN · Product design</div>
-      <h1 class="h1" style="font-size:48px;line-height:56px;margin-top:16px">TWIN Cabinet · Project-first v1</h1>
-      <p class="h4" style="color:var(--darkgrey);font-weight:400;margin-top:16px">Login → проекты → операционка внутри проекта. Компания — аккаунт: биллинг и команда.</p>
-      <div class="scope">Карточки и связи сущностей. Редактор сценария и обучение NLU в v1 не рисуем.</div>
-      <div class="mt-24"><button class="btn btn-auth" data-nav="#/login">Пройти флоу</button></div>
-      <p class="verysmall muted-dark mt-24">20 августа 2026 · 1440×900 · HTML-прототип вместо Figma</p>
-    </div>
-    <div>
-      <h3 class="h3">Экраны</h3>
-      <p><a href="#/login">A Auth</a></p>
-      <p><a href="#/projects">B Проекты</a> · <a href="#/projects/new">создание</a> · <a href="#/projects/empty">empty</a></p>
-      <p><a href="#/p/courier/overview">C Обзор</a></p>
-      <p><a href="#/p/courier/agents">D AI-агенты</a> · <a href="#/p/courier/agents/empty">empty</a></p>
-      <p><a href="#/p/courier/bots">E Сценарии</a> · <a href="#/p/courier/nlu">NLU-модели</a></p>
-      <p><a href="#/p/courier/calls">F Звонки</a> · <a href="#/p/courier/calls/history">детализация</a> · <a href="#/p/courier/numbers">номера</a></p>
-      <p><a href="#/p/courier/knowledge">База знаний</a> · <a href="#/p/courier/market">маркетплейс</a> · <a href="#/p/courier/analytics/reports">отчёты</a></p>
-      <p><a href="#/p/courier/integrations">G Интеграции</a></p>
-      <p><a href="#/p/courier/analytics">H Аналитика</a></p>
-      <p><a href="#/p/courier/settings">I Настройки</a> · <a href="#/p/courier/settings/telephony">телефония</a></p>
-      <p><a href="#/account/company">J Аккаунт</a></p>
-    </div>
-  </div>${guideChrome()}`
-}
-
+/* js/proto.js — Screen map FAB. Cover/landing lives in screens-landing.js. */
 function protoHTML() {
   return `<p class="proto-note">v1. Меню как в GitLab: закрепления + «Меню». Новый проект — чеклист запуска, потом статус «в работе».</p>
   <h4 class="h6">Дизайн</h4>
   <a href="#/lab/cards">Канон карточек</a>
   <a href="#/lab/page">Анатомия экрана</a>
   <h4 class="h6">Флоу</h4>
-  <a href="#/">Cover</a>
+  <a href="#/">Лендинг MVP</a>
   <a href="#/login">Логин → проекты</a>
   <a href="#/projects/empty">Логин без проектов</a>
   <a href="#/p/omsk/overview">Другой проект через switcher (Омск)</a>

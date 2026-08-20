@@ -289,6 +289,11 @@ document.addEventListener('click', (e) => {
       render()
     }, 1800)
   }
+  if (type === 'land-jump') {
+    const el = document.getElementById(action.getAttribute('data-id'))
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    return
+  }
   render()
 })
 
