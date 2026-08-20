@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1366" />
+    <title>TWIN Cabinet · Project-first v1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <button class="proto-fab" type="button" id="proto-toggle">Все экраны</button>
+    <div class="proto-panel hidden" id="proto-panel"></div>
+    <!-- Order matters. No bundler — GitHub Pages serves these as-is. -->
+    <script src="js/icons.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/kinds.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/shell.js"></script>
+    <script src="js/guide.js"></script>
+    <script src="js/screens-auth.js"></script>
+    <script src="js/screens-projects.js"></script>
+    <script src="js/screens-ops.js"></script>
+    <script src="js/screens-account.js"></script>
+    <script src="js/screens-lab.js"></script>
+    <script src="js/proto.js"></script>
+    <script src="js/boot.js"></script>
+  </body>
+</html>

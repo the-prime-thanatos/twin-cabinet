@@ -1,0 +1,25 @@
+---
+description: When adding or changing an entity card, update the card canon page. Always apply.
+alwaysApply: true
+---
+
+# Card canon
+
+Unique entity cards live in **one family** (`.entity-card`). Do not invent a third card system.
+
+There is a spec page **Канон карточек**, route `#/lab/cards`. It is **not** in the product sidebar. Link only from **Все экраны** (`js/proto.js`).
+
+## When you add a new unique card
+
+Do all of this in the same change. The canon page is not optional docs.
+
+1. `KINDS` + `kindChip` class in `js/kinds.js`
+2. Renderer in `js/cards.js` (or `projectCard` in `screens-projects.js`) — shared head/title/foot, unique **signature** only
+3. Kind color on `.entity-card.is-*` in `css/app.css` (project stays dark, not AI purple)
+4. **`CARD_CANON` in `js/screens-lab.js`**: `id`, `kind`, `sample()` using the real renderer + courier mock, `design` (why this signature/color), `product` (what the object is, what it is not)
+
+If you skip step 4, the new card is invisible on the canon page — treat that as an incomplete change.
+
+Templates that reuse `tplCard` still get their **own** `CARD_CANON` row (`jobtpl`, `chattpl`, `camptpl`). Same skin, different product copy.
+
+Operational **tables** (call history, schedule, team) are not cards. Do not add them to `CARD_CANON`. Integrations stay `.int-card`, not this family.

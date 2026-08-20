@@ -1,0 +1,28 @@
+---
+description: When adding chrome to template project pages, update Анатомия экрана. Always apply.
+alwaysApply: true
+---
+
+# Page shell canon
+
+Template project pages share one chrome: sidebar + topbar + `header()` + page lead + optional tabs/toolbar + body.
+
+Spec page **Анатомия экрана**, route `#/lab/page`. Not in the product sidebar. Link only from **Все экраны**.
+
+## When you add a new element to the template (not a one-off field)
+
+If it appears on **section screens** assembled by `shell()` + `header()` (title, intro, menu, tabs slot, insight, etc.), add it to **`PAGE_SHELL_CANON`** in `js/screens-lab.js` in the same change:
+
+- `id`, `title`, `slot` (selector or function)
+- `design` — why it looks and sits there
+- `product` — what it is for, what it is not
+
+Also update the numbered schematic `pageSchematic()` so the numbers still match the catalog order.
+
+Skip `PAGE_SHELL_CANON` for:
+
+- Unique **entity cards** → `CARD_CANON` / `#/lab/cards`
+- Fields on a **detail** screen (имя агента, токен интеграции)
+- Auth, cover, create-wizard, account-only chrome (`accountShell`) unless you introduce a shared slot used by all project sections
+
+Incomplete = new template chrome without a `PAGE_SHELL_CANON` row.

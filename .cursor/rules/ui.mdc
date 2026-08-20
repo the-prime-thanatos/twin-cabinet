@@ -1,0 +1,28 @@
+---
+description: Entity cards, GitLab-style menu, Twin tokens. Always apply.
+alwaysApply: true
+---
+
+# UI
+
+Tokens from Twin: sidebar `#232838`, canvas `#F1EFF5`, purple `#A156FF`. Copy in Russian.
+
+## Cards
+
+One family. Do not invent a third card system.
+
+Shared: 4px kind bar, header `icon tile + type label + status`, title, footer meta.
+
+Different: only the middle signature (AI wave, scenario nodes, NLU intent count, job %, chat preview, campaign sent/total, project mix, doc size, phone number).
+
+The type must be readable from the card itself (`AI-агент`, `Сценарий`, `NLU-модель`, …). Kind colors stay distinct; project is dark so it does not collide with AI purple.
+
+Spec of every unique card: **Канон карточек** (`#/lab/cards`), only from «Все экраны». Adding a card without a `CARD_CANON` row in `js/screens-lab.js` is incomplete — see `.cursor/rules/cards.mdc`.
+
+Tables for operational lists (call history, schedule, blacklist, team). Unique cards for entities.
+
+## Menu
+
+GitLab pins. Overview + Settings always visible. Pinned ops shown by default. **Меню** expands the rest with pin/unpin. Presets / wizard set **default pins**, they do not hide routes.
+
+Related LK pages that are not first-class objects → **tabs** inside a section (calls: jobs / templates / history / schedule / blacklist). Do not dump 30 sidebar items.

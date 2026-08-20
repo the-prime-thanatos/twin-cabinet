@@ -1,0 +1,32 @@
+---
+description: IA and naming of the TWIN Cabinet prototype. Always apply.
+alwaysApply: true
+---
+
+# Product IA
+
+Not a restyle of current front-office. Hierarchy: User → Company (account) → Project (1:N) → operational entities.
+
+Entry: Login → **project list** → project. Billing, team, company settings live under the **avatar**, never in the project sidebar. No company-switcher for a normal user. No «Финансы» in project nav.
+
+Do not recreate the old menu groups Products / Tools / Admin.
+
+## Names
+
+Never use bare «агент» or «бот».
+
+| Object | Nav | Meaning |
+|---|---|---|
+| AI-агент | AI-агенты | LLM persona. Channel: voice / chat / both |
+| Сценарий | Сценарии | Flow on blocks |
+| NLU-модель | NLU-модели | Intents/entities. Does not talk to the customer |
+| Задание | Звонки | Outbound job. Card shows who speaks |
+| Диалог | Чаты | Inbox thread |
+| Рассылка | Рассылки | Campaign |
+| Проект | list | |
+
+Voice vs chat is a **channel**, not a bot type.
+
+## Out of scope
+
+Do not build: bot editor canvas, NLU trainer, super-admin, operator inbox as a product. Cards + links only. Operator login → blocked cabinet screen.

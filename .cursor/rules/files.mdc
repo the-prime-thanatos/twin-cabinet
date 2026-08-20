@@ -1,0 +1,26 @@
+---
+description: File map and how to change this static prototype. Always apply.
+alwaysApply: true
+---
+
+# Files
+
+This folder is the whole prototype. Static HTML for GitHub Pages. No bundler, no npm, no edits in `twin-frontend`.
+
+Relative paths only (`css/app.css`, `js/…`). Hash router in `js/boot.js`. Script order is the list in `index.html` — do not reorder casually.
+
+| Change | File |
+|---|---|
+| Page intro / walkthrough / assistant / AI insight | `js/guide.js` + CSS in `app.css` |
+| Mock / NAV / presets | `js/data.js` |
+| Pins, setup checklist | `js/state.js` |
+| Card markup | `js/cards.js` |
+| Card CSS | `css/app.css` (`.entity-card`) |
+| Card canon (spec page) | `js/screens-lab.js` (`CARD_CANON`) + route `#/lab/cards` |
+| Page shell canon | `js/screens-lab.js` (`PAGE_SHELL_CANON`) + route `#/lab/page` |
+| New sidebar section | `data.js` NAV + `screens-ops.js` + route in `boot.js` |
+| Account screens | `js/screens-account.js` |
+
+Keep screens split the way they are. Do not merge back into one `app.js`.
+
+Minimum code. No extra features, no canvas, no NLU trainer. If a section exists in the current LK, map it into this IA (pin or tab) — do not copy the old 30-item menu.
