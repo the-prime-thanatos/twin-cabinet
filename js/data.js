@@ -568,14 +568,14 @@ const BLACKLIST = [
 ]
 
 const INTEGRATIONS = [
-  { id: 'telegram', name: 'Telegram', connected: true, color: '#32B5EE' },
-  { id: 'whatsapp', name: 'WhatsApp', connected: true, color: '#1DCA66' },
-  { id: 'vk', name: 'VK', connected: false, color: '#466FFF' },
-  { id: 'amo', name: 'AmoCRM', connected: true, color: '#F66020' },
-  { id: 'bitrix', name: 'Bitrix24', connected: false, color: '#26CFBB' },
-  { id: 'yclients', name: 'YClients', connected: false, color: '#A156FF' },
-  { id: 'email', name: 'Email SMTP', connected: false, color: '#E5A831' },
-  { id: 'webhook', name: 'Webhook', connected: true, color: '#58546E' },
+  { id: 'telegram', name: 'Telegram', connected: true, color: '#32B5EE', group: 'Мессенджер' },
+  { id: 'whatsapp', name: 'WhatsApp', connected: true, color: '#1DCA66', group: 'Мессенджер' },
+  { id: 'vk', name: 'VK', connected: false, color: '#466FFF', group: 'Мессенджер' },
+  { id: 'amo', name: 'AmoCRM', connected: true, color: '#F66020', group: 'CRM' },
+  { id: 'bitrix', name: 'Bitrix24', connected: false, color: '#26CFBB', group: 'CRM' },
+  { id: 'yclients', name: 'YClients', connected: false, color: '#A156FF', group: 'CRM' },
+  { id: 'email', name: 'Email SMTP', connected: false, color: '#E5A831', group: 'Канал' },
+  { id: 'webhook', name: 'Webhook', connected: true, color: '#58546E', group: 'API' },
 ]
 
 const NAV = [

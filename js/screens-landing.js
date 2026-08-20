@@ -443,7 +443,7 @@ function screenCover() {
     </header>
     <section class="land-hero" id="land-thesis">
       <div class="land-hero-copy">
-        <div class="land-kicker" style="color:var(--purple)">Демо новой архитектуры кабинета</div>
+        <div class="land-kicker">Демо новой архитектуры кабинета</div>
         <h1 class="land-h1">Появился проект.<br>Дальше весь кабинет собирается через него.</h1>
         <p class="land-hero-lead">Это не рестайл текущего ЛК. В кабинете появилась новая сущность — <strong>проект</strong>: рабочий контур вроде «Подбор курьеров» или «Омск · входящая». AI-агенты, сценарии, номера, чаты и задания живут внутри проекта. Компания остаётся аккаунтом: биллинг, команда, реквизиты — из аватара.</p>
         <p class="land-hero-lead">Ниже — зачем каждый экран собран именно так, какие элементы на нём стоят и что от этого получает человек, который сейчас работает в старом кабинете.</p>
@@ -460,7 +460,7 @@ function screenCover() {
           <li class="is-key"><strong>Проект</strong><span>новая сущность · контур работы 1:N</span></li>
           <li><strong>Операционка</strong><span>AI-агент, сценарий, NLU, задание, диалог, рассылка</span></li>
         </ol>
-        <p class="verysmall" style="margin:16px 0 0;color:var(--darkgrey)">Голос и чат — канал доставки, не тип «бота». Кто говорит — отдельный объект.</p>
+        <p class="verysmall land-tree-note">Голос и чат — канал доставки, не тип «бота». Кто говорит — отдельный объект.</p>
       </div>
     </section>
     <div class="land-body">
@@ -541,7 +541,7 @@ function screenCover() {
         <div class="land-foot">
           <div>
             <div class="h3">Дальше — сам кабинет</div>
-            <p class="muted" style="margin:8px 0 0">Логин приводит к проектам. Живой пример контура — «Подбор курьеров»: голос, WhatsApp после звонка, номера Москвы и СПб.</p>
+            <p class="muted">Логин приводит к проектам. Живой пример контура — «Подбор курьеров»: голос, WhatsApp после звонка, номера Москвы и СПб.</p>
           </div>
           <div class="land-sec-cta">
             <button class="btn" type="button" data-nav="#/login">Пройти флоу</button>

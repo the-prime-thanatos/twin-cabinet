@@ -516,11 +516,11 @@ function tourLayer() {
     <div class="tour-hole" id="tour-hole"></div>
     <div class="tour-card" id="tour-card">
       <div class="verysmall muted">${ui.tour.i + 1} / ${n}</div>
-      <div class="h5" style="margin:4px 0 8px">${step.title}</div>
-      <p class="small" style="margin:0">${step.text}</p>
+      <div class="h5">${step.title}</div>
+      <p class="small">${step.text}</p>
       <div class="row gap-8 mt-16">
         <button class="btn btn-ghost" type="button" data-action="tour-close">Закрыть</button>
-        <span style="flex:1"></span>
+        <span class="tour-grow"></span>
         ${ui.tour.i ? '<button class="btn btn-secondary" type="button" data-action="tour-back">Назад</button>' : ''}
         <button class="btn" type="button" data-action="${last ? 'tour-close' : 'tour-next'}">${last ? 'Готово' : 'Дальше'}</button>
       </div>

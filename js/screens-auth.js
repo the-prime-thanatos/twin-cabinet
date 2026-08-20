@@ -16,10 +16,10 @@ function screenLogin() {
 
 function screenTfa() {
   return authWrap(`
-    <h1 class="h2" style="color:#fff;text-align:center">Код из приложения</h1>
-    <p class="small" style="color:var(--darkgrey);text-align:center">Шесть цифр. Кабинет, не панель оператора.</p>
+    <h1 class="h2 auth-title">Код из приложения</h1>
+    <p class="small auth-lead">Шесть цифр. Кабинет, не панель оператора.</p>
     <form class="stack" data-submit="#/projects">
-      <input class="input auth-input" placeholder="000 000" style="text-align:center;letter-spacing:6px" />
+      <input class="input auth-input otp-input" placeholder="000 000" />
       <button class="btn btn-auth" type="submit">Подтвердить</button>
     </form>
     <div class="auth-links"><a href="#/login">Назад к почте</a></div>`)
@@ -27,7 +27,7 @@ function screenTfa() {
 
 function screenSignup() {
   return authWrap(`
-    <h1 class="h2" style="color:#fff;text-align:center">Аккаунт компании</h1>
+    <h1 class="h2 auth-title">Аккаунт компании</h1>
     <form class="stack" data-submit="#/projects/empty">
       <input class="input auth-input" placeholder="Имя" />
       <input class="input auth-input" type="email" placeholder="Почта" />
@@ -39,7 +39,7 @@ function screenSignup() {
 
 function screenReset() {
   return authWrap(`
-    <h1 class="h2" style="color:#fff;text-align:center">Сброс пароля</h1>
+    <h1 class="h2 auth-title">Сброс пароля</h1>
     <form class="stack" data-submit="#/login">
       <input class="input auth-input" type="email" placeholder="Почта" />
       <button class="btn btn-auth" type="submit">Отправить ссылку</button>
@@ -49,7 +49,7 @@ function screenReset() {
 
 function screenOperator() {
   return authWrap(`
-    <h1 class="h2" style="color:#fff;text-align:center">Это кабинет</h1>
-    <p class="normal" style="color:var(--darkgrey);text-align:center">У этого входа нет доступа сюда. Откройте панель оператора — диалоги там.</p>
-    <a class="btn btn-auth secondary" data-nav="#/login" style="text-decoration:none">Понятно</a>`)
+    <h1 class="h2 auth-title">Это кабинет</h1>
+    <p class="normal auth-lead">У этого входа нет доступа сюда. Откройте панель оператора — диалоги там.</p>
+    <button class="btn btn-auth secondary" type="button" data-nav="#/login">Понятно</button>`)
 }

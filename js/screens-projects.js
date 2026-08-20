@@ -73,10 +73,10 @@ function finishCreate(modules, extra) {
 }
 
 function nameFields(placeholder) {
-  return `<div class="stack" style="max-width:480px">
+  return formCard(`
     <div class="field"><label>Название</label><input class="input" id="create-name" placeholder="${placeholder}" value="${ui.create.name || ''}" /></div>
     <div class="field"><label>Описание <span class="muted">необязательно</span></label><textarea class="textarea" id="create-desc" placeholder="Для чего этот проект">${ui.create.desc || ''}</textarea></div>
-  </div>`
+  `)
 }
 
 function screenCreate(rest) {
@@ -119,7 +119,7 @@ function screenCreate(rest) {
       (pr) => `<button class="choice-card" type="button" data-nav="#/projects/new/preset/${pr.id}">
         <div class="h4">${pr.name}</div>
         <p class="small muted">${pr.desc}</p>
-        <div class="counts">${pr.modules.filter((id) => id !== 'analytics').map((id) => `<span class="chip">${(NAV.find((n) => n.id === id) || {}).label}</span>`).join('')}</div>
+        <div class="chips">${pr.modules.filter((id) => id !== 'analytics').map((id) => `<span class="chip">${(NAV.find((n) => n.id === id) || {}).label}</span>`).join('')}</div>
       </button>`,
     ).join('')
     return createChrome(`${header('Пресет проекта', 'folder', '', 'create')}
@@ -163,7 +163,7 @@ function screenCreate(rest) {
     }).join('')
     return createChrome(`${header('Что нужно в проекте', 'folder', '', 'create')}
       <div class="steps"><span>1. Имя</span><span class="is-on">2. Что нужно</span><span>3. Каналы</span></div>
-      <p class="muted" style="margin-top:-8px">Можно отметить несколько. Это закрепления, не прячем остальные разделы. Аналитика закрепится сама, если есть операционка.</p>
+      <p class="muted">Можно отметить несколько. Это закрепления, не прячем остальные разделы. Аналитика закрепится сама, если есть операционка.</p>
       <div class="tile-grid mt-16">${tiles}</div>
       <div class="row gap-8 mt-24">
         <button class="btn btn-ghost" type="button" data-nav="#/projects/new/wizard">Назад</button>
@@ -182,7 +182,7 @@ function screenCreate(rest) {
     }).join('')
     return createChrome(`${header('Каналы и CRM', 'integrations', '', 'create')}
       <div class="steps"><span>1. Имя</span><span>2. Что нужно</span><span class="is-on">3. Каналы</span></div>
-      <p class="muted" style="margin-top:-8px">Не обязательно сейчас. Это только состав проекта, не настоящие ключи.</p>
+      <p class="muted">Не обязательно сейчас. Это только состав проекта, не настоящие ключи.</p>
       <div class="tile-grid mt-16">${tiles}</div>
       <div class="row gap-8 mt-24">
         <button class="btn btn-ghost" type="button" data-nav="#/projects/new/wizard/modules">Назад</button>
@@ -207,7 +207,7 @@ function screenProjects(mode) {
 
   return `<div class="app"><div class="main">
     <div class="account-top">
-      <div class="logo-word" style="margin:0;color:var(--superdark)">${logo(false)}</div>
+      <div class="logo-word on-light">${logo(false)}</div>
       <div class="topbar-right">
         <div class="balance">${icon('wallet', 16)} 12 480 ₽</div>
         <div class="rel">
@@ -278,10 +278,10 @@ function setupCard(pid) {
     )
     .join('')
   return `<div class="setup-card">
-    <div class="between" style="align-items:flex-start;gap:16px">
+    <div class="setup-head">
       <div>
         <h2 class="h3">Проект только создали</h2>
-        <p class="muted" style="margin:8px 0 0">Пройдите шаги — обзор станет рабочим, этот список пропадёт.</p>
+        <p class="muted">Пройдите шаги — обзор станет рабочим, этот список пропадёт.</p>
       </div>
       <div class="h4">${done} / ${steps.length}</div>
     </div>
@@ -321,13 +321,11 @@ function screenOverview(pid) {
   const pills = names.length
     ? `<div class="module-pills">${names.map((n) => `<span class="chip">${n}</span>`).join('')}</div>`
     : `<div class="module-pills"><span class="chip">нет закреплений</span></div>`
-  const statsGrid = stats.length
-    ? `<div class="grid-stats" style="grid-template-columns:repeat(${Math.min(stats.length, 5)},1fr)">${stats.join('')}</div>`
-    : ''
+  const statsGridHtml = statsGrid(stats)
   const note = noteText(pid)
   const noteBody = note
-    ? `<p class="normal" style="white-space:pre-wrap;margin:0">${note}</p>`
-    : `<p class="muted" style="margin:0">Зачем проект, какие правила, кого не беспокоить. Команда увидит это сразу, без чата в Telegram.</p>`
+    ? `<p class="note-body">${note}</p>`
+    : `<p class="muted flush">Зачем проект, какие правила, кого не беспокоить. Команда увидит это сразу, без чата в Telegram.</p>`
   const notesCard = `<div class="card card-pad note-card">
       <div class="between">
         <h2 class="h4">Заметка</h2>
@@ -347,27 +345,27 @@ function screenOverview(pid) {
             <span class="chip chip-${a.tone === 'error' ? 'error' : a.tone === 'paused' ? 'paused' : 'draft'}">${a.tone === 'error' ? 'сбой' : a.tone === 'paused' ? 'пауза' : 'черновик'}</span>
             <div>
               <div class="h6">${a.text}</div>
-              <button class="btn btn-ghost" style="min-height:auto;padding:0" data-nav="${a.href}">Открыть</button>
+              <button class="btn btn-ghost table-link" type="button" data-nav="${a.href}">Открыть</button>
             </div>
           </div>`,
               )
               .join('')
-          : `<p class="muted mt-8" style="margin-bottom:0">Сбоев и пауз нет. Когда агент упадёт или обзвон встанет — будет здесь, не в отдельном разделе.</p>`
+          : `<p class="muted mt-8 flush">Сбоев и пауз нет. Когда агент упадёт или обзвон встанет — будет здесь, не в отдельном разделе.</p>`
       }
     </div>`
   const recentBlock = recentCards.length
     ? `<div class="mt-16">
-      <h2 class="h4" style="margin-bottom:12px">Недавно</h2>
-      <div class="entity-grid">${recentCards.join('')}</div>
+      <h2 class="h4">Недавно</h2>
+      <div class="entity-grid mt-16">${recentCards.join('')}</div>
     </div>`
-    : `<div class="card mt-16"><div class="empty" style="padding:40px 24px">
+    : `<div class="card mt-16"><div class="empty is-compact">
         <h2 class="h4">Пока нечего показывать</h2>
         <p class="muted">Заметка сверху — чтобы команда не потеряла смысл проекта. Сущности появятся в «Недавно», когда создадите первую.</p>
       </div></div>`
   return shell(
     pid,
     'overview',
-    `${header(p.name, 'overview')}${pills}${statsGrid}
+    `${header(p.name, 'overview')}${pills}${statsGridHtml}
     <div class="overview-split">${notesCard}${attnCard}</div>
     ${recentBlock}`,
   )

@@ -50,7 +50,7 @@ const CARD_CANON = [
     'chat',
     'chat',
     () => chatCard(CHATS.courier[0]),
-    'Синий — тред, не бот. Сигнатура: превью последней фразы, как в мессенджере. Непрочитанные — бейдж в шапке, не отдельная карточка. В подвале канал и кто отвечает.',
+    'Синий — тред, не бот. Компактная плитка в сетке 2×N, не на всю ширину. Сигнатура — одна строка превью. Непрочитанные — бейдж в шапке. Подвал в один ряд: канал, кто отвечает, время.',
     'Диалог с клиентом. Не «текстовый бот». Карточка в v1 не открывает инбокс — только список. Мозг на треде подписан, чтобы не гадать.',
   ),
   canonEntry(
@@ -114,7 +114,7 @@ const CARD_CANON = [
 function labWrap(kicker, inner) {
   return `<div class="app"><div class="main">
     <div class="account-top">
-      <div class="h5" style="margin:0">TWIN · ${kicker}</div>
+      <div class="h5 lab-kicker">TWIN · ${kicker}</div>
       <span class="chip">не продукт · только «Все экраны»</span>
     </div>
     <div class="page">${inner}</div>
@@ -127,14 +127,14 @@ function screenCardCanon() {
     return `<article class="canon-row" id="canon-${c.id}">
       <div class="canon-sample">${c.sample()}</div>
       <div class="canon-copy">
-        <div class="row gap-8" style="align-items:center;margin-bottom:8px">
+        <div class="row gap-8 canon-head">
           ${kindChip(c.kind)}
           <span class="mono verysmall muted">${c.id} · ${kind.label || c.kind}</span>
         </div>
         <div class="h5">Дизайн</div>
-        <p class="small" style="margin:4px 0 12px">${c.design}</p>
+        <p class="small">${c.design}</p>
         <div class="h5">Продукт</div>
-        <p class="small" style="margin:4px 0 0">${c.product}</p>
+        <p class="small">${c.product}</p>
       </div>
     </article>`
   }).join('')
@@ -142,8 +142,8 @@ function screenCardCanon() {
     'канон карточек',
     `
     <h1 class="h1">Канон карточек</h1>
-    <p class="page-lead-text" style="max-width:720px;margin:8px 0 24px">Справочник уникальных карточек кабинета: одно семейство, разная середина. Страница не в меню продукта — только из «Все экраны», чтобы сверстать новую карточку не вслепую.</p>
-    <div class="canon-shared card card-pad" style="margin-bottom:24px">
+    <p class="page-lead-text canon-lead">Справочник уникальных карточек кабинета: одно семейство, разная середина. Страница не в меню продукта — только из «Все экраны», чтобы сверстать новую карточку не вслепую.</p>
+    <div class="canon-shared card card-pad">
       <div class="h5">Общая анатомия</div>
       <ol class="canon-anatomy">
         <li><strong>Полоска</strong> — цвет типа, не статуса. Статус живёт чипом в шапке.</li>
@@ -151,7 +151,7 @@ function screenCardCanon() {
         <li><strong>Сигнатура</strong> — единственное место, где виды расходятся. Не дублировать тип картинкой-героем.</li>
         <li><strong>Подвал</strong> — канал, кто внутри, дата. Связи сущностей пишем словами, не иконкой без текста.</li>
       </ol>
-      <p class="hint" style="margin:12px 0 0">Интеграции — плитки <span class="mono">.int-card</span>, не это семейство. Не делать третью систему карточек.</p>
+      <p class="hint">Интеграции — плитки <span class="mono">.int-card</span>, не это семейство. Не делать третью систему карточек.</p>
     </div>
     ${rows}`,
   )
@@ -313,14 +313,14 @@ function screenPageCanon() {
     return `<article class="canon-row" id="shell-${p.id}">
       <div class="canon-slot">
         <div class="ps-n">${n}</div>
-        <div class="h5" style="margin-top:8px">${p.title}</div>
+        <div class="h5">${p.title}</div>
         <div class="mono verysmall muted">${p.slot}</div>
       </div>
       <div class="canon-copy">
         <div class="h5">Дизайн</div>
-        <p class="small" style="margin:4px 0 12px">${p.design}</p>
+        <p class="small">${p.design}</p>
         <div class="h5">Продукт</div>
-        <p class="small" style="margin:4px 0 0">${p.product}</p>
+        <p class="small">${p.product}</p>
       </div>
     </article>`
   }).join('')
@@ -328,7 +328,7 @@ function screenPageCanon() {
     'анатомия экрана',
     `
     <h1 class="h1">Анатомия экрана</h1>
-    <p class="page-lead-text" style="max-width:720px;margin:8px 0 24px">Разбор шаблона раздела внутри проекта: меню, название, вводная, тело. Нужен, чтобы новый слот хрома (кнопка, вкладка, полоска) сразу имел место и смысл, а не появлялся «как получится».</p>
+    <p class="page-lead-text canon-lead">Разбор шаблона раздела внутри проекта: меню, название, вводная, тело. Нужен, чтобы новый слот хрома (кнопка, вкладка, полоска) сразу имел место и смысл, а не появлялся «как получится».</p>
     ${pageSchematic()}
     ${rows}`,
   )

@@ -1,4 +1,20 @@
 /* js/shell.js — Sidebar, topbar, modals, auth wrap. */
+function formCard(inner) {
+  return `<div class="card card-pad stack form-narrow">${inner}</div>`
+}
+
+function statsGrid(cells) {
+  const list = (cells || []).filter(Boolean)
+  if (!list.length) return ''
+  const n = list.length
+  const cols = n >= 5 ? 5 : n === 4 ? 4 : 3
+  return `<div class="grid-stats cols-${cols}">${list.join('')}</div>`
+}
+
+function copyField(id) {
+  return `<div class="copy-field"><span class="mono">${id}</span><button class="icon-btn" type="button" data-action="toast" data-toast="Скопировали">${icon('copy', 16)}</button></div>`
+}
+
 function go(hash) {
   location.hash = hash
 }

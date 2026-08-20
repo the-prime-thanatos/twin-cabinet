@@ -1,18 +1,18 @@
 /* js/screens-account.js — Company / billing / team / error states. */
 function screenCompany() {
   return accountShell(`${header('Компания', 'company')}
-    <div class="stack" style="max-width:560px">
+    ${formCard(`
       <div class="field"><label>Название</label><input class="input" value="Северная логистика" /></div>
       <div class="field"><label>Часовой пояс</label><select class="select"><option>Asia/Yekaterinburg</option><option>Europe/Moscow</option></select></div>
       <div class="field"><label>Язык кабинета</label><select class="select"><option>Русский</option><option>English</option></select></div>
       <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>
-    </div>`)
+    `)}`)
 }
 
 function screenBilling() {
-  return accountShell(`${header('Биллинг', 'wallet', '<button class="btn">Пополнить</button>')}
-    <div class="stat" style="max-width:320px"><div class="label">Баланс компании</div><div class="value">12 480 ₽</div></div>
-    <div class="card mt-24"><table class="table">
+  return accountShell(`${header('Биллинг', 'wallet', '<button class="btn" type="button">Пополнить</button>')}
+    ${statsGrid(['<div class="stat"><div class="label">Баланс компании</div><div class="value">12 480 ₽</div></div>'])}
+    <div class="card mt-16"><table class="table">
       <thead><tr><th>Счёт</th><th>Дата</th><th>Сумма</th><th>Статус</th></tr></thead>
       <tbody>
         <tr><td class="mono">inv_2041</td><td>12 авг</td><td>15 000 ₽</td><td>${chip('active')}</td></tr>
@@ -44,12 +44,16 @@ function screenLoading(pid) {
 }
 
 function screenError() {
-  return `<div class="app"><div class="main"><div class="page">
+  return `<div class="app"><div class="main">
+    <div class="account-top">
+      <div class="logo-word on-light">${logo(false)}</div>
+    </div>
+    <div class="page">
     <div class="card"><div class="empty">
-    <div class="illu" style="background:var(--coralred-08);color:var(--coralred)">${icon('alert')}</div>
+    <div class="illu is-danger">${icon('alert')}</div>
     <h2 class="h2">Не загрузилось</h2>
     <p class="muted">Сеть или сервер. Данные проекта на месте, попробуйте ещё раз.</p>
-    <button class="btn mt-16" data-nav="#/projects">К проектам</button>
+    <button class="btn mt-16" type="button" data-nav="#/projects">К проектам</button>
   </div></div></div></div></div>${guideChrome()}`
 }
 
@@ -57,11 +61,12 @@ function screen404(pid) {
   return shell(
     pid,
     'overview',
-    `<div class="card"><div class="empty">
+    `${header('Не найдено', 'search', '', 'missing')}
+    <div class="card"><div class="empty">
       <div class="illu">${icon('search')}</div>
       <h2 class="h2">Не найдено в этом проекте</h2>
       <p class="muted">Сущность есть в другом проекте или её уже нет. Это не глобальный 404.</p>
-      <button class="btn mt-16" data-nav="#/p/${pid}/overview">В обзор проекта</button>
+      <button class="btn mt-16" type="button" data-nav="#/p/${pid}/overview">В обзор проекта</button>
     </div></div>`,
   )
 }
@@ -70,11 +75,12 @@ function screenNoAccess(pid) {
   return shell(
     pid,
     'settings',
-    `<div class="card"><div class="empty">
+    `${header('Нет доступа', 'alert', '', 'denied')}
+    <div class="card"><div class="empty">
       <div class="illu">${icon('alert')}</div>
       <h2 class="h2">Нет доступа</h2>
       <p class="muted">В этом проекте вы не admin и не member. Попросите приглашение у владельца.</p>
-      <button class="btn mt-16" data-nav="#/projects">Все проекты</button>
+      <button class="btn mt-16" type="button" data-nav="#/projects">Все проекты</button>
     </div></div>`,
   )
 }

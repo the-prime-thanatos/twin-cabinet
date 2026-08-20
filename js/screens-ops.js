@@ -13,35 +13,41 @@ function agentTable(pid, empty) {
 }
 
 function screenAgents(pid, empty) {
+  const list = AGENTS[pid] || []
+  const isEmpty = empty || !list.length
+  const toolbar = isEmpty
+    ? ''
+    : `<div class="toolbar">
+      <div class="search">${icon('search', 16)}<input placeholder="Имя или ID" /></div>
+      <select class="select"><option>Все статусы</option><option>Активен</option><option>Пауза</option><option>Черновик</option></select>
+    </div>`
   return shell(
     pid,
     'agents',
-    `${header('AI-агенты', 'agents', `<button class="btn" data-action="modal" data-modal="create-agent">${icon('plus', 16)} Создать AI-агента</button>`)}
-    <div class="toolbar">
-      <div class="search">${icon('search', 16)}<input placeholder="Имя или ID" /></div>
-      <select class="select" style="width:180px"><option>Все статусы</option><option>Активен</option><option>Пауза</option><option>Черновик</option></select>
-    </div>
+    `${header('AI-агенты', 'agents', `<button class="btn" type="button" data-action="modal" data-modal="create-agent">${icon('plus', 16)} Создать AI-агента</button>`)}
+    ${toolbar}
     ${agentTable(pid, empty)}`,
   )
 }
 
 function screenAgent(pid, aid) {
   const a = (AGENTS[pid] || []).find((x) => x.id === aid) || (AGENTS.courier || [])[0]
-  const settings = `<div class="stack" style="max-width:560px">
+  const settings = formCard(`
     <div class="field"><label>Имя</label><input class="input" value="${a.name}" /></div>
     <div class="field"><label>Язык</label><select class="select"><option>Русский</option><option>English</option></select></div>
-    <div class="field"><label>ID</label><div class="search"><span class="mono">${a.id}</span><button class="icon-btn" type="button">${icon('copy', 16)}</button></div></div>
-    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>
-  </div>`
+    <div class="field"><label>ID</label>${copyField(a.id)}</div>
+    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>`)
   const kb = `<div class="card"><table class="table">
     <thead><tr><th>Документ</th><th>Обновлён</th><th></th></tr></thead>
     <tbody>
       <tr><td>${icon('file', 16)} Скрипт скрининга.pdf</td><td class="muted">18 авг</td><td></td></tr>
       <tr><td>${icon('file', 16)} FAQ по слотам.docx</td><td class="muted">12 авг</td><td></td></tr>
     </tbody>
-  </table></div>
-  <button class="btn btn-secondary mt-16" type="button" data-nav="#/p/${pid}/knowledge">Все документы проекта</button>
-  <p class="hint mt-8">В v1 это список файлов, не редактор базы. Полный список — в «Базе знаний».</p>`
+  </table>
+  <div class="card-foot">
+    <button class="btn btn-secondary" type="button" data-nav="#/p/${pid}/knowledge">Все документы проекта</button>
+    <p class="hint mt-8">В v1 это список файлов, не редактор базы. Полный список — в «Базе знаний».</p>
+  </div></div>`
   return shell(
     pid,
     'agents',
@@ -78,16 +84,16 @@ function screenBot(pid, bid) {
     pid,
     'bots',
     `${header(b.name, 'bots', `<div class="chips">${kindChip('graph')}${mediumChip(b.medium || 'text')}${chip(b.status)}</div>`, 'bot')}
-    <div class="card card-pad stack" style="max-width:560px">
-      <p class="muted">Сценарий отвечает блоками. Canvas в v1 не входит.</p>
-      <div class="field"><label>ID</label><div class="mono muted-dark">${b.id}</div></div>
+    ${formCard(`
+      <p class="muted flush">Сценарий отвечает блоками. Canvas в v1 не входит.</p>
+      <div class="field"><label>ID</label>${copyField(b.id)}</div>
       <div class="field"><label>Канал доставки</label><div>${b.channel}</div></div>
       <div>
-        <div class="h5" style="margin-bottom:8px">Внутри сценария</div>
-        ${links.length ? `<div class="stack gap-8">${links.join('')}</div>` : '<p class="muted" style="margin:0">NLU и AI не привязаны.</p>'}
+        <div class="h5">Внутри сценария</div>
+        ${links.length ? `<div class="stack gap-8 mt-8">${links.join('')}</div>` : '<p class="muted flush">NLU и AI не привязаны.</p>'}
       </div>
-      <button class="btn btn-temp" type="button" data-action="toast" data-toast="Редактор в v1 старый, сюда не рисуем">Открыть редактор</button>
-    </div>`,
+      <button class="btn btn-secondary" type="button" data-action="toast" data-toast="Редактор в v1 старый, сюда не рисуем">Открыть редактор</button>
+    `)}`,
   )
 }
 
@@ -110,13 +116,13 @@ function screenNlu(pid, nid) {
     pid,
     'nlu',
     `${header(n.name, 'nlu', `<div class="chips">${kindChip('nlu')}${chip(n.status)}</div>`, 'nlu-one')}
-    <div class="card card-pad stack" style="max-width:560px">
-      <p class="muted">NLU-модель не отвечает клиенту напрямую. Её вызывает сценарий.</p>
-      <div class="field"><label>ID</label><div class="mono muted-dark">${n.id}</div></div>
+    ${formCard(`
+      <p class="muted flush">NLU-модель не отвечает клиенту напрямую. Её вызывает сценарий.</p>
+      <div class="field"><label>ID</label>${copyField(n.id)}</div>
       <div class="field"><label>Намерения</label><div>${n.intents || 0}</div></div>
       <div class="field"><label>Сущности</label><div>${n.entities || 0}</div></div>
-      ${host ? `<button class="btn btn-ghost" type="button" data-nav="#/p/${pid}/bots/${host.id}">${kindChip('graph')} ${host.name}</button>` : '<p class="muted" style="margin:0">Пока не подключён к сценарию.</p>'}
-    </div>`,
+      ${host ? `<button class="btn btn-ghost" type="button" data-nav="#/p/${pid}/bots/${host.id}">${kindChip('graph')} ${host.name}</button>` : '<p class="muted flush">Пока не подключён к сценарию.</p>'}
+    `)}`,
   )
 }
 
@@ -250,11 +256,11 @@ function screenJob(pid, jid) {
       </div>`,
       'job',
     )}
-    <div class="card card-pad" style="margin-bottom:16px">
-      <div class="h5" style="margin-bottom:8px">Кто отвечает</div>
-      ${j.brain ? `<button class="btn btn-ghost" type="button" data-nav="${brainHref(pid, j.brain)}">${kindChip(j.brain.kind)} ${j.brain.name}</button>` : '<p class="muted" style="margin:0">Не назначен AI-агент или сценарий.</p>'}
+    <div class="card card-pad">
+      <div class="h5">Кто отвечает</div>
+      ${j.brain ? `<button class="btn btn-ghost mt-8" type="button" data-nav="${brainHref(pid, j.brain)}">${kindChip(j.brain.kind)} ${j.brain.name}</button>` : '<p class="muted flush mt-8">Не назначен AI-агент или сценарий.</p>'}
     </div>
-    <div class="card"><table class="table">
+    <div class="card mt-16"><table class="table">
       <thead><tr><th>Кандидат</th><th>Номер</th><th>Результат</th><th>Длительность</th></tr></thead>
       <tbody>${rows}</tbody>
     </table></div>`,
@@ -316,7 +322,7 @@ function screenCampTemplates(pid) {
   ], 'templates')
   const body = list.length
     ? `<div class="entity-grid">${list.map((t) => tplCard('camptpl', 'is-campaign', t)).join('')}</div>`
-    : `<div class="card"><div class="empty"><div class="illu">${icon('campaigns')}</div><h2 class="h2">Шаблонов рассылок нет</h2></div></div>`
+    : `<div class="card"><div class="empty"><div class="illu">${icon('campaigns')}</div><h2 class="h2">Шаблонов рассылок нет</h2><p class="muted">Текст кампании с подстановками. Редактор в v1 не рисуем.</p></div></div>`
   return shell(pid, 'campaigns', `${header('Рассылки', 'campaigns', '', 'campaigns-templates')}${tabs}${body}`)
 }
 
@@ -326,8 +332,13 @@ function screenIntegrations(pid, none) {
   const items = INTEGRATIONS.map((i) => {
     const connected = setup ? (p.channels || []).includes(i.id) : none ? false : i.connected
     return `<button class="int-card" type="button" data-nav="#/p/${pid}/integrations/${i.id}">
-      <div class="int-logo" style="background:${i.color}">${i.name.slice(0, 2)}</div>
-      <div class="h5">${i.name}</div>
+      <div class="int-head">
+        <div class="int-logo" style="background:${i.color}">${i.name.slice(0, 2)}</div>
+        <div>
+          <div class="h5">${i.name}</div>
+          <div class="verysmall muted">${i.group}</div>
+        </div>
+      </div>
       ${connected ? '<span class="chip chip-connected">подключено</span>' : '<span class="chip">не подключено</span>'}
     </button>`
   }).join('')
@@ -335,8 +346,7 @@ function screenIntegrations(pid, none) {
   return shell(
     pid,
     'integrations',
-    `${header('Интеграции', 'integrations')}
-    ${none || empty ? '<p class="muted" style="margin-top:-12px">Ничего не подключено в этом проекте.</p>' : ''}
+    `${header('Интеграции', 'integrations', none || empty ? '<span class="chip">ничего не подключено</span>' : '')}
     <div class="catalog">${items}</div>`,
   )
 }
@@ -350,15 +360,15 @@ function screenIntegration(pid, iid) {
     pid,
     'integrations',
     `${header(i.name, 'integrations', connected ? chip('active') : '<span class="chip">не подключено</span>', 'integration')}
-    <div class="card card-pad stack" style="max-width:560px">
-      <p class="muted">Один шаблон подключения. Отдельные страницы на каждый тип в v1 не рисуем.</p>
+    ${formCard(`
+      <p class="muted flush">Один шаблон подключения. Отдельные страницы на каждый тип в v1 не рисуем.</p>
       <div class="field"><label>Токен / ключ</label><input class="input" value="${connected ? '•••••••••••• 91qx' : ''}" placeholder="Вставьте ключ" /></div>
-      <div class="field"><label>ID</label><div class="mono muted-dark">int_${i.id}_04</div></div>
+      <div class="field"><label>ID</label>${copyField('int_' + i.id + '_04')}</div>
       <div class="row gap-8">
         <button class="btn" type="button" data-action="${setup && !connected ? 'connect-int' : 'toast'}" data-id="${i.id}" data-toast="Сохранили">${connected ? 'Сохранить' : 'Подключить'}</button>
         ${connected ? '<button class="btn btn-danger" type="button">Отключить</button>' : ''}
       </div>
-    </div>`,
+    `)}`,
   )
 }
 
@@ -375,14 +385,12 @@ function anStat(label, kpi) {
 }
 
 function anStats(items) {
-  const cells = items.filter(Boolean)
-  if (!cells.length) return ''
-  return `<div class="grid-stats" style="grid-template-columns:repeat(${Math.min(cells.length, 5)},1fr)">${cells.join('')}</div>`
+  return statsGrid(items)
 }
 
 function anCard(title, extra, body) {
   return `<div class="card card-pad">
-    <div class="between" style="align-items:flex-start;gap:12px;margin-bottom:12px">
+    <div class="an-card-head">
       <h2 class="h4">${title}</h2>
       ${extra || ''}
     </div>
@@ -454,7 +462,7 @@ function anEmpty(title, text) {
 }
 
 function analyticsPeriod() {
-  return `<select class="select" style="width:200px"><option>Последние 7 дней</option><option>30 дней</option><option>Этот месяц</option></select>`
+  return `<select class="select"><option>Последние 7 дней</option><option>30 дней</option><option>Этот месяц</option></select>`
 }
 
 function analyticsTabList(pid) {
@@ -524,7 +532,7 @@ function analyticsSummary(pid, a) {
         <tbody>${a.calls.jobs
           .map(
             (j) => `<tr>
-            <td><button class="btn btn-ghost" style="min-height:auto;padding:0" type="button" data-nav="#/p/${pid}/calls/${j.id}">${j.name}</button></td>
+            <td><button class="btn btn-ghost table-link" type="button" data-nav="#/p/${pid}/calls/${j.id}">${j.name}</button></td>
             <td>${j.calls}</td><td>${j.human}</td><td>${j.effective}</td><td class="muted">${j.avgDur}</td><td>${j.cost}</td>
           </tr>`,
           )
@@ -565,7 +573,7 @@ function analyticsCalls(pid, a) {
   const jobs = (c.jobs || [])
     .map(
       (j) => `<tr>
-        <td><button class="btn btn-ghost" style="min-height:auto;padding:0" type="button" data-nav="#/p/${pid}/calls/${j.id}">${j.name}</button></td>
+        <td><button class="btn btn-ghost table-link" type="button" data-nav="#/p/${pid}/calls/${j.id}">${j.name}</button></td>
         <td>${j.candidates}</td><td>${j.calls}</td><td>${j.answered}</td><td>${j.human}</td><td>${j.effective}</td><td class="muted">${j.avgDur}</td><td>${j.cost}</td>
       </tr>`,
     )
@@ -656,19 +664,19 @@ function analyticsSpend(pid, a) {
     </div>
     <div class="an-cols mt-16">
       ${s.gpt && s.gpt.length ? anCard('GPT по моделям', '', anMix(s.gpt, 'var(--purple)')) : ''}
-      ${s.tts && s.tts.length ? anCard('Синтез по провайдеру', '', anMix(s.tts, 'var(--sky)')) : anCard('Синтез', '', '<p class="muted" style="margin:0">В этом проекте TTS почти не биллится — канал текстовый.</p>')}
+      ${s.tts && s.tts.length ? anCard('Синтез по провайдеру', '', anMix(s.tts, 'var(--sky)')) : anCard('Синтез', '', '<p class="muted flush">В этом проекте TTS почти не биллится — канал текстовый.</p>')}
     </div>
     <p class="hint mt-8">Это себестоимость контура. Пополнить баланс и скачать счета — Биллинг из аватара.</p>`
 }
 
 function analyticsReports(pid) {
   const list = ofList(REPORTS, pid)
-  const form = `<div class="card card-pad" style="margin-bottom:16px">
+  const form = `<div class="card card-pad">
     <div class="h5">Новый отчёт</div>
-    <p class="muted" style="margin:6px 0 0">Выгрузка среза проекта. Типы — как в аналитике: сессии, задания, фразы, расход. Файл в v1 не скачиваем.</p>
-    <div class="toolbar" style="margin:16px 0 0">
-      <input class="input" placeholder="Имя отчёта" style="width:220px" />
-      <select class="select" style="width:280px">
+    <p class="muted flush mt-8">Выгрузка среза проекта. Типы — как в аналитике: сессии, задания, фразы, расход. Файл в v1 не скачиваем.</p>
+    <div class="toolbar in-card">
+      <input class="input" placeholder="Имя отчёта" />
+      <select class="select is-wide">
         <option>cis_call_aggregated — звонки</option>
         <option>chat_sessions — диалоги</option>
         <option>chat_productivity — операторы</option>
@@ -682,7 +690,7 @@ function analyticsReports(pid) {
   const body = list.length
     ? `<div class="entity-grid">${list.map(reportCard).join('')}</div>`
     : anEmpty('Отчётов нет', 'Сохраните срез, чтобы не собирать одни и те же фильтры каждый понедельник.')
-  return `${form}${body}`
+  return `${form}<div class="mt-16">${body}</div>`
 }
 
 function screenAnalytics(pid, tab) {
@@ -716,49 +724,43 @@ function screenAnalytics(pid, tab) {
 
 function screenSettings(pid, tab) {
   const p = project(pid)
-  const general = `<div class="stack" style="max-width:560px">
+  const general = `${formCard(`
     <div class="field"><label>Имя</label><input class="input" value="${p.name}" /></div>
     <div class="field"><label>Описание</label><textarea class="textarea">${p.desc}</textarea></div>
-    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>
-    <div class="card card-pad">
-      <div class="h5">Телефония</div>
-      <p class="muted">Входящие правила, пулы и стоп-слова — отдельная вкладка. Не пункт «Финансы».</p>
-      <button class="btn btn-secondary" type="button" data-nav="#/p/${pid}/settings/telephony">Открыть</button>
-    </div>
-    <div class="danger-zone">
+    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>`)}
+    <div class="danger-zone mt-16 form-narrow">
       <div><div class="h5">Опасная зона</div><div class="small muted">Удалит только этот проект</div></div>
       <button class="btn btn-danger" type="button" data-action="modal" data-modal="confirm-delete">Удалить проект</button>
-    </div>
-  </div>`
-  const members = `<div class="toolbar"><button class="btn" type="button">Пригласить</button></div>
-    <div class="card"><table class="table">
-      <thead><tr><th>Человек</th><th>Роль в проекте</th><th></th></tr></thead>
+    </div>`
+  const members = `<div class="card"><table class="table">
+      <thead><tr><th>Человек</th><th>Роль в проекте</th></tr></thead>
       <tbody>
-        <tr><td>Анна Козлова<br><span class="mono muted-dark">usr_anna</span></td><td>admin</td><td></td></tr>
-        <tr><td>Кирилл Новиков<br><span class="mono muted-dark">usr_kir</span></td><td>member</td><td></td></tr>
+        <tr><td>Анна Козлова<br><span class="mono muted-dark">usr_anna</span></td><td>admin</td></tr>
+        <tr><td>Кирилл Новиков<br><span class="mono muted-dark">usr_kir</span></td><td>member</td></tr>
       </tbody>
     </table></div>
     <p class="hint mt-8">Роли проекта: admin / member. Это не IAM SUPER_ADMIN.</p>`
-  const telephony = `<div class="stack" style="max-width:640px">
-    <p class="muted" style="margin:0">Из текущего ЛК: входящие правила, пул номеров, стоп-слова. Провайдеры платформы — не здесь.</p>
+  const telephony = `<div class="stack form-wide">
     <div class="card card-pad">
       <div class="h5">Входящее правило</div>
-      <p class="small muted" style="margin:8px 0 0">3812 → сценарий «Входящая запись». Вне расписания — автоответчик.</p>
+      <p class="small muted flush mt-8">3812 → сценарий «Входящая запись». Вне расписания — автоответчик.</p>
     </div>
     <div class="card card-pad">
       <div class="h5">Пул исходящих</div>
-      <p class="small muted" style="margin:8px 0 0">2 номера проекта. Карточки — в разделе «Номера».</p>
+      <p class="small muted flush mt-8">2 номера проекта. Карточки — в разделе «Номера».</p>
     </div>
     <div class="card card-pad">
       <div class="h5">Стоп-слова / перебивания</div>
-      <p class="small muted" style="margin:8px 0 0">Список платформы. В v1 не редактируем.</p>
+      <p class="small muted flush mt-8">Список платформы. В v1 не редактируем.</p>
     </div>
   </div>`
   const body = tab === 'members' ? members : tab === 'telephony' ? telephony : general
+  const right = tab === 'members' ? '<button class="btn" type="button">Пригласить</button>' : ''
+  const guide = tab === 'members' ? 'settings-members' : tab === 'telephony' ? 'settings-telephony' : 'settings'
   return shell(
     pid,
     'settings',
-    `${header('Настройки проекта', 'settings', '', tab === 'members' ? 'settings-members' : tab === 'telephony' ? 'settings-telephony' : 'settings')}
+    `${header('Настройки проекта', 'settings', right, guide)}
     <div class="tabs">
       <a class="tab ${tab === 'general' ? 'is-active' : ''}" data-nav="#/p/${pid}/settings">Проект</a>
       <a class="tab ${tab === 'members' ? 'is-active' : ''}" data-nav="#/p/${pid}/settings/members">Участники</a>
@@ -794,6 +796,7 @@ function screenNumbers(pid, tab) {
     : `<div class="card"><div class="empty"><div class="illu">${icon('numbers')}</div>
         <h2 class="h2">Номеров нет</h2>
         <p class="muted">Возьмите из витрины или привяжите свой. Нужны для заданий и входящей.</p>
+        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/numbers/shop">Открыть витрину</button>
       </div></div>`
   return shell(pid, 'numbers', `${header('Номера', 'numbers')}${tabs}${body}`)
 }

@@ -59,14 +59,16 @@ function jobCard(pid, j, mini) {
 
 function chatCard(c) {
   const unread = c.unread ? `<span class="chat-unread">${c.unread}</span>` : ''
-  return `<button class="entity-card is-chat" type="button" data-action="toast" data-toast="Диалог в v1 только список">
+  return `<button class="entity-card is-chat is-thread" type="button" data-action="toast" data-toast="Диалог в v1 только список">
     ${entityHead('chat', unread || chip(c.status || 'active'))}
     <div class="h5 entity-title">${c.title}</div>
     <div class="entity-sig"><p class="chat-preview">${c.preview}</p></div>
     ${entityFoot([
-      `<div class="chips">${c.brain ? kindChip(c.brain.kind) : ''}<span class="chip">${c.channel}</span></div>`,
-      c.brain ? `<div class="rel-line">${c.brain.name}</div>` : '',
-      `<div class="verysmall muted">${c.time}</div>`,
+      `<div class="chat-meta">
+        <div class="chips">${c.brain ? kindChip(c.brain.kind) : ''}<span class="chip">${c.channel}</span></div>
+        ${c.brain ? `<div class="rel-line">${c.brain.name}</div>` : ''}
+        <div class="verysmall muted">${c.time}</div>
+      </div>`,
     ])}
   </button>`
 }
@@ -148,7 +150,7 @@ function marketCard(m) {
   return `<button class="entity-card is-market" type="button" data-action="toast" data-toast="Добавим в проект. В v1 без установки">
     ${entityHead('market', kindChip(m.kind))}
     <div class="h5 entity-title">${m.name}</div>
-    <div class="entity-sig"><span class="sig-num" style="font-size:22px;line-height:28px">${m.price}</span></div>
+    <div class="entity-sig"><span class="sig-num sig-price">${m.price}</span></div>
     ${entityFoot([`<div class="small muted">Готовый объект в магазин компании</div>`])}
   </button>`
 }
@@ -164,7 +166,7 @@ function sectionTabs(pid, base, tabs, active) {
 
 function avatarMenu(open) {
   return `<div class="popper right ${open ? '' : 'hidden'}">
-    <div class="popper-item" style="pointer-events:none">
+    <div class="popper-item is-head">
       <div><div class="h6">Анна Козлова</div><div class="verysmall muted">Северная логистика</div></div>
     </div>
     <button class="popper-item" type="button" data-nav="#/account/company">${icon('company', 16)} Компания</button>
