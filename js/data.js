@@ -226,15 +226,327 @@ const CAMP_TEMPLATES = {
 
 const REPORTS = {
   courier: [
-    { id: 'rep_1', name: 'Дозвон по дням', type: 'Звонки', updated: 'сегодня' },
-    { id: 'rep_2', name: 'WhatsApp квалификация', type: 'Чаты', updated: 'вчера' },
+    { id: 'rep_1', name: 'Дозвон по дням', type: 'Звонки', service: 'CIS · cis_call_aggregated', status: 'GENERATED', updated: 'сегодня' },
+    { id: 'rep_2', name: 'WhatsApp квалификация', type: 'Чаты', service: 'CHAT · chat_sessions', status: 'GENERATED', updated: 'вчера' },
+    { id: 'rep_3', name: 'Фразы кандидатов', type: 'Чаты', service: 'CHAT · chat_clientPositionalPhrases', status: 'GENERATED', updated: '19 авг' },
+    { id: 'rep_4', name: 'Расход по сервисам', type: 'Расход', service: 'platform_total_cost', status: 'GENERATING', updated: 'собирается' },
   ],
   wa: [
-    { id: 'rep_w1', name: 'Первая линия магазина', type: 'Чаты', updated: '18 авг' },
+    { id: 'rep_w1', name: 'Первая линия магазина', type: 'Чаты', service: 'CHAT · chat_metrics', status: 'GENERATED', updated: '18 авг' },
+    { id: 'rep_w2', name: 'Продуктивность операторов', type: 'Чаты', service: 'CHAT · chat_productivity', status: 'GENERATED', updated: '17 авг' },
   ],
   clinic: [
-    { id: 'rep_cl1', name: 'Явка после SMS', type: 'Рассылки', updated: '17 авг' },
+    { id: 'rep_cl1', name: 'Явка после SMS', type: 'Рассылки', service: 'MESSAGING · messaging_messages', status: 'GENERATED', updated: '17 авг' },
+    { id: 'rep_cl2', name: 'Входящие к слоту', type: 'Звонки', service: 'CIS · call_incoming', status: 'GENERATED', updated: '16 авг' },
   ],
+  omsk: [
+    { id: 'rep_om1', name: 'Линия 3812 за неделю', type: 'Звонки', service: 'CIS · billing_incoming_call', status: 'GENERATED', updated: 'вчера' },
+  ],
+  shop: [
+    { id: 'rep_s1', name: 'Доставка WhatsApp', type: 'Рассылки', service: 'MESSAGING · messaging_task_message_processing', status: 'GENERATED', updated: '12 авг' },
+  ],
+}
+
+const AN_DAYS = ['Чт', 'Пт', 'Сб', 'Вс', 'Пн', 'Вт', 'Ср']
+
+const ANALYTICS = {
+  courier: {
+    kpis: {
+      calls: { value: '1 284', delta: '+12%', good: true, sub: 'исх. 1 102 · вх. 182' },
+      chats: { value: '3 041', delta: '+28%', good: true, sub: 'WhatsApp 2 410' },
+      answered: { value: '54%', delta: '−3 п.п.', good: false, sub: 'человек взял трубку' },
+      csi: { value: '86%', delta: '+2 п.п.', good: true, sub: 'NPS 42 · FCR 71%' },
+      spend: { value: '8 120 ₽', delta: '+9%', good: false, sub: 'не счёт компании' },
+    },
+    series: { days: AN_DAYS, calls: [148, 176, 62, 48, 210, 268, 372], chats: [310, 348, 190, 164, 520, 610, 899], spend: [920, 1040, 410, 330, 1480, 1860, 2080] },
+    calls: {
+      incoming: { count: '182', cost: '640 ₽', avgDur: '1:48' },
+      outgoing: { count: '1 102', cost: '4 120 ₽', avgDur: '0:54' },
+      answered: '54%',
+      avgDur: '0:58',
+      cost: '4 760 ₽',
+      statuses: [
+        { label: 'Ответил человек', count: 694, color: 'var(--malachite)' },
+        { label: 'Нет ответа', count: 318, color: 'var(--tulip)' },
+        { label: 'Занято', count: 142, color: 'var(--darkgrey)' },
+        { label: 'Автоответчик', count: 86, color: 'var(--pumpkin)' },
+        { label: 'Сбой', count: 44, color: 'var(--coralred)' },
+      ],
+      jobs: [
+        { id: 'job_44a', name: 'Обзвон заявок 20.08', candidates: '2 100', calls: '1 102', answered: '612', human: '54%', effective: '418', cost: '3 410 ₽', avgDur: '0:54' },
+        { id: 'job_44b', name: 'Дозвон «не взяли трубку»', candidates: '480', calls: '182', answered: '82', human: '41%', effective: '28', cost: '710 ₽', avgDur: '0:41' },
+      ],
+      costSplit: [
+        { label: 'Транк', value: 2860, right: '2 860 ₽' },
+        { label: 'STT', value: 980, right: '980 ₽' },
+        { label: 'TTS', value: 640, right: '640 ₽' },
+        { label: 'LLM', value: 1120, right: '1 120 ₽' },
+        { label: 'AMD', value: 160, right: '160 ₽' },
+      ],
+      recent: [
+        { time: '11:18', phone: '+7 999 120-44-11', dir: 'исх.', status: 'FINISHED', dur: '0:42', price: '6,40 ₽', brain: 'Скрининг курьера' },
+        { time: '11:12', phone: '+7 913 220-11-04', dir: 'исх.', status: 'NO_ANSWER', dur: '—', price: '1,10 ₽', brain: 'Скрининг курьера' },
+        { time: '11:04', phone: '+7 905 441-90-12', dir: 'исх.', status: 'FINISHED', dur: '1:08', price: '8,20 ₽', brain: 'Уточнение слота' },
+        { time: '10:51', phone: '+7 3812 00-12', dir: 'вх.', status: 'FINISHED', dur: '2:14', price: '4,80 ₽', brain: 'WhatsApp · квалификация' },
+        { time: '10:40', phone: '+7 777 102-33-90', dir: 'исх.', status: 'AMD', dur: '0:09', price: '1,40 ₽', brain: 'Скрининг курьера' },
+      ],
+    },
+    chats: {
+      sessions: '3 041',
+      messages: { bot: '8 120', operator: '940', client: '6 410' },
+      quality: { csi: '86%', nps: '42', fcr: '71%', firstAnswer: '12 с' },
+      sources: [
+        { label: 'WhatsApp', value: 2410, right: '2 410' },
+        { label: 'Telegram', value: 631, right: '631' },
+      ],
+      operators: [
+        { name: 'Анна Козлова', handled: 86, answered: 81, wait: '9 с', csi: '91%' },
+        { name: 'Кирилл Новиков', handled: 54, answered: 47, wait: '18 с', csi: '78%' },
+      ],
+      phrases: [
+        { label: 'когда смена', value: 214, right: '214' },
+        { label: 'какой адрес склада', value: 168, right: '168' },
+        { label: 'документы отправил', value: 121, right: '121' },
+        { label: 'не выйду', value: 86, right: '86' },
+        { label: 'слот на вечер', value: 64, right: '64' },
+      ],
+      funnel: [
+        { label: 'Приветствие', value: 2410, right: '2 410' },
+        { label: 'Слоты', value: 1820, right: '1 820' },
+        { label: 'Документы', value: 1240, right: '1 240' },
+        { label: 'Квалифицирован', value: 418, right: '418' },
+      ],
+    },
+    spend: {
+      total: '8 120 ₽',
+      items: [
+        { label: 'Телефония', value: 4760, right: '4 760 ₽' },
+        { label: 'AI-агент · LLM / TTS / STT', value: 1910, right: '1 910 ₽' },
+        { label: 'Чаты', value: 840, right: '840 ₽' },
+        { label: 'GPT в сценариях', value: 420, right: '420 ₽' },
+        { label: 'Рассылки', value: 190, right: '190 ₽' },
+      ],
+      gpt: [
+        { label: 'gpt-4o-mini', value: 310, right: '1 860 вызовов · 310 ₽' },
+        { label: 'gpt-4o', value: 110, right: '94 вызова · 110 ₽' },
+      ],
+      tts: [
+        { label: 'yandex-grpc-v2', value: 380, right: '380 ₽' },
+        { label: 'eleven-labs', value: 260, right: '260 ₽' },
+      ],
+    },
+  },
+  omsk: {
+    kpis: {
+      calls: { value: '864', delta: '+4%', good: true, sub: 'вх. 791 · исх. 73' },
+      answered: { value: '71%', delta: '+1 п.п.', good: true, sub: 'городская 3812' },
+      avgDur: { value: '2:06', delta: '−12 с', good: true, sub: 'средняя длина' },
+      spend: { value: '3 240 ₽', delta: '+6%', good: false, sub: 'не счёт компании' },
+    },
+    series: { days: AN_DAYS, calls: [96, 118, 54, 41, 142, 186, 227], chats: [0, 0, 0, 0, 0, 0, 0], spend: [310, 380, 160, 120, 540, 720, 1010] },
+    calls: {
+      incoming: { count: '791', cost: '2 680 ₽', avgDur: '2:14' },
+      outgoing: { count: '73', cost: '210 ₽', avgDur: '0:48' },
+      answered: '71%',
+      avgDur: '2:06',
+      cost: '2 890 ₽',
+      statuses: [
+        { label: 'Запись в слот', count: 412, color: 'var(--malachite)' },
+        { label: 'Ответил человек', count: 614, color: 'var(--sky)' },
+        { label: 'Нет ответа', count: 96, color: 'var(--tulip)' },
+        { label: 'Вне окна', count: 88, color: 'var(--pumpkin)' },
+        { label: 'Сбой', count: 18, color: 'var(--coralred)' },
+      ],
+      jobs: [
+        { id: 'job_om1', name: 'Входящая 3812', candidates: '—', calls: '791', answered: '614', human: '71%', effective: '412', cost: '2 680 ₽', avgDur: '2:14' },
+      ],
+      costSplit: [
+        { label: 'Транк', value: 1840, right: '1 840 ₽' },
+        { label: 'STT', value: 520, right: '520 ₽' },
+        { label: 'TTS', value: 310, right: '310 ₽' },
+        { label: 'LLM', value: 220, right: '220 ₽' },
+      ],
+      recent: [
+        { time: '18:22', phone: '+7 3812 44-10', dir: 'вх.', status: 'FINISHED', dur: '2:40', price: '5,10 ₽', brain: 'Входящая запись' },
+        { time: '18:11', phone: '+7 913 200-11-08', dir: 'вх.', status: 'FINISHED', dur: '1:12', price: '3,40 ₽', brain: 'Входящая запись' },
+        { time: '17:58', phone: '+7 3812 00-04', dir: 'вх.', status: 'NO_ANSWER', dur: '—', price: '0,80 ₽', brain: 'Входящая запись' },
+      ],
+    },
+    spend: {
+      total: '3 240 ₽',
+      items: [
+        { label: 'Телефония', value: 2890, right: '2 890 ₽' },
+        { label: 'AI-агент · LLM / TTS / STT', value: 350, right: '350 ₽' },
+      ],
+      gpt: [{ label: 'gpt-4o-mini', value: 90, right: '210 вызовов · 90 ₽' }],
+      tts: [{ label: 'yandex-grpc-v2', value: 310, right: '310 ₽' }],
+    },
+  },
+  wa: {
+    kpis: {
+      chats: { value: '4 812', delta: '+16%', good: true, sub: 'WhatsApp 4 102' },
+      csi: { value: '81%', delta: '−4 п.п.', good: false, sub: 'NPS 28 · FCR 64%' },
+      first: { value: '22 с', delta: '+6 с', good: false, sub: 'первый ответ оператора' },
+      spend: { value: '2 640 ₽', delta: '+11%', good: false, sub: 'не счёт компании' },
+    },
+    series: { days: AN_DAYS, calls: [0, 0, 0, 0, 0, 0, 0], chats: [520, 610, 380, 290, 840, 980, 1192], spend: [280, 310, 190, 140, 460, 540, 720] },
+    chats: {
+      sessions: '4 812',
+      messages: { bot: '11 240', operator: '2 180', client: '9 860' },
+      quality: { csi: '81%', nps: '28', fcr: '64%', firstAnswer: '22 с' },
+      sources: [
+        { label: 'WhatsApp', value: 4102, right: '4 102' },
+        { label: 'Telegram', value: 710, right: '710' },
+      ],
+      operators: [
+        { name: 'Анна Козлова', handled: 210, answered: 198, wait: '14 с', csi: '88%' },
+        { name: 'Кирилл Новиков', handled: 164, answered: 142, wait: '31 с', csi: '74%' },
+      ],
+      phrases: [
+        { label: 'когда вернут деньги', value: 412, right: '412' },
+        { label: 'где заказ', value: 368, right: '368' },
+        { label: 'размер не тот', value: 190, right: '190' },
+        { label: 'самовывоз', value: 124, right: '124' },
+      ],
+      funnel: [
+        { label: 'Приветствие', value: 4102, right: '4 102' },
+        { label: 'FAQ', value: 2860, right: '2 860' },
+        { label: 'Возврат', value: 940, right: '940' },
+        { label: 'К оператору', value: 374, right: '374' },
+      ],
+    },
+    spend: {
+      total: '2 640 ₽',
+      items: [
+        { label: 'Чаты', value: 1480, right: '1 480 ₽' },
+        { label: 'AI-агент · LLM / TTS / STT', value: 720, right: '720 ₽' },
+        { label: 'GPT в сценариях', value: 440, right: '440 ₽' },
+      ],
+      gpt: [
+        { label: 'gpt-4o-mini', value: 280, right: '2 140 вызовов · 280 ₽' },
+        { label: 'gpt-4o', value: 160, right: '48 вызовов · 160 ₽' },
+      ],
+      tts: [],
+    },
+  },
+  clinic: {
+    kpis: {
+      calls: { value: '412', delta: '+3%', good: true, sub: 'вх. 318 · исх. 94' },
+      answered: { value: '68%', delta: '+2 п.п.', good: true, sub: 'запись к врачу' },
+      sent: { value: '1 514', delta: '+8%', good: true, sub: 'SMS 1 204 · WhatsApp 310' },
+      delivered: { value: '96%', delta: '0 п.п.', good: true, sub: 'дошло до клиента' },
+      spend: { value: '4 180 ₽', delta: '+5%', good: false, sub: 'не счёт компании' },
+    },
+    series: { days: AN_DAYS, calls: [48, 52, 22, 18, 74, 90, 108], chats: [0, 0, 0, 0, 0, 0, 0], spend: [420, 480, 210, 160, 740, 980, 1190] },
+    calls: {
+      incoming: { count: '318', cost: '1 120 ₽', avgDur: '1:36' },
+      outgoing: { count: '94', cost: '280 ₽', avgDur: '0:44' },
+      answered: '68%',
+      avgDur: '1:22',
+      cost: '1 400 ₽',
+      statuses: [
+        { label: 'Запись', count: 214, color: 'var(--malachite)' },
+        { label: 'Нет ответа', count: 86, color: 'var(--tulip)' },
+        { label: 'Перенос', count: 48, color: 'var(--sky)' },
+        { label: 'Сбой', count: 12, color: 'var(--coralred)' },
+      ],
+      jobs: [
+        { id: 'job_cl1', name: 'Напоминание голосом', candidates: '180', calls: '94', answered: '62', human: '66%', effective: '54', cost: '280 ₽', avgDur: '0:44' },
+      ],
+      costSplit: [
+        { label: 'Транк', value: 840, right: '840 ₽' },
+        { label: 'STT', value: 260, right: '260 ₽' },
+        { label: 'TTS', value: 210, right: '210 ₽' },
+        { label: 'LLM', value: 90, right: '90 ₽' },
+      ],
+      recent: [
+        { time: '09:40', phone: '+7 900 114-22-01', dir: 'вх.', status: 'FINISHED', dur: '1:50', price: '4,20 ₽', brain: 'Запись в клинику' },
+        { time: '09:22', phone: '+7 913 008-11-40', dir: 'исх.', status: 'FINISHED', dur: '0:38', price: '2,10 ₽', brain: 'Напоминание голосом' },
+      ],
+    },
+    messaging: {
+      sent: '1 514',
+      delivered: '1 452',
+      cost: '1 860 ₽',
+      channels: [
+        { channel: 'SMS', sent: '1 204', delivered: '1 168', rate: '97%', price: '1 420 ₽' },
+        { channel: 'WhatsApp', sent: '310', delivered: '284', rate: '92%', price: '440 ₽' },
+      ],
+      statuses: [
+        { label: 'Доставлено', value: 1452, right: '1 452' },
+        { label: 'Отправлено', value: 38, right: '38' },
+        { label: 'Ошибка', value: 24, right: '24' },
+      ],
+      series: [180, 210, 90, 70, 280, 340, 344],
+    },
+    spend: {
+      total: '4 180 ₽',
+      items: [
+        { label: 'Рассылки', value: 1860, right: '1 860 ₽' },
+        { label: 'Телефония', value: 1400, right: '1 400 ₽' },
+        { label: 'AI-агент · LLM / TTS / STT', value: 920, right: '920 ₽' },
+      ],
+      gpt: [{ label: 'gpt-4o-mini', value: 140, right: '420 вызовов · 140 ₽' }],
+      tts: [{ label: 'yandex-grpc-v2', value: 210, right: '210 ₽' }],
+    },
+  },
+  shop: {
+    kpis: {
+      chats: { value: '1 640', delta: '+21%', good: true, sub: 'после брошенной корзины' },
+      sent: { value: '640', delta: '+14%', good: true, sub: 'WhatsApp дожим' },
+      delivered: { value: '91%', delta: '−2 п.п.', good: false, sub: 'дошло до клиента' },
+      spend: { value: '1 980 ₽', delta: '+18%', good: false, sub: 'не счёт компании' },
+    },
+    series: { days: AN_DAYS, calls: [0, 0, 0, 0, 0, 0, 0], chats: [160, 190, 120, 90, 280, 340, 460], spend: [180, 210, 120, 90, 360, 440, 580] },
+    chats: {
+      sessions: '1 640',
+      messages: { bot: '4 210', operator: '180', client: '2 860' },
+      quality: { csi: '74%', nps: '19', fcr: '58%', firstAnswer: '8 с' },
+      sources: [{ label: 'WhatsApp', value: 1640, right: '1 640' }],
+      operators: [{ name: 'Анна Козлова', handled: 22, answered: 20, wait: '11 с', csi: '80%' }],
+      phrases: [
+        { label: 'промокод', value: 186, right: '186' },
+        { label: 'ещё актуально', value: 142, right: '142' },
+        { label: 'другой адрес', value: 64, right: '64' },
+      ],
+      funnel: [
+        { label: 'Напоминание', value: 640, right: '640' },
+        { label: 'Ответ клиента', value: 310, right: '310' },
+        { label: 'Оформил', value: 94, right: '94' },
+      ],
+    },
+    messaging: {
+      sent: '640',
+      delivered: '582',
+      cost: '890 ₽',
+      channels: [{ channel: 'WhatsApp', sent: '640', delivered: '582', rate: '91%', price: '890 ₽' }],
+      statuses: [
+        { label: 'Доставлено', value: 582, right: '582' },
+        { label: 'Прочитано', value: 410, right: '410' },
+        { label: 'Ошибка', value: 58, right: '58' },
+      ],
+      series: [70, 82, 48, 36, 110, 140, 154],
+    },
+    spend: {
+      total: '1 980 ₽',
+      items: [
+        { label: 'Рассылки', value: 890, right: '890 ₽' },
+        { label: 'Чаты', value: 640, right: '640 ₽' },
+        { label: 'GPT в сценариях', value: 450, right: '450 ₽' },
+      ],
+      gpt: [{ label: 'gpt-4o-mini', value: 450, right: '980 вызовов · 450 ₽' }],
+      tts: [],
+    },
+  },
+}
+
+function analyticsOf(pid) {
+  const map = { courier: 'courier', omsk: 'omsk', wa: 'wa', clinic: 'clinic', shop: 'shop', school: 'shop', hr: 'courier', taxi: 'courier' }
+  return ANALYTICS[map[pid] || 'courier']
+}
+
+function projectHas(pid, id) {
+  return (((project(pid) || {}).modules) || []).includes(id)
 }
 
 const MARKET = [

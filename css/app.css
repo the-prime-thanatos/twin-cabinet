@@ -517,6 +517,49 @@ button { cursor: pointer; }
 
 .bars { display: flex; align-items: flex-end; gap: 8px; height: 160px; padding: 8px 0 0; }
 .bar { flex: 1; background: var(--blue); border-radius: 4px 4px 0 0; opacity: 0.85; min-height: 8px; }
+.bars.is-pair { gap: 10px; }
+.bar-col {
+  flex: 1; height: 100%;
+  display: flex; align-items: flex-end; justify-content: center; gap: 3px;
+}
+.bar-col .bar { flex: 1; max-width: 16px; min-width: 6px; }
+.bar-axis {
+  display: flex; justify-content: space-between;
+  margin-top: 8px; font-size: 11px; line-height: 16px; color: var(--darkgrey);
+}
+.an-cols { display: grid; grid-template-columns: 1.35fr 1fr; gap: 16px; }
+.an-cols > :only-child { grid-column: 1 / -1; }
+.an-legend { display: flex; flex-wrap: wrap; gap: 12px 16px; }
+.an-legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--lightdark); }
+.an-legend i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.stat .value-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.stat .delta { font-size: 12px; font-weight: 600; }
+.stat .delta.is-up { color: var(--malachite); }
+.stat .delta.is-down { color: var(--coralred); }
+.stat .sub { font-size: 12px; line-height: 16px; color: var(--darkgrey); margin-top: 4px; }
+.an-mix { display: flex; flex-direction: column; gap: 10px; }
+.an-mix-row {
+  display: grid; grid-template-columns: minmax(88px, 140px) 1fr minmax(72px, auto);
+  gap: 8px; align-items: center;
+}
+.an-mix-bar { height: 8px; background: var(--lightgrey); border-radius: 99px; overflow: hidden; }
+.an-mix-bar > span { display: block; height: 100%; border-radius: 99px; background: var(--purple); }
+.an-mix-n { text-align: right; white-space: nowrap; }
+.an-funnel { display: flex; flex-direction: column; gap: 8px; }
+.an-funnel-step { display: flex; align-items: center; gap: 8px; }
+.an-funnel-bar {
+  background: var(--sky-08); color: var(--superdark);
+  border-radius: 6px; padding: 8px 12px;
+  display: flex; justify-content: space-between; gap: 12px;
+  min-width: 28%;
+}
+.an-funnel-bar span { font-size: 13px; }
+.an-funnel-bar b { font-size: 13px; font-weight: 600; }
+.an-kpi-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.an-kpi-strip .label { color: var(--lightdark); font-size: 12px; }
+.an-kpi-strip .value { font-size: 22px; line-height: 28px; font-weight: 700; margin-top: 4px; }
 .skel { background: linear-gradient(90deg, var(--lightgrey), var(--grey), var(--lightgrey)); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 6px; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 

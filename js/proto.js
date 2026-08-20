@@ -53,7 +53,11 @@ function protoHTML() {
   <a href="#/p/courier/integrations/none">Интеграции empty</a>
   <a href="#/p/courier/integrations/telegram">Подключение</a>
   <a href="#/p/courier/analytics">Аналитика</a>
+  <a href="#/p/courier/analytics/calls">Аналитика · звонки</a>
+  <a href="#/p/courier/analytics/chats">Аналитика · чаты</a>
+  <a href="#/p/courier/analytics/spend">Аналитика · расход</a>
   <a href="#/p/courier/analytics/reports">Отчёты</a>
+  <a href="#/p/clinic/analytics/campaigns">Аналитика · рассылки (клиника)</a>
   <a href="#/p/courier/settings">Настройки</a>
   <a href="#/p/courier/settings/members">Участники</a>
   <a href="#/p/courier/settings/telephony">Телефония проекта</a>

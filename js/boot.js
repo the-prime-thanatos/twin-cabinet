@@ -65,7 +65,7 @@ function render() {
         markSetup(pid, 'analytics')
         maybePromote(pid)
       }
-      html = screenAnalytics(pid, sub === 'reports' ? 'reports' : '')
+      html = screenAnalytics(pid, ['reports', 'calls', 'chats', 'campaigns', 'spend'].includes(sub) ? sub : '')
     }
     else if (sec === 'settings' && sub === 'members') html = screenSettings(pid, 'members')
     else if (sec === 'settings' && sub === 'telephony') html = screenSettings(pid, 'telephony')

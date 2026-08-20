@@ -129,11 +129,18 @@ function tplCard(kind, skin, t) {
 }
 
 function reportCard(r) {
-  return `<button class="entity-card is-report" type="button" data-action="toast" data-toast="Конструктор отчётов в v1 не рисуем">
+  return `<button class="entity-card is-report" type="button" data-action="toast" data-toast="Файл отчёта в v1 не скачиваем">
     ${entityHead('report', `<span class="chip">${r.type}</span>`)}
     <div class="h5 entity-title">${r.name}</div>
     <div class="entity-sig"><div class="mini-bars"><i></i><i></i><i></i><i></i><i></i></div></div>
-    ${entityFoot([`<div class="verysmall muted">${r.updated}</div>`])}
+    ${entityFoot([
+      r.status === 'GENERATING'
+        ? '<span class="chip chip-running"><span class="dot"></span>собирается</span>'
+        : r.service
+          ? `<div class="small muted">${r.service}</div>`
+          : '',
+      `<div class="verysmall muted">${r.updated}</div>`,
+    ])}
   </button>`
 }
 
