@@ -149,19 +149,21 @@ function screenCardCanon() {
         <li><strong>Полоска</strong> — цвет типа, не статуса. Статус живёт чипом в шапке.</li>
         <li><strong>Тип</strong> — uppercase подпись из <span class="mono">KINDS</span>. Должна читаться с карточки, без легенды сетки.</li>
         <li><strong>Сигнатура</strong> — единственное место, где виды расходятся. Не дублировать тип картинкой-героем.</li>
-        <li><strong>Подвал</strong> — канал, кто внутри, даты. Связи — упоминанием <span class="mono">entity-ref</span> (иконка + цвет типа + имя), не серым текстом. Даты коротко, полные в <span class="mono">title</span>.</li>
+        <li><strong>Подвал</strong> — канал чипом, кто внутри — упоминанием объекта, даты коротко (полные в <span class="mono">title</span>). Чип не притворяется сущностью.</li>
       </ol>
       <p class="hint">Интеграции — плитки <span class="mono">.int-card</span>, не это семейство. Не делать третью систему карточек.</p>
     </div>
     <div class="canon-shared card card-pad">
-      <div class="h5">Упоминания</div>
-      <p class="small canon-inline">Не карточка и не серый чип. Тот же цвет и иконка типа: в абзаце, в селекте, в подвале. Читается имя — тип виден с метки. Наведение: «AI-агент · Скрининг курьера».</p>
-      <p class="small canon-inline">Мозг чата — ${entityRef('ai', 'FAQ магазина')} или ${entityRef('graph', 'WhatsApp · квалификация')}. Документ для ${entityRef('ai', 'Скрининг курьера')}.</p>
+      <div class="h5">Два знака, не один</div>
+      <p class="small">Чип <span class="mono">.chip</span> — статус, канал, тип, раздел. Пилюля без иконки. Упоминание <span class="mono">.entity-ref</span> — конкретный объект: иконка + цвет типа + имя. Не подменять одно другим.</p>
+      <p class="verysmall muted mt-16">Обычный чип</p>
+      <div class="chips">${chip('active')}${mediumChip('voice')}${kindChip('ai')}${navChip('knowledge')}${navChip('bots')}</div>
+      <p class="verysmall muted mt-16">Упоминание сущности</p>
+      <p class="small canon-inline">Мозг чата — ${entityRef('ai', 'FAQ магазина')} или ${entityRef('graph', 'WhatsApp · квалификация')}.</p>
       <div class="field canon-pick">
         <label>Мозг</label>
         ${entityPick(entityRef('ai', 'Скрининг курьера'))}
       </div>
-      <div class="chips mt-16">${['agents', 'knowledge', 'bots', 'nlu', 'chats', 'integrations'].map(navChip).join('')}</div>
     </div>
     ${rows}`,
   )

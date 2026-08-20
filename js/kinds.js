@@ -1,4 +1,4 @@
-/* js/kinds.js — Chips, entity chrome, lookups. */
+/* js/kinds.js — Ordinary chips vs named entity mentions. Lookups. */
 function chip(status) {
   const map = {
     draft: ['chip-draft', 'черновик'],
@@ -129,31 +129,51 @@ function entityDates(obj) {
   return '<div class="entity-dates verysmall muted">' + bits.join('<span aria-hidden="true">·</span>') + '</div>'
 }
 
+/* Ordinary chip: status, channel, type, section. Pill, no icon, no kind bar. */
+const KIND_CHIP = {
+  ai: 'chip-kind-ai',
+  graph: 'chip-kind-graph',
+  nlu: 'chip-kind-nlu',
+  job: 'chip-kind-job',
+  jobtpl: 'chip-kind-job',
+  chat: 'chip-kind-chat',
+  chattpl: 'chip-kind-chat',
+  campaign: 'chip-kind-campaign',
+  camptpl: 'chip-kind-campaign',
+  project: 'chip-kind-project',
+  doc: 'chip-kind-doc',
+  phone: 'chip-kind-phone',
+  offer: 'chip-kind-phone',
+  report: 'chip-kind-report',
+  market: 'chip-kind-market',
+  int: 'chip-kind-int',
+}
+
+function kindChip(kind) {
+  const k = KINDS[kind]
+  const cls = KIND_CHIP[kind] || ''
+  return `<span class="chip${cls ? ' ' + cls : ''}">${k ? k.label : kind}</span>`
+}
+
+function navChip(navId) {
+  const nav = NAV.find((n) => n.id === navId)
+  if (!nav) return ''
+  const cls = KIND_CHIP[NAV_KIND[navId]] || ''
+  return `<span class="chip${cls ? ' ' + cls : ''}">${nav.label}</span>`
+}
+
+/* Named instance only. Not a type label, not a nav section. */
 function entityRef(kind, name, opts) {
   if (!name) return ''
   const o = opts || {}
   const k = KINDS[kind] || KINDS.ai
   const skin = KIND_SKIN[kind] || 'is-ai'
-  const cls = ['entity-ref', skin, o.kindOnly ? 'is-type' : ''].filter(Boolean).join(' ')
-  const title = o.kindOnly ? k.label : k.label + ' · ' + name
+  const title = k.label + ' · ' + name
   const inner = '<span class="entity-ref-mark">' + icon(k.icon, 16) + '</span><span class="entity-ref-name">' + name + '</span>'
   if (o.href) {
-    return '<a class="' + cls + '" href="' + o.href + '" data-nav="' + o.href + '" title="' + attrEsc(title) + '">' + inner + '</a>'
+    return '<a class="entity-ref ' + skin + '" href="' + o.href + '" data-nav="' + o.href + '" title="' + attrEsc(title) + '">' + inner + '</a>'
   }
-  return '<span class="' + cls + '" title="' + attrEsc(title) + '">' + inner + '</span>'
-}
-
-function kindChip(kind) {
-  const k = KINDS[kind]
-  return entityRef(kind, k ? k.label : kind, { kindOnly: true })
-}
-
-function navChip(navId) {
-  const nav = NAV.find(function (n) { return n.id === navId })
-  if (!nav) return ''
-  const kind = NAV_KIND[navId]
-  if (!kind) return '<span class="chip">' + nav.label + '</span>'
-  return entityRef(kind, nav.label, { kindOnly: true })
+  return '<span class="entity-ref ' + skin + '" title="' + attrEsc(title) + '">' + inner + '</span>'
 }
 
 function entityPick(inner) {

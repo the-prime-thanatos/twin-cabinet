@@ -169,7 +169,7 @@ a.btn { text-decoration: none; }
 .auth-input::placeholder { color: var(--darkgrey); }
 .auth-input:focus { border-color: var(--blue); background: var(--mediumdark); }
 
-/* Chips */
+/* Ordinary chips — status, channel, type, section. Pill, no icon. */
 .chip {
   display: inline-flex; align-items: center; gap: 6px;
   height: 24px; padding: 0 10px;
@@ -194,6 +194,7 @@ a.btn { text-decoration: none; }
 .chip-kind-phone { background: var(--turquoise-08); color: #0f8f82; }
 .chip-kind-report { background: var(--green-08); color: #4a8a00; }
 .chip-kind-market { background: #fbf8dc; color: #8a7900; }
+.chip-kind-int { background: var(--superlight); color: var(--lightdark); }
 .chip-medium-voice { background: var(--malachite-08); color: #028850; }
 .chip-medium-text { background: #eef1ff; color: var(--blue); }
 .chip-medium-both { background: var(--superlight); color: var(--lightdark); }
@@ -201,6 +202,7 @@ a.btn { text-decoration: none; }
 .rel-line { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; line-height: 16px; color: var(--lightdark); }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
+/* Named entity mention — instance, not a type pill. */
 .entity-ref {
   --kind: var(--purple);
   --kind-fg: var(--purple);
