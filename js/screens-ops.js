@@ -6,7 +6,7 @@ function agentTable(pid, empty) {
       <div class="illu">${icon('agents')}</div>
       <h2 class="h2">AI-агентов ещё нет</h2>
       <p class="muted">AI-агент отвечает моделью — голосом или в чате. Это не сценарий и не NLU-модель.</p>
-      <button class="btn mt-16" type="button" data-action="modal" data-modal="create-agent">Создать AI-агента</button>
+      <button class="btn mt-16" type="button" data-nav="#/p/${pid}/agents/new">Создать AI-агента</button>
     </div></div>`
   }
   return `<div class="entity-grid">${list.map((a) => agentCard(pid, a)).join('')}</div>`
@@ -24,39 +24,9 @@ function screenAgents(pid, empty) {
   return shell(
     pid,
     'agents',
-    `${header('AI-агенты', 'agents', `<button class="btn" type="button" data-action="modal" data-modal="create-agent">${icon('plus', 16)} Создать AI-агента</button>`)}
+    `${header('AI-агенты', 'agents', entCreateBtn(pid, 'agent'))}
     ${toolbar}
     ${agentTable(pid, empty)}`,
-  )
-}
-
-function screenAgent(pid, aid) {
-  const a = (AGENTS[pid] || []).find((x) => x.id === aid) || (AGENTS.courier || [])[0]
-  const settings = formCard(`
-    <div class="field"><label>Имя</label><input class="input" value="${a.name}" /></div>
-    <div class="field"><label>Язык</label><select class="select"><option>Русский</option><option>English</option></select></div>
-    <div class="field"><label>ID</label>${copyField(a.id)}</div>
-    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>`)
-  const kb = `<div class="card"><table class="table">
-    <thead><tr><th>Документ</th><th>Обновлён</th><th></th></tr></thead>
-    <tbody>
-      <tr><td>${icon('file', 16)} Скрипт скрининга.pdf</td><td class="muted">18 авг</td><td></td></tr>
-      <tr><td>${icon('file', 16)} FAQ по слотам.docx</td><td class="muted">12 авг</td><td></td></tr>
-    </tbody>
-  </table>
-  <div class="card-foot">
-    <button class="btn btn-secondary" type="button" data-nav="#/p/${pid}/knowledge">Все документы проекта</button>
-    <p class="hint mt-8">В v1 это список файлов, не редактор базы. Полный список — в «Базе знаний».</p>
-  </div></div>`
-  return shell(
-    pid,
-    'agents',
-    `${header(a.name, 'agents', `<div class="chips">${kindChip(a.kind || 'ai')}${mediumChip(a.medium || 'voice')}${chip(a.status)}</div>`, 'agent')}
-    <div class="tabs">
-      <button class="tab ${ui.tab === 'settings' ? 'is-active' : ''}" data-action="tab" data-tab="settings">Настройки</button>
-      <button class="tab ${ui.tab === 'kb' ? 'is-active' : ''}" data-action="tab" data-tab="kb">База знаний</button>
-    </div>
-    ${ui.tab === 'kb' ? kb : settings}`,
   )
 }
 
@@ -66,35 +36,10 @@ function screenBots(pid, empty) {
     ? `<div class="card"><div class="empty"><div class="illu">${icon('bots')}</div>
         <h2 class="h2">Сценариев нет</h2>
         <p class="muted">Сценарий — флоу на блоках. Голос или чат. Внутри может быть NLU-модель или AI-агент.</p>
-        <button class="btn mt-16" type="button" data-action="create-bot">Создать сценарий</button>
+        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/bots/new">Создать сценарий</button>
       </div></div>`
     : `<div class="entity-grid">${list.map((b) => botCard(pid, b)).join('')}</div>`
-  return shell(pid, 'bots', `${header('Сценарии', 'bots', `<button class="btn" type="button" data-action="create-bot">${icon('plus', 16)} Создать сценарий</button>`)}${body}`)
-}
-
-function screenBot(pid, bid) {
-  const b = findBot(pid, bid) || (BOTS[pid] || BOTS.courier || [])[0]
-  const nlu = b.nluId && findNlu(pid, b.nluId)
-  const ai = b.aiId && findAgent(pid, b.aiId)
-  const links = [
-    nlu && `<button class="btn btn-ghost" type="button" data-nav="#/p/${pid}/nlu/${nlu.id}">${kindChip('nlu')} ${nlu.name}</button>`,
-    ai && `<button class="btn btn-ghost" type="button" data-nav="#/p/${pid}/agents/${ai.id}">${kindChip('ai')} ${ai.name}</button>`,
-  ].filter(Boolean)
-  return shell(
-    pid,
-    'bots',
-    `${header(b.name, 'bots', `<div class="chips">${kindChip('graph')}${mediumChip(b.medium || 'text')}${chip(b.status)}</div>`, 'bot')}
-    ${formCard(`
-      <p class="muted flush">Сценарий отвечает блоками. Canvas в v1 не входит.</p>
-      <div class="field"><label>ID</label>${copyField(b.id)}</div>
-      <div class="field"><label>Канал доставки</label><div>${b.channel}</div></div>
-      <div>
-        <div class="h5">Внутри сценария</div>
-        ${links.length ? `<div class="stack gap-8 mt-8">${links.join('')}</div>` : '<p class="muted flush">NLU и AI не привязаны.</p>'}
-      </div>
-      <button class="btn btn-secondary" type="button" data-action="toast" data-toast="Редактор в v1 старый, сюда не рисуем">Открыть редактор</button>
-    `)}`,
-  )
+  return shell(pid, 'bots', `${header('Сценарии', 'bots', entCreateBtn(pid, 'bot'))}${body}`)
 }
 
 function screenNluList(pid, empty) {
@@ -103,27 +48,10 @@ function screenNluList(pid, empty) {
     ? `<div class="card"><div class="empty"><div class="illu">${icon('nlu')}</div>
         <h2 class="h2">NLU-моделей нет</h2>
         <p class="muted">NLU-модель классифицирует фразы. С клиентом сама не говорит — её подключают в сценарий.</p>
-        <button class="btn mt-16" type="button" data-action="create-nlu">Создать NLU-модель</button>
+        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/nlu/new">Создать NLU-модель</button>
       </div></div>`
     : `<div class="entity-grid">${list.map((n) => nluCard(pid, n)).join('')}</div>`
-  return shell(pid, 'nlu', `${header('NLU-модели', 'nlu', `<button class="btn" type="button" data-action="create-nlu">${icon('plus', 16)} Создать NLU-модель</button>`)}${body}`)
-}
-
-function screenNlu(pid, nid) {
-  const n = findNlu(pid, nid) || (NLU[pid] || NLU.courier || [])[0]
-  const host = n.usedIn && findBot(pid, n.usedIn)
-  return shell(
-    pid,
-    'nlu',
-    `${header(n.name, 'nlu', `<div class="chips">${kindChip('nlu')}${chip(n.status)}</div>`, 'nlu-one')}
-    ${formCard(`
-      <p class="muted flush">NLU-модель не отвечает клиенту напрямую. Её вызывает сценарий.</p>
-      <div class="field"><label>ID</label>${copyField(n.id)}</div>
-      <div class="field"><label>Намерения</label><div>${n.intents || 0}</div></div>
-      <div class="field"><label>Сущности</label><div>${n.entities || 0}</div></div>
-      ${host ? `<button class="btn btn-ghost" type="button" data-nav="#/p/${pid}/bots/${host.id}">${kindChip('graph')} ${host.name}</button>` : '<p class="muted flush">Пока не подключён к сценарию.</p>'}
-    `)}`,
-  )
+  return shell(pid, 'nlu', `${header('NLU-модели', 'nlu', entCreateBtn(pid, 'nlu'))}${body}`)
 }
 
 function screenCalls(pid, empty) {
@@ -139,10 +67,10 @@ function screenCalls(pid, empty) {
     ? `<div class="card"><div class="empty"><div class="illu">${icon('calls')}</div>
         <h2 class="h2">Заданий на обзвон нет</h2>
         <p class="muted">Задание — не агент. Номера и входящая — в «Номерах» и настройках проекта.</p>
-        <button class="btn mt-16" type="button" data-action="create-job">Создать задание</button>
+        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/calls/new">Создать задание</button>
       </div></div>`
     : `<div class="entity-grid">${list.map((j) => jobCard(pid, j)).join('')}</div>`
-  return shell(pid, 'calls', `${header('Звонки', 'calls', `<button class="btn" type="button" data-action="create-job">${icon('plus', 16)} Создать задание</button>`)}${tabs}${body}`)
+  return shell(pid, 'calls', `${header('Звонки', 'calls', entCreateBtn(pid, 'job'))}${tabs}${body}`)
 }
 
 function screenCallTemplates(pid) {
@@ -155,9 +83,9 @@ function screenCallTemplates(pid) {
     { id: 'blacklist', label: 'Чёрный список' },
   ], 'templates')
   const body = list.length
-    ? `<div class="entity-grid">${list.map((t) => tplCard('jobtpl', 'is-job', t)).join('')}</div>`
-    : `<div class="card"><div class="empty"><div class="illu">${icon('calls')}</div><h2 class="h2">Шаблонов заданий нет</h2><p class="muted">Шаблон — заготовка задания. Кто говорит — AI-агент или сценарий.</p></div></div>`
-  return shell(pid, 'calls', `${header('Звонки', 'calls', '', 'calls-templates')}${tabs}${body}`)
+    ? `<div class="entity-grid">${list.map((t) => tplCard('jobtpl', 'is-job', t, pid)).join('')}</div>`
+    : `<div class="card"><div class="empty"><div class="illu">${icon('calls')}</div><h2 class="h2">Шаблонов заданий нет</h2><p class="muted">Шаблон — заготовка задания. Кто говорит — AI-агент или сценарий.</p><button class="btn mt-16" type="button" data-nav="#/p/${pid}/calls/templates/new">Создать шаблон</button></div></div>`
+  return shell(pid, 'calls', `${header('Звонки', 'calls', entCreateBtn(pid, 'jobtpl'), 'calls-templates')}${tabs}${body}`)
 }
 
 function screenCallHistory(pid) {
@@ -168,7 +96,7 @@ function screenCallHistory(pid) {
         <td class="mono">${r.who}</td>
         <td>${r.result}</td>
         <td class="muted">${r.dur}</td>
-        <td>${r.brain ? kindChip(r.brain.kind) + ' ' + r.brain.name : ''}</td>
+        <td>${r.brain ? entityRef(r.brain.kind, r.brain.name) : ''}</td>
       </tr>`,
     )
     .join('')
@@ -231,42 +159,6 @@ function screenBlacklist(pid) {
   )
 }
 
-function screenJob(pid, jid) {
-  const j = (JOBS[pid] || []).find((x) => x.id === jid) || (JOBS.courier || [])[0]
-  const playing = j.status === 'running'
-  const people = [
-    ['Игорь Смирнов', '+7 999 120-44-11', 'ответил', '0:42'],
-    ['Мария Ким', '+7 913 220-11-04', 'нет ответа', '—'],
-    ['Павел Орлов', '+7 905 441-90-12', 'перезвон', '0:11'],
-    ['Алина Бек', '+7 777 102-33-90', 'ошибка', '—'],
-  ]
-  const rows = people
-    .map(
-      (r) => `<tr><td>${r[0]}</td><td class="mono">${r[1]}</td><td>${r[2]}</td><td class="muted">${r[3]}</td></tr>`,
-    )
-    .join('')
-  return shell(
-    pid,
-    'calls',
-    `${header(
-      j.name,
-      'calls',
-      `<div class="row gap-8">${j.brain ? kindChip(j.brain.kind) : ''}${chip(j.status)}
-        <button class="btn ${playing ? 'btn-secondary' : ''}" type="button">${playing ? icon('pause', 16) + ' Пауза' : icon('play', 16) + ' Запустить'}</button>
-      </div>`,
-      'job',
-    )}
-    <div class="card card-pad">
-      <div class="h5">Кто отвечает</div>
-      ${j.brain ? `<button class="btn btn-ghost mt-8" type="button" data-nav="${brainHref(pid, j.brain)}">${kindChip(j.brain.kind)} ${j.brain.name}</button>` : '<p class="muted flush mt-8">Не назначен AI-агент или сценарий.</p>'}
-    </div>
-    <div class="card mt-16"><table class="table">
-      <thead><tr><th>Кандидат</th><th>Номер</th><th>Результат</th><th>Длительность</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>`,
-  )
-}
-
 function screenChats(pid, tab) {
   const p = project(pid)
   const list = chatsOf(pid)
@@ -278,10 +170,10 @@ function screenChats(pid, tab) {
     ? `<div class="card"><div class="empty"><div class="illu">${icon('chats')}</div>
         <h2 class="h2">Диалогов пока нет</h2>
         <p class="muted">Чаты появятся, когда канал начнёт отвечать в этом проекте.</p>
-        ${p.phase === 'setup' ? `<button class="btn mt-16" type="button" data-action="setup-done" data-step="chats" data-pid="${pid}">Канал будет здесь</button>` : ''}
+        ${p.phase === 'setup' ? `<button class="btn mt-16" type="button" data-action="setup-done" data-step="chats" data-pid="${pid}">Канал будет здесь</button>` : `<button class="btn mt-16" type="button" data-nav="#/p/${pid}/chats/new">Создать диалог</button>`}
       </div></div>`
-    : `<div class="chats-col">${list.map(chatCard).join('')}</div>`
-  return shell(pid, 'chats', `${header('Чаты', 'chats')}${tabs}${body}`)
+    : `<div class="chats-col">${list.map((c) => chatCard(pid, c)).join('')}</div>`
+  return shell(pid, 'chats', `${header('Чаты', 'chats', entCreateBtn(pid, 'chat'))}${tabs}${body}`)
 }
 
 function screenChatTemplates(pid) {
@@ -291,9 +183,9 @@ function screenChatTemplates(pid) {
     { id: 'templates', label: 'Шаблоны' },
   ], 'templates')
   const body = list.length
-    ? `<div class="entity-grid">${list.map((t) => tplCard('chattpl', 'is-chat', t)).join('')}</div>`
-    : `<div class="card"><div class="empty"><div class="illu">${icon('chats')}</div><h2 class="h2">Шаблонов нет</h2><p class="muted">Быстрые ответы оператору и сценарию.</p></div></div>`
-  return shell(pid, 'chats', `${header('Чаты', 'chats', '', 'chats-templates')}${tabs}${body}`)
+    ? `<div class="entity-grid">${list.map((t) => tplCard('chattpl', 'is-chat', t, pid)).join('')}</div>`
+    : `<div class="card"><div class="empty"><div class="illu">${icon('chats')}</div><h2 class="h2">Шаблонов нет</h2><p class="muted">Быстрые ответы оператору и сценарию.</p><button class="btn mt-16" type="button" data-nav="#/p/${pid}/chats/templates/new">Создать шаблон</button></div></div>`
+  return shell(pid, 'chats', `${header('Чаты', 'chats', entCreateBtn(pid, 'chattpl'), 'chats-templates')}${tabs}${body}`)
 }
 
 function screenCampaigns(pid) {
@@ -308,10 +200,10 @@ function screenCampaigns(pid) {
     ? `<div class="card"><div class="empty"><div class="illu">${icon('campaigns')}</div>
         <h2 class="h2">Рассылок нет</h2>
         <p class="muted">Кампания живёт в проекте. В v1 достаточно отметить шаг запуска.</p>
-        <button class="btn mt-16" type="button" data-action="setup-done" data-step="campaigns" data-pid="${pid}">Отметить шаг</button>
+        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/campaigns/new">Создать рассылку</button>
       </div></div>`
-    : `<div class="entity-grid">${list.map(campaignCard).join('')}</div>`
-  return shell(pid, 'campaigns', `${header('Рассылки', 'campaigns')}${tabs}${body}`)
+    : `<div class="entity-grid">${list.map((c) => campaignCard(pid, c)).join('')}</div>`
+  return shell(pid, 'campaigns', `${header('Рассылки', 'campaigns', entCreateBtn(pid, 'campaign'))}${tabs}${body}`)
 }
 
 function screenCampTemplates(pid) {
@@ -321,9 +213,9 @@ function screenCampTemplates(pid) {
     { id: 'templates', label: 'Шаблоны' },
   ], 'templates')
   const body = list.length
-    ? `<div class="entity-grid">${list.map((t) => tplCard('camptpl', 'is-campaign', t)).join('')}</div>`
-    : `<div class="card"><div class="empty"><div class="illu">${icon('campaigns')}</div><h2 class="h2">Шаблонов рассылок нет</h2><p class="muted">Текст кампании с подстановками. Редактор в v1 не рисуем.</p></div></div>`
-  return shell(pid, 'campaigns', `${header('Рассылки', 'campaigns', '', 'campaigns-templates')}${tabs}${body}`)
+    ? `<div class="entity-grid">${list.map((t) => tplCard('camptpl', 'is-campaign', t, pid)).join('')}</div>`
+    : `<div class="card"><div class="empty"><div class="illu">${icon('campaigns')}</div><h2 class="h2">Шаблонов рассылок нет</h2><p class="muted">Текст кампании с подстановками. Редактор в v1 не рисуем.</p><button class="btn mt-16" type="button" data-nav="#/p/${pid}/campaigns/templates/new">Создать шаблон</button></div></div>`
+  return shell(pid, 'campaigns', `${header('Рассылки', 'campaigns', entCreateBtn(pid, 'camptpl'), 'campaigns-templates')}${tabs}${body}`)
 }
 
 function screenIntegrations(pid, none) {
@@ -671,26 +563,10 @@ function analyticsSpend(pid, a) {
 
 function analyticsReports(pid) {
   const list = ofList(REPORTS, pid)
-  const form = `<div class="card card-pad">
-    <div class="h5">Новый отчёт</div>
-    <p class="muted flush mt-8">Выгрузка среза проекта. Типы — как в аналитике: сессии, задания, фразы, расход. Файл в v1 не скачиваем.</p>
-    <div class="toolbar in-card">
-      <input class="input" placeholder="Имя отчёта" />
-      <select class="select is-wide">
-        <option>cis_call_aggregated — звонки</option>
-        <option>chat_sessions — диалоги</option>
-        <option>chat_productivity — операторы</option>
-        <option>chat_clientPositionalPhrases — фразы</option>
-        <option>messaging_messages — рассылки</option>
-        <option>platform_total_cost — расход</option>
-      </select>
-      <button class="btn" type="button" data-action="toast" data-toast="Отчёт встал в очередь. В прототипе файл не собираем">Создать</button>
-    </div>
-  </div>`
   const body = list.length
-    ? `<div class="entity-grid">${list.map(reportCard).join('')}</div>`
+    ? `<div class="entity-grid">${list.map((r) => reportCard(pid, r)).join('')}</div>`
     : anEmpty('Отчётов нет', 'Сохраните срез, чтобы не собирать одни и те же фильтры каждый понедельник.')
-  return `${form}<div class="mt-16">${body}</div>`
+  return body
 }
 
 function screenAnalytics(pid, tab) {
@@ -716,7 +592,7 @@ function screenAnalytics(pid, tab) {
     body = analyticsSpend(pid, a)
   } else if (tab === 'reports') {
     guide = 'analytics-reports'
-    right = ''
+    right = entCreateBtn(pid, 'report')
     body = analyticsReports(pid)
   }
   return shell(pid, 'analytics', `${header('Аналитика', 'analytics', right, guide)}${tabs}${body}`)
@@ -724,13 +600,19 @@ function screenAnalytics(pid, tab) {
 
 function screenSettings(pid, tab) {
   const p = project(pid)
+  entPrepare(pid, 'project', 'edit', pid)
+  ensureHist('project', pid, p)
   const general = `${formCard(`
-    <div class="field"><label>Имя</label><input class="input" value="${p.name}" /></div>
-    <div class="field"><label>Описание</label><textarea class="textarea">${p.desc}</textarea></div>
-    <button class="btn" type="button" data-action="toast" data-toast="Сохранили">Сохранить</button>`)}
+    <div class="field"><label>Имя</label><input class="input" data-ent-field="name" value="${attrEsc(ui.ent.draft.name || p.name)}" /></div>
+    <div class="field"><label>Описание</label><textarea class="textarea" data-ent-field="desc">${ui.ent.draft.desc || p.desc}</textarea></div>
+    <div class="row gap-8">
+      <button class="btn" type="button" data-action="ent-save-ask" data-ent="project" data-pid="${pid}" data-id="${pid}">Сохранить</button>
+      <button class="btn btn-secondary" type="button" data-action="ent-json" data-ent="project" data-pid="${pid}" data-id="${pid}">Посмотреть JSON</button>
+    </div>`)}
+    ${versionsCard('project', pid, p)}
     <div class="danger-zone mt-16 form-narrow">
-      <div><div class="h5">Опасная зона</div><div class="small muted">Удалит только этот проект</div></div>
-      <button class="btn btn-danger" type="button" data-action="modal" data-modal="confirm-delete">Удалить проект</button>
+      <div><div class="h5">Опасная зона</div><div class="small muted">Удалит только этот проект. AI-агенты и задания внутри пропадут. Биллинг компании не тронется.</div></div>
+      <button class="btn btn-danger" type="button" data-action="ent-delete-ask" data-ent="project" data-pid="${pid}" data-id="${pid}" data-title="${attrEsc(p.name)}">Удалить проект</button>
     </div>`
   const members = `<div class="card"><table class="table">
       <thead><tr><th>Человек</th><th>Роль в проекте</th></tr></thead>
@@ -743,7 +625,7 @@ function screenSettings(pid, tab) {
   const telephony = `<div class="stack form-wide">
     <div class="card card-pad">
       <div class="h5">Входящее правило</div>
-      <p class="small muted flush mt-8">3812 → сценарий «Входящая запись». Вне расписания — автоответчик.</p>
+      <p class="small muted flush mt-8">Входящие на ${entityRef('phone', '+7 3812 55-12-00')} идут в ${entityRef('graph', 'Входящая запись')}. Вне расписания — автоответчик.</p>
     </div>
     <div class="card card-pad">
       <div class="h5">Пул исходящих</div>
@@ -773,13 +655,13 @@ function screenSettings(pid, tab) {
 function screenKnowledge(pid) {
   const list = ofList(DOCS, pid)
   const body = list.length
-    ? `<div class="entity-grid">${list.map(docCard).join('')}</div>`
+    ? `<div class="entity-grid">${list.map((d) => docCard(pid, d)).join('')}</div>`
     : `<div class="card"><div class="empty"><div class="illu">${icon('knowledge')}</div>
         <h2 class="h2">База знаний пуста</h2>
         <p class="muted">Документы для AI-агентов этого проекта. Как «База знаний» в текущем ЛК у AI-агентов.</p>
-        <button class="btn mt-16" type="button" data-action="setup-done" data-step="knowledge" data-pid="${pid}">Отметить шаг</button>
+        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/knowledge/new">Добавить документ</button>
       </div></div>`
-  return shell(pid, 'knowledge', `${header('База знаний', 'knowledge', '<button class="btn" type="button" data-action="toast" data-toast="Загрузка в v1 не рисуем">Загрузить</button>')}${body}`)
+  return shell(pid, 'knowledge', `${header('База знаний', 'knowledge', entCreateBtn(pid, 'doc'))}${body}`)
 }
 
 function screenNumbers(pid, tab) {
@@ -788,24 +670,27 @@ function screenNumbers(pid, tab) {
     { id: 'shop', label: 'Витрина' },
   ], tab || '')
   if (tab === 'shop') {
-    return shell(pid, 'numbers', `${header('Номера', 'numbers', '', 'numbers-shop')}${tabs}<div class="entity-grid">${MARKET_PHONES.map(offerCard).join('')}</div>`)
+    return shell(pid, 'numbers', `${header('Номера', 'numbers', entCreateBtn(pid, 'offer'), 'numbers-shop')}${tabs}<div class="entity-grid">${MARKET_PHONES.map((ph) => offerCard(pid, ph)).join('')}</div>`)
   }
   const list = ofList(PHONES, pid)
   const body = list.length
-    ? `<div class="entity-grid">${list.map(phoneCard).join('')}</div>`
+    ? `<div class="entity-grid">${list.map((ph) => phoneCard(pid, ph)).join('')}</div>`
     : `<div class="card"><div class="empty"><div class="illu">${icon('numbers')}</div>
         <h2 class="h2">Номеров нет</h2>
         <p class="muted">Возьмите из витрины или привяжите свой. Нужны для заданий и входящей.</p>
-        <button class="btn mt-16" type="button" data-nav="#/p/${pid}/numbers/shop">Открыть витрину</button>
+        <div class="row gap-8 mt-16">
+          <button class="btn" type="button" data-nav="#/p/${pid}/numbers/new">Привязать номер</button>
+          <button class="btn btn-secondary" type="button" data-nav="#/p/${pid}/numbers/shop">Открыть витрину</button>
+        </div>
       </div></div>`
-  return shell(pid, 'numbers', `${header('Номера', 'numbers')}${tabs}${body}`)
+  return shell(pid, 'numbers', `${header('Номера', 'numbers', entCreateBtn(pid, 'phone'))}${tabs}${body}`)
 }
 
 function screenMarket(pid) {
   return shell(
     pid,
     'market',
-    `${header('Маркетплейс', 'market')}
-    <div class="entity-grid">${MARKET.map(marketCard).join('')}</div>`,
+    `${header('Маркетплейс', 'market', entCreateBtn(pid, 'market'))}
+    <div class="entity-grid">${MARKET.map((m) => marketCard(pid, m)).join('')}</div>`,
   )
 }

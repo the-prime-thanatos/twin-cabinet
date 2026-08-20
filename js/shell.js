@@ -152,6 +152,10 @@ function toast() {
 }
 
 function modals() {
+  if (typeof entModals === 'function') {
+    const extra = entModals()
+    if (extra) return extra
+  }
   if (ui.modal === 'edit-note') {
     const pid = ui.notePid
     const text = noteText(pid)
@@ -163,37 +167,6 @@ function modals() {
         <div class="modal-actions">
           <button class="btn btn-ghost" type="button" data-action="close-modal">Отмена</button>
           <button class="btn" type="button" data-action="save-note">Сохранить</button>
-        </div>
-      </div>
-    </div>`
-  }
-  if (ui.modal === 'create-agent') {
-    return `<div class="modal-backdrop" data-action="close-modal">
-      <div class="modal" onclick="event.stopPropagation()">
-        <h2 class="h2">Создать AI-агента</h2>
-        <p class="muted">Отвечает моделью. Это не сценарий и не NLU-модель.</p>
-        <div class="field"><label>Имя</label><input class="input" id="agent-name" placeholder="Скрининг курьера" /></div>
-        <div class="field"><label>Язык</label>
-          <select class="select" id="agent-lang"><option>Русский</option><option>English</option><option>Қазақша</option></select>
-        </div>
-        <div class="field"><label>Канал</label>
-          <select class="select" id="agent-medium"><option value="voice">Голос</option><option value="text">Чат</option><option value="both">Голос и чат</option></select>
-        </div>
-        <div class="modal-actions">
-          <button class="btn btn-ghost" type="button" data-action="close-modal">Отмена</button>
-          <button class="btn" type="button" data-action="create-agent-save">Создать</button>
-        </div>
-      </div>
-    </div>`
-  }
-  if (ui.modal === 'confirm-delete') {
-    return `<div class="modal-backdrop" data-action="close-modal">
-      <div class="modal" onclick="event.stopPropagation()">
-        <h2 class="h2">Удалить проект?</h2>
-        <p class="muted">Пропадут AI-агенты, сценарии, NLU-модели и задания внутри проекта. Биллинг компании не тронется.</p>
-        <div class="modal-actions">
-          <button class="btn btn-ghost" type="button" data-action="close-modal">Оставить</button>
-          <button class="btn btn-danger" type="button" data-nav="#/projects">Удалить проект</button>
         </div>
       </div>
     </div>`

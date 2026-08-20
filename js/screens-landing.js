@@ -332,7 +332,7 @@ function landSections() {
         ['Вкладки', 'Кампании и тексты в одном разделе, как в текущем ЛК, но внутри проекта.'],
       ],
       gets: 'Прогрев WhatsApp перед обзвоном ставится на паузу отдельно от скрининга голосом. Тексты и объёмы не свалены в «сообщения компании».',
-      sample: () => `<div class="entity-grid">${campaignCard(CAMPAIGNS.courier[0])}</div>`,
+      sample: () => `<div class="entity-grid">${campaignCard('courier', CAMPAIGNS.courier[0])}</div>`,
     },
     {
       id: 'land-integrations',

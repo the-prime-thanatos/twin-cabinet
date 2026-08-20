@@ -47,14 +47,14 @@ const PRESETS = [
 ]
 
 const PROJECTS = [
-  { id: 'courier', name: 'Подбор курьеров', desc: 'Исходящие звонки и WhatsApp по заявкам', updated: 'сегодня, 11:20', agents: 4, bots: 2, nlu: 1, calls: 3, chats: 186, phase: 'live', modules: ['agents', 'knowledge', 'bots', 'nlu', 'calls', 'numbers', 'chats', 'integrations', 'analytics'] },
-  { id: 'omsk', name: 'Омск · входящая линия', desc: 'Городская линия 3812, запись в слот', updated: 'вчера', agents: 1, bots: 1, nlu: 1, calls: 1, chats: 42, phase: 'live', modules: ['agents', 'bots', 'nlu', 'calls', 'numbers', 'analytics'] },
-  { id: 'wa', name: 'WhatsApp поддержка', desc: 'Первая линия магазина', updated: '18 авг', agents: 1, bots: 2, nlu: 1, calls: 0, chats: 904, phase: 'live', modules: ['agents', 'knowledge', 'bots', 'nlu', 'chats', 'integrations', 'analytics'] },
-  { id: 'clinic', name: 'Клиника «Север» · запись', desc: 'Голос + SMS-напоминания', updated: '17 авг', agents: 3, bots: 2, nlu: 0, calls: 2, chats: 51, phase: 'live', modules: ['agents', 'knowledge', 'calls', 'numbers', 'campaigns', 'analytics'] },
-  { id: 'hr', name: 'HR-скрининг Москва', desc: 'Скрининг кандидатов на склад', updated: '15 авг', agents: 2, bots: 1, nlu: 0, calls: 4, chats: 12, phase: 'live', modules: ['agents', 'calls', 'analytics'] },
-  { id: 'shop', name: 'Брошенная корзина', desc: 'Дожим заказа за 2 часа', updated: '12 авг', agents: 1, bots: 2, nlu: 0, calls: 2, chats: 220, phase: 'live', modules: ['bots', 'campaigns', 'chats', 'integrations', 'analytics'] },
-  { id: 'taxi', name: 'Такси · подтверждение', desc: 'Подтверждение подачи машины', updated: '10 авг', agents: 1, bots: 1, nlu: 0, calls: 5, chats: 0, phase: 'live', modules: ['agents', 'calls', 'analytics'] },
-  { id: 'school', name: 'Онлайн-школа · прогрев', desc: 'Прогрев лида до менеджера', updated: '8 авг', agents: 2, bots: 4, nlu: 0, calls: 1, chats: 77, phase: 'live', modules: ['bots', 'campaigns', 'chats', 'integrations', 'analytics'] },
+  { id: 'courier', name: 'Подбор курьеров', desc: 'Исходящие звонки и WhatsApp по заявкам', created: '1 авг', updated: 'сегодня, 11:20', agents: 4, bots: 2, nlu: 1, calls: 3, chats: 186, phase: 'live', modules: ['agents', 'knowledge', 'bots', 'nlu', 'calls', 'numbers', 'chats', 'integrations', 'analytics'] },
+  { id: 'omsk', name: 'Омск · входящая линия', desc: 'Городская линия 3812, запись в слот', created: '28 июл', updated: 'вчера', agents: 1, bots: 1, nlu: 1, calls: 1, chats: 42, phase: 'live', modules: ['agents', 'bots', 'nlu', 'calls', 'numbers', 'analytics'] },
+  { id: 'wa', name: 'WhatsApp поддержка', desc: 'Первая линия магазина', created: '10 авг', updated: '18 авг', agents: 1, bots: 2, nlu: 1, calls: 0, chats: 904, phase: 'live', modules: ['agents', 'knowledge', 'bots', 'nlu', 'chats', 'integrations', 'analytics'] },
+  { id: 'clinic', name: 'Клиника «Север» · запись', desc: 'Голос + SMS-напоминания', created: '5 авг', updated: '17 авг', agents: 3, bots: 2, nlu: 0, calls: 2, chats: 51, phase: 'live', modules: ['agents', 'knowledge', 'calls', 'numbers', 'campaigns', 'analytics'] },
+  { id: 'hr', name: 'HR-скрининг Москва', desc: 'Скрининг кандидатов на склад', created: '2 авг', updated: '15 авг', agents: 2, bots: 1, nlu: 0, calls: 4, chats: 12, phase: 'live', modules: ['agents', 'calls', 'analytics'] },
+  { id: 'shop', name: 'Брошенная корзина', desc: 'Дожим заказа за 2 часа', created: '1 авг', updated: '12 авг', agents: 1, bots: 2, nlu: 0, calls: 2, chats: 220, phase: 'live', modules: ['bots', 'campaigns', 'chats', 'integrations', 'analytics'] },
+  { id: 'taxi', name: 'Такси · подтверждение', desc: 'Подтверждение подачи машины', created: '22 июл', updated: '10 авг', agents: 1, bots: 1, nlu: 0, calls: 5, chats: 0, phase: 'live', modules: ['agents', 'calls', 'analytics'] },
+  { id: 'school', name: 'Онлайн-школа · прогрев', desc: 'Прогрев лида до менеджера', created: '20 июл', updated: '8 авг', agents: 2, bots: 4, nlu: 0, calls: 1, chats: 77, phase: 'live', modules: ['bots', 'campaigns', 'chats', 'integrations', 'analytics'] },
 ]
 
 const NOTES = {
@@ -67,119 +67,119 @@ const NOTES = {
 
 const AGENTS = {
   courier: [
-    { id: 'agt_7K2m', name: 'Скрининг курьера', lang: 'Русский', status: 'active', updated: 'сегодня, 10:12', kind: 'ai', medium: 'voice' },
-    { id: 'agt_91qx', name: 'Уточнение слота доставки', lang: 'Русский', status: 'active', updated: 'вчера', kind: 'ai', medium: 'voice' },
-    { id: 'agt_b2Nw', name: 'English · city couriers', lang: 'English', status: 'paused', updated: '16 авг', kind: 'ai', medium: 'voice' },
-    { id: 'agt_cL04', name: 'Черновик · ночная смена', lang: 'Русский', status: 'draft', updated: '14 авг', kind: 'ai', medium: 'voice' },
+    { id: 'agt_7K2m', name: 'Скрининг курьера', lang: 'Русский', status: 'active', created: '4 авг', updated: 'сегодня, 10:12', kind: 'ai', medium: 'voice' },
+    { id: 'agt_91qx', name: 'Уточнение слота доставки', lang: 'Русский', status: 'active', created: '2 авг', updated: 'вчера', kind: 'ai', medium: 'voice' },
+    { id: 'agt_b2Nw', name: 'English · city couriers', lang: 'English', status: 'paused', created: '1 авг', updated: '16 авг', kind: 'ai', medium: 'voice' },
+    { id: 'agt_cL04', name: 'Черновик · ночная смена', lang: 'Русский', status: 'draft', created: '14 авг', updated: '14 авг', kind: 'ai', medium: 'voice' },
   ],
   omsk: [
-    { id: 'agt_om2', name: 'Перезвон не дозвонились', lang: 'Русский', status: 'paused', updated: '18 авг', kind: 'ai', medium: 'voice' },
+    { id: 'agt_om2', name: 'Перезвон не дозвонились', lang: 'Русский', status: 'paused', created: '10 авг', updated: '18 авг', kind: 'ai', medium: 'voice' },
   ],
   wa: [
-    { id: 'agt_wa1', name: 'FAQ магазина', lang: 'Русский', status: 'active', updated: '18 авг', kind: 'ai', medium: 'text' },
+    { id: 'agt_wa1', name: 'FAQ магазина', lang: 'Русский', status: 'active', created: '10 авг', updated: '18 авг', kind: 'ai', medium: 'text' },
   ],
 }
 
 const BOTS = {
   courier: [
-    { id: 'bot_91qx', name: 'WhatsApp · квалификация', channel: 'WhatsApp', status: 'active', updated: 'сегодня', kind: 'graph', medium: 'text', nluId: 'nlu_hr1' },
-    { id: 'bot_2kL1', name: 'Telegram · статус заявки', channel: 'Telegram', status: 'active', updated: '17 авг', kind: 'graph', medium: 'text', aiId: 'agt_91qx' },
+    { id: 'bot_91qx', name: 'WhatsApp · квалификация', channel: 'WhatsApp', status: 'active', created: '3 авг', updated: 'сегодня', kind: 'graph', medium: 'text', nluId: 'nlu_hr1' },
+    { id: 'bot_2kL1', name: 'Telegram · статус заявки', channel: 'Telegram', status: 'active', created: '8 авг', updated: '17 авг', kind: 'graph', medium: 'text', aiId: 'agt_91qx' },
   ],
   omsk: [
-    { id: 'bot_om1', name: 'Входящая запись', channel: 'Голос', status: 'active', updated: 'вчера', kind: 'graph', medium: 'voice', nluId: 'nlu_om1' },
+    { id: 'bot_om1', name: 'Входящая запись', channel: 'Голос', status: 'active', created: '28 июл', updated: 'вчера', kind: 'graph', medium: 'voice', nluId: 'nlu_om1' },
   ],
   wa: [
-    { id: 'bot_wa2', name: 'Возврат заказа', channel: 'WhatsApp', status: 'paused', updated: '12 авг', kind: 'graph', medium: 'text', nluId: 'nlu_wa1' },
-    { id: 'bot_wa3', name: 'Черновик · акции', channel: 'WhatsApp', status: 'draft', updated: '9 авг', kind: 'graph', medium: 'text' },
+    { id: 'bot_wa2', name: 'Возврат заказа', channel: 'WhatsApp', status: 'paused', created: '10 авг', updated: '12 авг', kind: 'graph', medium: 'text', nluId: 'nlu_wa1' },
+    { id: 'bot_wa3', name: 'Черновик · акции', channel: 'WhatsApp', status: 'draft', created: '9 авг', updated: '9 авг', kind: 'graph', medium: 'text' },
   ],
 }
 
 const NLU = {
   courier: [
-    { id: 'nlu_hr1', name: 'Квалификация курьера', status: 'active', updated: 'сегодня', intents: 18, entities: 6, usedIn: 'bot_91qx' },
+    { id: 'nlu_hr1', name: 'Квалификация курьера', status: 'active', created: '3 авг', updated: 'сегодня', intents: 18, entities: 6, usedIn: 'bot_91qx' },
   ],
   omsk: [
-    { id: 'nlu_om1', name: 'Запись в слот', status: 'active', updated: 'вчера', intents: 12, entities: 4, usedIn: 'bot_om1' },
+    { id: 'nlu_om1', name: 'Запись в слот', status: 'active', created: '28 июл', updated: 'вчера', intents: 12, entities: 4, usedIn: 'bot_om1' },
   ],
   wa: [
-    { id: 'nlu_wa1', name: 'Возвраты · намерения', status: 'active', updated: '12 авг', intents: 9, entities: 3, usedIn: 'bot_wa2' },
+    { id: 'nlu_wa1', name: 'Возвраты · намерения', status: 'active', created: '10 авг', updated: '12 авг', intents: 9, entities: 3, usedIn: 'bot_wa2' },
   ],
 }
 
 const JOBS = {
   courier: [
-    { id: 'job_44a', name: 'Обзвон заявок 20.08', status: 'running', progress: 62, from: '20 авг, 09:00', to: '20 авг, 18:00', brain: { kind: 'ai', id: 'agt_7K2m', name: 'Скрининг курьера' } },
-    { id: 'job_44b', name: 'Дозвон «не взяли трубку»', status: 'paused', progress: 28, from: '19 авг', to: '21 авг', brain: { kind: 'ai', id: 'agt_7K2m', name: 'Скрининг курьера' } },
-    { id: 'job_44c', name: 'Ночной слот курьеров', status: 'draft', progress: 0, from: '21 авг', to: '21 авг', brain: { kind: 'ai', id: 'agt_cL04', name: 'Черновик · ночная смена' } },
+    { id: 'job_44a', name: 'Обзвон заявок 20.08', status: 'running', progress: 62, from: '20 авг, 09:00', to: '20 авг, 18:00', created: '19 авг', updated: 'сегодня, 11:00', brain: { kind: 'ai', id: 'agt_7K2m', name: 'Скрининг курьера' } },
+    { id: 'job_44b', name: 'Дозвон «не взяли трубку»', status: 'paused', progress: 28, from: '19 авг', to: '21 авг', created: '18 авг', updated: 'вчера', brain: { kind: 'ai', id: 'agt_7K2m', name: 'Скрининг курьера' } },
+    { id: 'job_44c', name: 'Ночной слот курьеров', status: 'draft', progress: 0, from: '21 авг', to: '21 авг', created: '20 авг', updated: '20 авг', brain: { kind: 'ai', id: 'agt_cL04', name: 'Черновик · ночная смена' } },
   ],
   taxi: [
-    { id: 'job_tx1', name: 'Подтверждение заказа', status: 'running', progress: 81, from: 'сегодня', to: 'сегодня', brain: { kind: 'ai', id: 'agt_7K2m', name: 'Скрининг курьера' } },
+    { id: 'job_tx1', name: 'Подтверждение заказа', status: 'running', progress: 81, from: 'сегодня', to: 'сегодня', created: '10 авг', updated: 'сегодня', brain: { kind: 'ai', id: 'agt_7K2m', name: 'Скрининг курьера' } },
   ],
   omsk: [
-    { id: 'job_om1', name: 'Входящая 3812', status: 'running', progress: 44, from: 'сегодня', to: 'сегодня', brain: { kind: 'graph', id: 'bot_om1', name: 'Входящая запись' } },
+    { id: 'job_om1', name: 'Входящая 3812', status: 'running', progress: 44, from: 'сегодня', to: 'сегодня', created: '28 июл', updated: 'сегодня', brain: { kind: 'graph', id: 'bot_om1', name: 'Входящая запись' } },
   ],
 }
 
 const CHATS = {
   courier: [
-    { id: 'cht_1', title: 'Заявка 2041', channel: 'WhatsApp', preview: 'Готов выйти на смену с понедельника', time: '5 мин', unread: 2, status: 'active', brain: { kind: 'graph', id: 'bot_91qx', name: 'WhatsApp · квалификация' } },
-    { id: 'cht_2', title: 'Слот на вечер', channel: 'Telegram', preview: 'Подтвердите адрес склада', time: '09:40', unread: 0, status: 'paused', brain: { kind: 'graph', id: 'bot_2kL1', name: 'Telegram · статус заявки' } },
-    { id: 'cht_3', title: 'Курьер · Астана', channel: 'WhatsApp', preview: 'Документы отправил', time: 'вчера', unread: 0, status: 'active', brain: { kind: 'graph', id: 'bot_91qx', name: 'WhatsApp · квалификация' } },
+    { id: 'cht_1', title: 'Заявка 2041', channel: 'WhatsApp', preview: 'Готов выйти на смену с понедельника', time: '5 мин', created: '18 авг', updated: '5 мин', unread: 2, status: 'active', brain: { kind: 'graph', id: 'bot_91qx', name: 'WhatsApp · квалификация' } },
+    { id: 'cht_2', title: 'Слот на вечер', channel: 'Telegram', preview: 'Подтвердите адрес склада', time: '09:40', created: '19 авг', updated: '09:40', unread: 0, status: 'paused', brain: { kind: 'graph', id: 'bot_2kL1', name: 'Telegram · статус заявки' } },
+    { id: 'cht_3', title: 'Курьер · Астана', channel: 'WhatsApp', preview: 'Документы отправил', time: 'вчера', created: '12 авг', updated: 'вчера', unread: 0, status: 'active', brain: { kind: 'graph', id: 'bot_91qx', name: 'WhatsApp · квалификация' } },
   ],
   wa: [
-    { id: 'cht_w1', title: 'Возврат 8812', channel: 'WhatsApp', preview: 'Когда вернут деньги на карту?', time: '2 мин', unread: 4, status: 'active', brain: { kind: 'graph', id: 'bot_wa2', name: 'Возврат заказа' } },
-    { id: 'cht_w2', title: 'FAQ · размер', channel: 'WhatsApp', preview: 'AI-агент ответил, ждём человека', time: '18 мин', unread: 1, status: 'active', brain: { kind: 'ai', id: 'agt_wa1', name: 'FAQ магазина' } },
-    { id: 'cht_w3', title: 'Самовывоз', channel: 'Telegram', preview: 'Точка на Ленина до 21:00', time: 'час назад', unread: 0, status: 'active', brain: { kind: 'ai', id: 'agt_wa1', name: 'FAQ магазина' } },
+    { id: 'cht_w1', title: 'Возврат 8812', channel: 'WhatsApp', preview: 'Когда вернут деньги на карту?', time: '2 мин', created: '18 авг', updated: '2 мин', unread: 4, status: 'active', brain: { kind: 'graph', id: 'bot_wa2', name: 'Возврат заказа' } },
+    { id: 'cht_w2', title: 'FAQ · размер', channel: 'WhatsApp', preview: 'AI-агент ответил, ждём человека', time: '18 мин', created: '19 авг', updated: '18 мин', unread: 1, status: 'active', brain: { kind: 'ai', id: 'agt_wa1', name: 'FAQ магазина' } },
+    { id: 'cht_w3', title: 'Самовывоз', channel: 'Telegram', preview: 'Точка на Ленина до 21:00', time: 'час назад', created: '17 авг', updated: 'час назад', unread: 0, status: 'active', brain: { kind: 'ai', id: 'agt_wa1', name: 'FAQ магазина' } },
   ],
 }
 
 const CAMPAIGNS = {
   courier: [
-    { id: 'cmp_c1', name: 'Напоминание о слоте', channel: 'SMS', status: 'running', sent: 1204, total: 2000 },
-    { id: 'cmp_c2', name: 'Прогрев WhatsApp', channel: 'WhatsApp', status: 'paused', sent: 310, total: 800 },
+    { id: 'cmp_c1', name: 'Напоминание о слоте', channel: 'SMS', status: 'running', sent: 1204, total: 2000, created: '18 авг', updated: 'сегодня' },
+    { id: 'cmp_c2', name: 'Прогрев WhatsApp', channel: 'WhatsApp', status: 'paused', sent: 310, total: 800, created: '12 авг', updated: 'вчера' },
   ],
   clinic: [
-    { id: 'cmp_1', name: 'Напоминание за 24 часа', channel: 'SMS', status: 'running', sent: 1204, total: 2000 },
-    { id: 'cmp_2', name: 'Напоминание за 2 часа', channel: 'WhatsApp', status: 'paused', sent: 310, total: 800 },
+    { id: 'cmp_1', name: 'Напоминание за 24 часа', channel: 'SMS', status: 'running', sent: 1204, total: 2000, created: '10 авг', updated: 'сегодня' },
+    { id: 'cmp_2', name: 'Напоминание за 2 часа', channel: 'WhatsApp', status: 'paused', sent: 310, total: 800, created: '10 авг', updated: '17 авг' },
   ],
   shop: [
-    { id: 'cmp_s1', name: 'Брошенная корзина 2ч', channel: 'WhatsApp', status: 'running', sent: 640, total: 900 },
+    { id: 'cmp_s1', name: 'Брошенная корзина 2ч', channel: 'WhatsApp', status: 'running', sent: 640, total: 900, created: '1 авг', updated: 'сегодня' },
   ],
   school: [
-    { id: 'cmp_sc1', name: 'Прогрев лида', channel: 'Email', status: 'running', sent: 412, total: 1200 },
+    { id: 'cmp_sc1', name: 'Прогрев лида', channel: 'Email', status: 'running', sent: 412, total: 1200, created: '20 июл', updated: '8 авг' },
   ],
 }
 
 const DOCS = {
   courier: [
-    { id: 'doc_1', name: 'Скрипт скрининга.pdf', type: 'PDF', size: '240 КБ', updated: '18 авг', agent: 'Скрининг курьера' },
-    { id: 'doc_2', name: 'FAQ по слотам.docx', type: 'DOCX', size: '88 КБ', updated: '12 авг', agent: 'Уточнение слота доставки' },
+    { id: 'doc_1', name: 'Скрипт скрининга.pdf', type: 'PDF', size: '240 КБ', created: '4 авг', updated: '18 авг', agent: 'Скрининг курьера' },
+    { id: 'doc_2', name: 'FAQ по слотам.docx', type: 'DOCX', size: '88 КБ', created: '2 авг', updated: '12 авг', agent: 'Уточнение слота доставки' },
   ],
   wa: [
-    { id: 'doc_w1', name: 'Правила возврата.pdf', type: 'PDF', size: '120 КБ', updated: '12 авг', agent: 'FAQ магазина' },
+    { id: 'doc_w1', name: 'Правила возврата.pdf', type: 'PDF', size: '120 КБ', created: '10 авг', updated: '12 авг', agent: 'FAQ магазина' },
   ],
   clinic: [
-    { id: 'doc_cl1', name: 'Скрипт записи.mp3', type: 'AUDIO', size: '1.2 МБ', updated: '17 авг', agent: 'Запись на приём' },
+    { id: 'doc_cl1', name: 'Скрипт записи.mp3', type: 'AUDIO', size: '1.2 МБ', created: '5 авг', updated: '17 авг', agent: 'Запись на приём' },
   ],
 }
 
 const PHONES = {
   courier: [
-    { id: 'ph_1', number: '+7 495 120-44-11', city: 'Москва', status: 'active', until: 'до 20 сен' },
-    { id: 'ph_2', number: '+7 812 441-02-90', city: 'Санкт-Петербург', status: 'active', until: 'до 1 окт' },
+    { id: 'ph_1', number: '+7 495 120-44-11', city: 'Москва', status: 'active', until: 'до 20 сен', created: '1 авг', updated: '12 авг' },
+    { id: 'ph_2', number: '+7 812 441-02-90', city: 'Санкт-Петербург', status: 'active', until: 'до 1 окт', created: '4 авг', updated: '4 авг' },
   ],
   omsk: [
-    { id: 'ph_om', number: '+7 3812 55-12-00', city: 'Омск', status: 'active', until: 'городская линия' },
+    { id: 'ph_om', number: '+7 3812 55-12-00', city: 'Омск', status: 'active', until: 'городская линия', created: '28 июл', updated: 'вчера' },
   ],
   clinic: [
-    { id: 'ph_cl', number: '+7 383 200-11-08', city: 'Новосибирск', status: 'active', until: 'до 12 ноя' },
+    { id: 'ph_cl', number: '+7 383 200-11-08', city: 'Новосибирск', status: 'active', until: 'до 12 ноя', created: '5 авг', updated: '5 авг' },
   ],
 }
 
 const MARKET_PHONES = [
-  { id: 'mp_1', number: '+7 495 •• ••-18', city: 'Москва', price: '1 200 ₽ / мес' },
-  { id: 'mp_2', number: '+7 812 •• ••-44', city: 'Санкт-Петербург', price: '980 ₽ / мес' },
-  { id: 'mp_3', number: '+7 383 •• ••-02', city: 'Новосибирск', price: '640 ₽ / мес' },
+  { id: 'mp_1', number: '+7 495 •• ••-18', city: 'Москва', price: '1 200 ₽ / мес', created: '1 авг', updated: '18 авг' },
+  { id: 'mp_2', number: '+7 812 •• ••-44', city: 'Санкт-Петербург', price: '980 ₽ / мес', created: '1 авг', updated: '12 авг' },
+  { id: 'mp_3', number: '+7 383 •• ••-02', city: 'Новосибирск', price: '640 ₽ / мес', created: '8 авг', updated: '8 авг' },
 ]
 
 const CALL_HISTORY = {
@@ -196,54 +196,54 @@ const CALL_HISTORY = {
 
 const JOB_TEMPLATES = {
   courier: [
-    { id: 'jt_1', name: 'Скрининг слота', status: 'active', brain: { kind: 'ai', name: 'Скрининг курьера' }, medium: 'voice' },
-    { id: 'jt_2', name: 'Дозвон «не взяли»', status: 'paused', brain: { kind: 'ai', name: 'Скрининг курьера' }, medium: 'voice' },
+    { id: 'jt_1', name: 'Скрининг слота', status: 'active', created: '4 авг', updated: 'вчера', brain: { kind: 'ai', name: 'Скрининг курьера' }, medium: 'voice' },
+    { id: 'jt_2', name: 'Дозвон «не взяли»', status: 'paused', created: '8 авг', updated: '18 авг', brain: { kind: 'ai', name: 'Скрининг курьера' }, medium: 'voice' },
   ],
   omsk: [
-    { id: 'jt_om', name: 'Входящая 3812', status: 'active', brain: { kind: 'graph', name: 'Входящая запись' }, medium: 'voice' },
+    { id: 'jt_om', name: 'Входящая 3812', status: 'active', created: '28 июл', updated: 'вчера', brain: { kind: 'graph', name: 'Входящая запись' }, medium: 'voice' },
   ],
 }
 
 const CHAT_TEMPLATES = {
   courier: [
-    { id: 'ct_1', name: 'Приветствие', channel: 'WhatsApp', body: 'Здравствуйте! Это подбор курьеров. Напишите город и удобную смену.' },
-    { id: 'ct_2', name: 'Слот подтверждён', channel: 'Telegram', body: 'Слот {{time}} подтверждён. Адрес склада пришлём за час.' },
+    { id: 'ct_1', name: 'Приветствие', channel: 'WhatsApp', body: 'Здравствуйте! Это подбор курьеров. Напишите город и удобную смену.', created: '3 авг', updated: 'сегодня' },
+    { id: 'ct_2', name: 'Слот подтверждён', channel: 'Telegram', body: 'Слот {{time}} подтверждён. Адрес склада пришлём за час.', created: '8 авг', updated: '17 авг' },
   ],
   wa: [
-    { id: 'ct_w1', name: 'Возврат принят', channel: 'WhatsApp', body: 'Заявку на возврат приняли. Деньги на карту — до 5 дней.' },
+    { id: 'ct_w1', name: 'Возврат принят', channel: 'WhatsApp', body: 'Заявку на возврат приняли. Деньги на карту — до 5 дней.', created: '10 авг', updated: '12 авг' },
   ],
 }
 
 const CAMP_TEMPLATES = {
   clinic: [
-    { id: 'mt_1', name: 'Напоминание 24ч', channel: 'SMS', body: 'Напоминаем о визите завтра в {{time}}. Отмена — ответьте НЕТ.' },
-    { id: 'mt_2', name: 'Напоминание 2ч', channel: 'WhatsApp', body: 'Через 2 часа приём в клинике «Север». Ждём вас.' },
+    { id: 'mt_1', name: 'Напоминание 24ч', channel: 'SMS', body: 'Напоминаем о визите завтра в {{time}}. Отмена — ответьте НЕТ.', created: '10 авг', updated: '17 авг' },
+    { id: 'mt_2', name: 'Напоминание 2ч', channel: 'WhatsApp', body: 'Через 2 часа приём в клинике «Север». Ждём вас.', created: '10 авг', updated: '17 авг' },
   ],
   courier: [
-    { id: 'mt_c1', name: 'Слот завтра', channel: 'SMS', body: 'Завтра смена с {{time}}. Напишите +, если выходите.' },
+    { id: 'mt_c1', name: 'Слот завтра', channel: 'SMS', body: 'Завтра смена с {{time}}. Напишите +, если выходите.', created: '12 авг', updated: 'сегодня' },
   ],
 }
 
 const REPORTS = {
   courier: [
-    { id: 'rep_1', name: 'Дозвон по дням', type: 'Звонки', service: 'CIS · cis_call_aggregated', status: 'GENERATED', updated: 'сегодня' },
-    { id: 'rep_2', name: 'WhatsApp квалификация', type: 'Чаты', service: 'CHAT · chat_sessions', status: 'GENERATED', updated: 'вчера' },
-    { id: 'rep_3', name: 'Фразы кандидатов', type: 'Чаты', service: 'CHAT · chat_clientPositionalPhrases', status: 'GENERATED', updated: '19 авг' },
-    { id: 'rep_4', name: 'Расход по сервисам', type: 'Расход', service: 'platform_total_cost', status: 'GENERATING', updated: 'собирается' },
+    { id: 'rep_1', name: 'Дозвон по дням', type: 'Звонки', service: 'CIS · cis_call_aggregated', status: 'GENERATED', created: '12 авг', updated: 'сегодня' },
+    { id: 'rep_2', name: 'WhatsApp квалификация', type: 'Чаты', service: 'CHAT · chat_sessions', status: 'GENERATED', created: '10 авг', updated: 'вчера' },
+    { id: 'rep_3', name: 'Фразы кандидатов', type: 'Чаты', service: 'CHAT · chat_clientPositionalPhrases', status: 'GENERATED', created: '8 авг', updated: '19 авг' },
+    { id: 'rep_4', name: 'Расход по сервисам', type: 'Расход', service: 'platform_total_cost', status: 'GENERATING', created: 'сегодня', updated: 'собирается' },
   ],
   wa: [
-    { id: 'rep_w1', name: 'Первая линия магазина', type: 'Чаты', service: 'CHAT · chat_metrics', status: 'GENERATED', updated: '18 авг' },
-    { id: 'rep_w2', name: 'Продуктивность операторов', type: 'Чаты', service: 'CHAT · chat_productivity', status: 'GENERATED', updated: '17 авг' },
+    { id: 'rep_w1', name: 'Первая линия магазина', type: 'Чаты', service: 'CHAT · chat_metrics', status: 'GENERATED', created: '10 авг', updated: '18 авг' },
+    { id: 'rep_w2', name: 'Продуктивность операторов', type: 'Чаты', service: 'CHAT · chat_productivity', status: 'GENERATED', created: '10 авг', updated: '17 авг' },
   ],
   clinic: [
-    { id: 'rep_cl1', name: 'Явка после SMS', type: 'Рассылки', service: 'MESSAGING · messaging_messages', status: 'GENERATED', updated: '17 авг' },
-    { id: 'rep_cl2', name: 'Входящие к слоту', type: 'Звонки', service: 'CIS · call_incoming', status: 'GENERATED', updated: '16 авг' },
+    { id: 'rep_cl1', name: 'Явка после SMS', type: 'Рассылки', service: 'MESSAGING · messaging_messages', status: 'GENERATED', created: '10 авг', updated: '17 авг' },
+    { id: 'rep_cl2', name: 'Входящие к слоту', type: 'Звонки', service: 'CIS · call_incoming', status: 'GENERATED', created: '8 авг', updated: '16 авг' },
   ],
   omsk: [
-    { id: 'rep_om1', name: 'Линия 3812 за неделю', type: 'Звонки', service: 'CIS · billing_incoming_call', status: 'GENERATED', updated: 'вчера' },
+    { id: 'rep_om1', name: 'Линия 3812 за неделю', type: 'Звонки', service: 'CIS · billing_incoming_call', status: 'GENERATED', created: '28 июл', updated: 'вчера' },
   ],
   shop: [
-    { id: 'rep_s1', name: 'Доставка WhatsApp', type: 'Рассылки', service: 'MESSAGING · messaging_task_message_processing', status: 'GENERATED', updated: '12 авг' },
+    { id: 'rep_s1', name: 'Доставка WhatsApp', type: 'Рассылки', service: 'MESSAGING · messaging_task_message_processing', status: 'GENERATED', created: '1 авг', updated: '12 авг' },
   ],
 }
 
@@ -550,10 +550,10 @@ function projectHas(pid, id) {
 }
 
 const MARKET = [
-  { id: 'mk_1', name: 'Скрининг курьера', kind: 'ai', price: 'бесплатно' },
-  { id: 'mk_2', name: 'Запись в слот', kind: 'graph', price: '4 900 ₽' },
-  { id: 'mk_3', name: 'NLU · возвраты', kind: 'nlu', price: '1 200 ₽' },
-  { id: 'mk_4', name: 'Напоминание клиники', kind: 'campaign', price: 'бесплатно' },
+  { id: 'mk_1', name: 'Скрининг курьера', kind: 'ai', price: 'бесплатно', created: '1 авг', updated: '18 авг' },
+  { id: 'mk_2', name: 'Запись в слот', kind: 'graph', price: '4 900 ₽', created: '28 июл', updated: '12 авг' },
+  { id: 'mk_3', name: 'NLU · возвраты', kind: 'nlu', price: '1 200 ₽', created: '10 авг', updated: '10 авг' },
+  { id: 'mk_4', name: 'Напоминание клиники', kind: 'campaign', price: 'бесплатно', created: '5 авг', updated: '17 авг' },
 ]
 
 const SCHEDULE = [

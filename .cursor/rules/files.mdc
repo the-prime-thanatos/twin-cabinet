@@ -13,6 +13,7 @@ Relative paths only (`css/app.css`, `js/…`). Hash router in `js/boot.js`. Scri
 |---|---|
 | Page intro / walkthrough / assistant / AI insight | `js/guide.js` + CSS in `app.css` |
 | Mock / NAV / presets | `js/data.js` |
+| Entity CRUD (create / view / edit / versions) | `js/entity-crud.js` |
 | Pins, setup checklist | `js/state.js` |
 | Card markup | `js/cards.js` |
 | Card CSS | `css/app.css` (`.entity-card`) |

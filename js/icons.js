@@ -33,6 +33,9 @@ const ICONS = {
   company: '<path d="M4 20V8l6-3 6 3v12M10 20v-6h4v6M8 11h.01M8 14h.01M16 11h.01M16 14h.01"/>',
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.8.3-1.2.8-1.2 1.6V14"/><path d="M12 17h.01"/>',
   spark: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/><circle cx="12" cy="12" r="3"/>',
+  more: '<circle cx="6" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
+  edit: '<path d="M13.5 6 18 10.5 8 20.5H3.5V16L13.5 6z"/><path d="M11.5 8 16 12.5"/>',
+  trash: '<path d="M5 7h14M9.5 7V5h5v2M8 7l.8 12h6.4L16 7"/>',
 }
 
 function icon(name, size) {

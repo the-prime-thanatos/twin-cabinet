@@ -16,6 +16,10 @@ const ui = {
   tour: null,
   ask: null,
   insight: false,
+  ent: { draft: {} },
+  delete: null,
+  diff: null,
+  json: null,
 }
 
 function project(id) {
@@ -78,25 +82,25 @@ function setupSteps(pid) {
     agents: {
       title: 'Создайте AI-агента',
       hint: 'Отвечает моделью. Канал — голос, текст или оба',
-      modal: 'create-agent',
+      href: `#/p/${pid}/agents/new`,
       done: (AGENTS[pid] || []).length > 0 || !!done.agents,
     },
     bots: {
       title: 'Создайте сценарий',
       hint: 'Флоу на блоках. Редактор в v1 старый — достаточно карточки',
-      action: 'create-bot',
+      href: `#/p/${pid}/bots/new`,
       done: (BOTS[pid] || []).length > 0 || !!done.bots,
     },
     nlu: {
       title: 'Создайте NLU-модель',
       hint: 'Намерения для сценария. С клиентом сама не говорит',
-      action: 'create-nlu',
+      href: `#/p/${pid}/nlu/new`,
       done: (NLU[pid] || []).length > 0 || !!done.nlu,
     },
     calls: {
       title: 'Создайте задание на обзвон',
       hint: 'Список кандидатов можно загрузить позже',
-      action: 'create-job',
+      href: `#/p/${pid}/calls/new`,
       done: (JOBS[pid] || []).length > 0 || !!done.calls,
     },
     chats: {
@@ -175,16 +179,16 @@ function attentionFor(pid) {
   const jobs = JOBS[pid] || []
   const bots = BOTS[pid] || []
   if (hasModule(pid, 'agents')) {
-    agents.filter((a) => a.status === 'error').forEach((a) => items.push({ tone: 'error', text: `${a.name} — ошибка`, href: `#/p/${pid}/agents/${a.id}` }))
-    agents.filter((a) => a.status === 'paused').forEach((a) => items.push({ tone: 'paused', text: `${a.name} на паузе`, href: `#/p/${pid}/agents/${a.id}` }))
-    agents.filter((a) => a.status === 'draft').forEach((a) => items.push({ tone: 'draft', text: `Черновик: ${a.name}`, href: `#/p/${pid}/agents/${a.id}` }))
+    agents.filter((a) => a.status === 'error').forEach((a) => items.push({ tone: 'error', text: `${entityRef('ai', a.name)} — ошибка`, href: `#/p/${pid}/agents/${a.id}` }))
+    agents.filter((a) => a.status === 'paused').forEach((a) => items.push({ tone: 'paused', text: `${entityRef('ai', a.name)} на паузе`, href: `#/p/${pid}/agents/${a.id}` }))
+    agents.filter((a) => a.status === 'draft').forEach((a) => items.push({ tone: 'draft', text: `Черновик: ${entityRef('ai', a.name)}`, href: `#/p/${pid}/agents/${a.id}` }))
   }
   if (hasModule(pid, 'calls')) {
-    jobs.filter((j) => j.status === 'paused').forEach((j) => items.push({ tone: 'paused', text: `Обзвон на паузе: ${j.name}`, href: `#/p/${pid}/calls/${j.id}` }))
-    jobs.filter((j) => j.status === 'error').forEach((j) => items.push({ tone: 'error', text: `Сбой задания: ${j.name}`, href: `#/p/${pid}/calls/${j.id}` }))
+    jobs.filter((j) => j.status === 'paused').forEach((j) => items.push({ tone: 'paused', text: `Обзвон на паузе: ${entityRef('job', j.name)}`, href: `#/p/${pid}/calls/${j.id}` }))
+    jobs.filter((j) => j.status === 'error').forEach((j) => items.push({ tone: 'error', text: `Сбой задания: ${entityRef('job', j.name)}`, href: `#/p/${pid}/calls/${j.id}` }))
   }
   if (hasModule(pid, 'bots')) {
-    bots.filter((b) => b.status === 'paused').forEach((b) => items.push({ tone: 'paused', text: `Сценарий на паузе: ${b.name}`, href: `#/p/${pid}/bots` }))
+    bots.filter((b) => b.status === 'paused').forEach((b) => items.push({ tone: 'paused', text: `Сценарий на паузе: ${entityRef('graph', b.name)}`, href: `#/p/${pid}/bots` }))
   }
   return items.slice(0, 4)
 }

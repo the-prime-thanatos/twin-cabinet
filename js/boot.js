@@ -24,38 +24,30 @@ function render() {
     const sec = parts[2]
     const sub = parts[3]
     if (sec === 'overview' || !sec) html = screenOverview(pid)
-    else if (sec === 'agents' && sub === 'empty') html = screenAgents(pid, true)
-    else if (sec === 'agents' && sub) html = screenAgent(pid, sub)
-    else if (sec === 'agents') html = screenAgents(pid, false)
-    else if (sec === 'bots' && sub === 'empty') html = screenBots(pid, true)
-    else if (sec === 'bots' && sub) html = screenBot(pid, sub)
-    else if (sec === 'bots') html = screenBots(pid, false)
-    else if (sec === 'nlu' && sub === 'empty') html = screenNluList(pid, true)
-    else if (sec === 'nlu' && sub) html = screenNlu(pid, sub)
-    else if (sec === 'nlu') html = screenNluList(pid, false)
-    else if (sec === 'calls' && sub === 'empty') html = screenCalls(pid, true)
-    else if (sec === 'calls' && sub === 'templates') html = screenCallTemplates(pid)
+    else if (sec === 'agents') html = !sub || sub === 'empty' ? screenAgents(pid, sub === 'empty') : routeEnt(pid, 'agent', parts.slice(3))
+    else if (sec === 'bots') html = !sub || sub === 'empty' ? screenBots(pid, sub === 'empty') : routeEnt(pid, 'bot', parts.slice(3))
+    else if (sec === 'nlu') html = !sub || sub === 'empty' ? screenNluList(pid, sub === 'empty') : routeEnt(pid, 'nlu', parts.slice(3))
+    else if (sec === 'calls' && sub === 'templates') html = parts[4] ? routeEnt(pid, 'jobtpl', parts.slice(4)) : screenCallTemplates(pid)
     else if (sec === 'calls' && sub === 'history') html = screenCallHistory(pid)
     else if (sec === 'calls' && sub === 'schedule') html = screenSchedule(pid)
     else if (sec === 'calls' && sub === 'blacklist') html = screenBlacklist(pid)
-    else if (sec === 'calls' && sub) html = screenJob(pid, sub)
-    else if (sec === 'calls') html = screenCalls(pid, false)
-    else if (sec === 'chats' && sub === 'templates') html = screenChatTemplates(pid)
-    else if (sec === 'chats') html = screenChats(pid)
-    else if (sec === 'campaigns' && sub === 'templates') html = screenCampTemplates(pid)
-    else if (sec === 'campaigns') html = screenCampaigns(pid)
+    else if (sec === 'calls') html = !sub || sub === 'empty' ? screenCalls(pid, sub === 'empty') : routeEnt(pid, 'job', parts.slice(3))
+    else if (sec === 'chats' && sub === 'templates') html = parts[4] ? routeEnt(pid, 'chattpl', parts.slice(4)) : screenChatTemplates(pid)
+    else if (sec === 'chats') html = !sub ? screenChats(pid) : routeEnt(pid, 'chat', parts.slice(3))
+    else if (sec === 'campaigns' && sub === 'templates') html = parts[4] ? routeEnt(pid, 'camptpl', parts.slice(4)) : screenCampTemplates(pid)
+    else if (sec === 'campaigns') html = !sub ? screenCampaigns(pid) : routeEnt(pid, 'campaign', parts.slice(3))
     else if (sec === 'knowledge') {
       if (project(pid).phase === 'setup') { markSetup(pid, 'knowledge'); maybePromote(pid) }
-      html = screenKnowledge(pid)
+      html = !sub ? screenKnowledge(pid) : routeEnt(pid, 'doc', parts.slice(3))
     }
-    else if (sec === 'numbers' && sub === 'shop') html = screenNumbers(pid, 'shop')
+    else if (sec === 'numbers' && sub === 'shop') html = parts[4] ? routeEnt(pid, 'offer', parts.slice(4)) : screenNumbers(pid, 'shop')
     else if (sec === 'numbers') {
       if (project(pid).phase === 'setup') { markSetup(pid, 'numbers'); maybePromote(pid) }
-      html = screenNumbers(pid)
+      html = !sub ? screenNumbers(pid) : routeEnt(pid, 'phone', parts.slice(3))
     }
     else if (sec === 'market') {
       if (project(pid).phase === 'setup') { markSetup(pid, 'market'); maybePromote(pid) }
-      html = screenMarket(pid)
+      html = !sub ? screenMarket(pid) : routeEnt(pid, 'market', parts.slice(3))
     }
     else if (sec === 'integrations' && sub === 'none') html = screenIntegrations(pid, true)
     else if (sec === 'integrations' && sub) html = screenIntegration(pid, sub)
@@ -65,7 +57,7 @@ function render() {
         markSetup(pid, 'analytics')
         maybePromote(pid)
       }
-      html = screenAnalytics(pid, ['reports', 'calls', 'chats', 'campaigns', 'spend'].includes(sub) ? sub : '')
+      html = sub === 'reports' && parts[4] ? routeEnt(pid, 'report', parts.slice(4)) : screenAnalytics(pid, ['reports', 'calls', 'chats', 'campaigns', 'spend'].includes(sub) ? sub : '')
     }
     else if (sec === 'settings' && sub === 'members') html = screenSettings(pid, 'members')
     else if (sec === 'settings' && sub === 'telephony') html = screenSettings(pid, 'telephony')
@@ -84,18 +76,21 @@ function render() {
 }
 
 document.addEventListener('click', (e) => {
+  const actionHit = e.target.closest('[data-action]')
   const nav = e.target.closest('[data-nav]')
-  if (nav) {
+  if (nav && !(actionHit && nav.contains(actionHit))) {
     e.preventDefault()
     captureCreateFields()
+    captureEntFields()
     ui.menu = null
     ui.modal = null
+    stopDeleteTimer()
     go(nav.getAttribute('data-nav'))
     return
   }
-  const action = e.target.closest('[data-action]')
+  const action = actionHit
   if (!action) {
-    if (!e.target.closest('.popper') && !e.target.closest('.switcher') && !e.target.closest('.avatar') && !e.target.closest('.ask-panel') && !e.target.closest('.tour-card')) {
+      if (!e.target.closest('.popper') && !e.target.closest('.switcher') && !e.target.closest('.avatar') && !e.target.closest('.ask-panel') && !e.target.closest('.tour-card') && !e.target.closest('.entity-more')) {
       if (ui.menu) {
         ui.menu = null
         render()
@@ -104,8 +99,11 @@ document.addEventListener('click', (e) => {
     return
   }
   const type = action.getAttribute('data-action')
+  captureCreateFields()
+  captureEntFields()
   const askIn = document.getElementById('ask-input')
   if (askIn && ui.ask && type !== 'ask-close') ui.ask.input = askIn.value
+  if (typeof handleEntAction === 'function' && handleEntAction(type, action)) return
   if (type === 'tour') startTour()
   if (type === 'tour-next' && ui.tour) ui.tour.i += 1
   if (type === 'tour-back' && ui.tour && ui.tour.i) ui.tour.i -= 1
@@ -136,7 +134,13 @@ document.addEventListener('click', (e) => {
       }, 1600)
     }
   }
-  if (type === 'close-modal') ui.modal = null
+  if (type === 'close-modal') {
+    ui.modal = null
+    ui.json = null
+    ui.diff = null
+    ui.delete = null
+    stopDeleteTimer()
+  }
   if (type === 'tab') ui.tab = action.getAttribute('data-tab')
   if (type === 'nav-full') {
     const pid = action.getAttribute('data-pid')
@@ -163,65 +167,6 @@ document.addEventListener('click', (e) => {
     const pid = action.getAttribute('data-pid') || ui.currentPid
     markSetup(pid, action.getAttribute('data-step'))
     maybePromote(pid)
-  }
-  if (type === 'create-agent-save') {
-    const pid = ui.currentPid
-    const nameEl = document.getElementById('agent-name')
-    const langEl = document.getElementById('agent-lang')
-    const mediumEl = document.getElementById('agent-medium')
-    const name = (nameEl && nameEl.value.trim()) || 'Новый AI-агент'
-    const lang = (langEl && langEl.value) || 'Русский'
-    const medium = (mediumEl && mediumEl.value) || 'voice'
-    AGENTS[pid] = AGENTS[pid] || []
-    const id = 'agt_' + Math.random().toString(36).slice(2, 6)
-    AGENTS[pid].unshift({ id, name, lang, status: 'draft', updated: 'только что', kind: 'ai', medium })
-    project(pid).agents = AGENTS[pid].length
-    ui.modal = null
-    maybePromote(pid)
-    go(`#/p/${pid}/agents/${id}`)
-    return
-  }
-  if (type === 'create-bot') {
-    const pid = ui.currentPid
-    BOTS[pid] = BOTS[pid] || []
-    const id = 'bot_' + Math.random().toString(36).slice(2, 6)
-    BOTS[pid].unshift({ id, name: 'Новый сценарий', channel: 'WhatsApp', status: 'draft', updated: 'только что', kind: 'graph', medium: 'text' })
-    project(pid).bots = BOTS[pid].length
-    if (!maybePromote(pid)) {
-      ui.toast = 'Сценарий создали'
-      setTimeout(() => {
-        ui.toast = null
-        render()
-      }, 1600)
-    }
-  }
-  if (type === 'create-nlu') {
-    const pid = ui.currentPid
-    NLU[pid] = NLU[pid] || []
-    const id = 'nlu_' + Math.random().toString(36).slice(2, 6)
-    NLU[pid].unshift({ id, name: 'Новая NLU-модель', status: 'draft', updated: 'только что', intents: 0, entities: 0 })
-    project(pid).nlu = NLU[pid].length
-    if (!maybePromote(pid)) {
-      ui.toast = 'NLU-модель создали'
-      setTimeout(() => {
-        ui.toast = null
-        render()
-      }, 1600)
-    }
-  }
-  if (type === 'create-job') {
-    const pid = ui.currentPid
-    JOBS[pid] = JOBS[pid] || []
-    const id = 'job_' + Math.random().toString(36).slice(2, 6)
-    JOBS[pid].unshift({ id, name: 'Первый обзвон', status: 'draft', progress: 0, from: 'сегодня', to: 'сегодня' })
-    project(pid).calls = JOBS[pid].length
-    if (!maybePromote(pid)) {
-      ui.toast = 'Задание создали'
-      setTimeout(() => {
-        ui.toast = null
-        render()
-      }, 1600)
-    }
   }
   if (type === 'connect-int') {
     const pid = ui.currentPid
@@ -323,6 +268,7 @@ window.addEventListener('hashchange', () => {
   ui.menu = null
   ui.tour = null
   ui.ask = null
+  if (typeof stopDeleteTimer === 'function') stopDeleteTimer()
   render()
 })
 
