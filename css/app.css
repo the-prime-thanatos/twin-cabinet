@@ -169,7 +169,7 @@ a.btn { text-decoration: none; }
 .auth-input::placeholder { color: var(--darkgrey); }
 .auth-input:focus { border-color: var(--blue); background: var(--mediumdark); }
 
-/* Chips */
+/* Ordinary chips — status, channel, type, section. Pill, no icon. */
 .chip {
   display: inline-flex; align-items: center; gap: 6px;
   height: 24px; padding: 0 10px;
@@ -194,6 +194,7 @@ a.btn { text-decoration: none; }
 .chip-kind-phone { background: var(--turquoise-08); color: #0f8f82; }
 .chip-kind-report { background: var(--green-08); color: #4a8a00; }
 .chip-kind-market { background: #fbf8dc; color: #8a7900; }
+.chip-kind-int { background: var(--superlight); color: var(--lightdark); }
 .chip-medium-voice { background: var(--malachite-08); color: #028850; }
 .chip-medium-text { background: #eef1ff; color: var(--blue); }
 .chip-medium-both { background: var(--superlight); color: var(--lightdark); }
@@ -201,6 +202,7 @@ a.btn { text-decoration: none; }
 .rel-line { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; line-height: 16px; color: var(--lightdark); }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
+<<<<<<< HEAD
 .entity-ref {
   --kind: var(--purple);
   --kind-fg: var(--purple);
@@ -226,6 +228,15 @@ a.btn { text-decoration: none; }
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 a.entity-ref:hover { filter: brightness(0.97); }
+=======
+/* Named entity mention — ordinary gray chip, type in the label. */
+.entity-chip {
+  max-width: 100%;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  vertical-align: middle;
+}
+a.entity-chip-link { display: inline-flex; max-width: 100%; text-decoration: none; }
+>>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 .entity-dates {
   display: flex; flex-wrap: wrap; gap: 8px;
 }
@@ -243,6 +254,10 @@ a.entity-ref:hover { filter: brightness(0.97); }
 .entity-pick:hover { border-color: var(--blue); }
 .entity-pick .icon { color: var(--lightdark); }
 .entity-pick-val { min-width: 0; display: flex; align-items: center; }
+<<<<<<< HEAD
+=======
+p .entity-chip { margin: 0 2px; vertical-align: -4px; }
+>>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 
 /* Layout */
 .app { display: flex; min-height: 100%; background: var(--light); }
@@ -458,7 +473,11 @@ a.entity-ref:hover { filter: brightness(0.97); }
   display: flex; flex-direction: column; gap: 6px; margin-top: auto;
   padding-top: 8px; border-top: 1px solid var(--lightgrey);
 }
+<<<<<<< HEAD
 .entity-foot .entity-ref { max-width: 100%; }
+=======
+.entity-foot .entity-chip { max-width: 100%; }
+>>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 .counts { display: flex; flex-wrap: wrap; gap: 12px; color: var(--lightdark); font-size: 13px; }
 .sig-num { font-size: 28px; line-height: 32px; font-weight: 700; letter-spacing: -0.02em; }
 .sig-price { font-size: 22px; line-height: 28px; }
@@ -504,7 +523,11 @@ a.entity-ref:hover { filter: brightness(0.97); }
 .chat-meta {
   display: flex; align-items: center; gap: 8px; min-width: 0;
 }
+<<<<<<< HEAD
 .chat-meta .entity-ref { min-width: 0; flex: 1; }
+=======
+.chat-meta .entity-chip { min-width: 0; flex: 1; }
+>>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 .chat-meta .chip { flex: 0 0 auto; }
 .chat-unread {
   min-width: 20px; height: 20px; padding: 0 6px;
@@ -952,8 +975,11 @@ a.entity-ref:hover { filter: brightness(0.97); }
   line-height: 24px;
 }
 .field .table-link { align-self: flex-start; }
+<<<<<<< HEAD
 p .entity-ref { margin: 0 2px; }
 .small:has(.entity-ref), .muted:has(.entity-ref) { line-height: 28px; }
+=======
+>>>>>>> 31a027dc55395067f6194ed9bc8a8ce494b3694c
 .canon-slot .h5 { margin-top: 8px; }
 .lab-kicker { margin: 0; }
 .canon-anatomy { margin: 8px 0 0; padding-left: 18px; font-size: 13px; line-height: 22px; }
