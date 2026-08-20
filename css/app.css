@@ -202,7 +202,7 @@ a.btn { text-decoration: none; }
 .rel-line { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; line-height: 16px; color: var(--lightdark); }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-/* Named entity — kind-colored chip, not a mini-card. */
+/* Named entity mention — ordinary gray chip, type in the label. */
 .entity-chip {
   max-width: 100%;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

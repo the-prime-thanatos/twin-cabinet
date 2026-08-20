@@ -162,13 +162,12 @@ function navChip(navId) {
   return `<span class="chip${cls ? ' ' + cls : ''}">${nav.label}</span>`
 }
 
-/* Named instance: same pill as kindChip, name instead of type label. Not a mini-card. */
+/* Named instance outside the unique card: ordinary gray chip. Kind lives in the label. */
 function entityChip(kind, name) {
   if (!name) return ''
   const k = KINDS[kind]
-  const cls = KIND_CHIP[kind] || ''
-  const title = k ? k.label + ' · ' + name : name
-  return `<span class="chip entity-chip${cls ? ' ' + cls : ''}" title="${attrEsc(title)}">${name}</span>`
+  const text = k ? k.label + ' · ' + name : name
+  return `<span class="chip entity-chip">${text}</span>`
 }
 
 function entityRef(kind, name, opts) {
