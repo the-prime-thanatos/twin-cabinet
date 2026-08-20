@@ -329,20 +329,35 @@ function guideOf(key) {
   return PAGE_GUIDES[k] || PAGE_GUIDES.overview
 }
 
-function pageLead(key, variant) {
+const NO_PAGE_LEAD = new Set([
+  'cover',
+  'login',
+  'tfa',
+  'signup',
+  'reset',
+  'operator',
+  'create',
+  'company',
+  'billing',
+  'team',
+  'missing',
+  'denied',
+  'error',
+])
+
+function pageLead(key) {
   const k = GUIDE_ALIAS[key] || key
   const g = PAGE_GUIDES[k]
-  if (!g) return ''
+  if (!g || NO_PAGE_LEAD.has(k)) return ''
   ui.pageGuide = k
-  const dark = variant === 'dark'
-  return `<div class="page-lead ${dark ? 'is-dark' : ''}">
+  return `<div class="page-lead">
     <p class="page-lead-text">${g.lead}</p>
     <div class="page-lead-actions">
-      <button class="btn ${dark ? 'btn-auth secondary' : 'btn-secondary'}" type="button" data-action="tour">${icon('play', 16)} Обзор экрана</button>
-      <button class="btn ${dark ? 'btn-ghost' : 'btn-ghost'}" type="button" data-action="ask" style="${dark ? 'color:#fff' : ''}">${icon('spark', 16)} Спросить ассистента</button>
+      <button class="btn btn-secondary" type="button" data-action="tour">${icon('play', 16)} Обзор экрана</button>
+      <button class="btn btn-ghost" type="button" data-action="ask">${icon('spark', 16)} Спросить ассистента</button>
       ${
         insightOf(k)
-          ? `<button class="btn ${ui.insight ? '' : 'btn-ghost'}" type="button" data-action="insight" style="${dark && !ui.insight ? 'color:#fff' : ''}">${icon('spark', 16)} ${ui.insight ? 'Скрыть разбор' : 'Разбор нейронки'}</button>`
+          ? `<button class="btn ${ui.insight ? '' : 'btn-ghost'}" type="button" data-action="insight">${icon('spark', 16)} ${ui.insight ? 'Скрыть разбор' : 'Разбор нейронки'}</button>`
           : ''
       }
     </div>
@@ -363,8 +378,6 @@ function defaultTourSteps(g) {
     { sel: '.nav-item.is-active', title: 'Меню проекта', text: 'Обзор и настройки всегда на месте. Остальное закрепляете булавкой, как в GitLab.' },
     { sel: '.switcher', title: 'Текущий проект', text: 'Переключает проекты. Компании у обычного пользователя не переключаются.' },
     { sel: '.balance', title: 'Баланс компании', text: 'Только просмотр. Пополнение — Биллинг из аватара.' },
-    { sel: '.auth-card', title: 'Форма входа', text: 'После успеха — список проектов.' },
-    { sel: '.cover', title: 'Карта прототипа', text: 'Слева — зачем макет. Справа — все экраны.' },
   ]
 }
 

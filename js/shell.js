@@ -185,13 +185,12 @@ function modals() {
   return ''
 }
 
-function authWrap(inner, guideKey = 'login') {
+function authWrap(inner) {
   return `<div class="auth">
     <div class="auth-lang">
       <button type="button" class="is-on">RU</button> · <button type="button">EN</button>
     </div>
     <div class="logo-word"><span class="brand-mark">T</span><span class="h2">TWIN</span></div>
-    ${pageLead(guideKey, 'dark')}
     <div class="auth-card">${inner}</div>
   </div>${guideChrome()}`
 }

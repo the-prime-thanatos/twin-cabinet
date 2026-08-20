@@ -658,13 +658,6 @@ button { cursor: pointer; }
 .page-lead { margin: 0 0 24px; max-width: 720px; }
 .page-lead-text { margin: 0 0 12px; font-size: 14px; line-height: 22px; color: var(--superdark); }
 .page-lead-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.page-lead.is-dark { max-width: 420px; margin: 0 auto 24px; text-align: center; }
-.page-lead.is-dark .page-lead-text { color: #fff; }
-.page-lead.is-dark .page-lead-actions { justify-content: center; }
-.page-lead.is-dark .btn-ghost { color: #fff; }
-.page-lead.is-dark .btn-ghost:hover { background: var(--mediumdark); color: #fff; }
-.cover .page-lead.is-dark { margin: 20px 0 0; max-width: 560px; text-align: left; }
-.cover .page-lead.is-dark .page-lead-actions { justify-content: flex-start; }
 .auth { padding-top: 12vh; }
 
 .tour-layer { position: fixed; inset: 0; z-index: 80; pointer-events: none; }

@@ -45,7 +45,6 @@ function screenLoading(pid) {
 
 function screenError() {
   return `<div class="app"><div class="main"><div class="page">
-    ${pageLead('error')}
     <div class="card"><div class="empty">
     <div class="illu" style="background:var(--coralred-08);color:var(--coralred)">${icon('alert')}</div>
     <h2 class="h2">Не загрузилось</h2>
@@ -58,8 +57,7 @@ function screen404(pid) {
   return shell(
     pid,
     'overview',
-    `${pageLead('missing')}
-    <div class="card"><div class="empty">
+    `<div class="card"><div class="empty">
       <div class="illu">${icon('search')}</div>
       <h2 class="h2">Не найдено в этом проекте</h2>
       <p class="muted">Сущность есть в другом проекте или её уже нет. Это не глобальный 404.</p>
@@ -72,8 +70,7 @@ function screenNoAccess(pid) {
   return shell(
     pid,
     'settings',
-    `${pageLead('denied')}
-    <div class="card"><div class="empty">
+    `<div class="card"><div class="empty">
       <div class="illu">${icon('alert')}</div>
       <h2 class="h2">Нет доступа</h2>
       <p class="muted">В этом проекте вы не admin и не member. Попросите приглашение у владельца.</p>

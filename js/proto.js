@@ -6,7 +6,6 @@ function screenCover() {
       <h1 class="h1" style="font-size:48px;line-height:56px;margin-top:16px">TWIN Cabinet · Project-first v1</h1>
       <p class="h4" style="color:var(--darkgrey);font-weight:400;margin-top:16px">Login → проекты → операционка внутри проекта. Компания — аккаунт: биллинг и команда.</p>
       <div class="scope">Карточки и связи сущностей. Редактор сценария и обучение NLU в v1 не рисуем.</div>
-      ${pageLead('cover', 'dark')}
       <div class="mt-24"><button class="btn btn-auth" data-nav="#/login">Пройти флоу</button></div>
       <p class="verysmall muted-dark mt-24">20 августа 2026 · 1440×900 · HTML-прототип вместо Figma</p>
     </div>

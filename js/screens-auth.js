@@ -22,7 +22,7 @@ function screenTfa() {
       <input class="input auth-input" placeholder="000 000" style="text-align:center;letter-spacing:6px" />
       <button class="btn btn-auth" type="submit">Подтвердить</button>
     </form>
-    <div class="auth-links"><a href="#/login">Назад к почте</a></div>`, 'tfa')
+    <div class="auth-links"><a href="#/login">Назад к почте</a></div>`)
 }
 
 function screenSignup() {
@@ -34,7 +34,7 @@ function screenSignup() {
       <input class="input auth-input" type="password" placeholder="Пароль" />
       <button class="btn btn-auth" type="submit">Создать и войти</button>
     </form>
-    <div class="auth-links"><a href="#/login">Уже есть вход</a></div>`, 'signup')
+    <div class="auth-links"><a href="#/login">Уже есть вход</a></div>`)
 }
 
 function screenReset() {
@@ -44,12 +44,12 @@ function screenReset() {
       <input class="input auth-input" type="email" placeholder="Почта" />
       <button class="btn btn-auth" type="submit">Отправить ссылку</button>
     </form>
-    <div class="auth-links"><a href="#/login">К входу</a></div>`, 'reset')
+    <div class="auth-links"><a href="#/login">К входу</a></div>`)
 }
 
 function screenOperator() {
   return authWrap(`
     <h1 class="h2" style="color:#fff;text-align:center">Это кабинет</h1>
     <p class="normal" style="color:var(--darkgrey);text-align:center">У этого входа нет доступа сюда. Откройте панель оператора — диалоги там.</p>
-    <a class="btn btn-auth secondary" data-nav="#/login" style="text-decoration:none">Понятно</a>`, 'operator')
+    <a class="btn btn-auth secondary" data-nav="#/login" style="text-decoration:none">Понятно</a>`)
 }
