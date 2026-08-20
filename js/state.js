@@ -175,16 +175,16 @@ function attentionFor(pid) {
   const jobs = JOBS[pid] || []
   const bots = BOTS[pid] || []
   if (hasModule(pid, 'agents')) {
-    agents.filter((a) => a.status === 'error').forEach((a) => items.push({ tone: 'error', text: `${a.name} — ошибка`, href: `#/p/${pid}/agents/${a.id}` }))
-    agents.filter((a) => a.status === 'paused').forEach((a) => items.push({ tone: 'paused', text: `${a.name} на паузе`, href: `#/p/${pid}/agents/${a.id}` }))
-    agents.filter((a) => a.status === 'draft').forEach((a) => items.push({ tone: 'draft', text: `Черновик: ${a.name}`, href: `#/p/${pid}/agents/${a.id}` }))
+    agents.filter((a) => a.status === 'error').forEach((a) => items.push({ tone: 'error', text: `${entityRef('ai', a.name)} — ошибка`, href: `#/p/${pid}/agents/${a.id}` }))
+    agents.filter((a) => a.status === 'paused').forEach((a) => items.push({ tone: 'paused', text: `${entityRef('ai', a.name)} на паузе`, href: `#/p/${pid}/agents/${a.id}` }))
+    agents.filter((a) => a.status === 'draft').forEach((a) => items.push({ tone: 'draft', text: `Черновик: ${entityRef('ai', a.name)}`, href: `#/p/${pid}/agents/${a.id}` }))
   }
   if (hasModule(pid, 'calls')) {
-    jobs.filter((j) => j.status === 'paused').forEach((j) => items.push({ tone: 'paused', text: `Обзвон на паузе: ${j.name}`, href: `#/p/${pid}/calls/${j.id}` }))
-    jobs.filter((j) => j.status === 'error').forEach((j) => items.push({ tone: 'error', text: `Сбой задания: ${j.name}`, href: `#/p/${pid}/calls/${j.id}` }))
+    jobs.filter((j) => j.status === 'paused').forEach((j) => items.push({ tone: 'paused', text: `Обзвон на паузе: ${entityRef('job', j.name)}`, href: `#/p/${pid}/calls/${j.id}` }))
+    jobs.filter((j) => j.status === 'error').forEach((j) => items.push({ tone: 'error', text: `Сбой задания: ${entityRef('job', j.name)}`, href: `#/p/${pid}/calls/${j.id}` }))
   }
   if (hasModule(pid, 'bots')) {
-    bots.filter((b) => b.status === 'paused').forEach((b) => items.push({ tone: 'paused', text: `Сценарий на паузе: ${b.name}`, href: `#/p/${pid}/bots` }))
+    bots.filter((b) => b.status === 'paused').forEach((b) => items.push({ tone: 'paused', text: `Сценарий на паузе: ${entityRef('graph', b.name)}`, href: `#/p/${pid}/bots` }))
   }
   return items.slice(0, 4)
 }

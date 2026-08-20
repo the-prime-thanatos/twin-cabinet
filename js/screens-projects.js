@@ -8,7 +8,7 @@ function projectCard(p) {
     </div>
     ${entityFoot([
       `<div class="small muted">${p.desc}</div>`,
-      `<div class="verysmall muted">${p.updated}</div>`,
+      entityDates(p),
     ])}
   </button>`
 }
@@ -53,6 +53,7 @@ function finishCreate(modules, extra) {
     id,
     name,
     desc: ui.create.desc || extra || '',
+    created: 'только что',
     updated: 'только что',
     agents: 0,
     bots: 0,
@@ -119,7 +120,7 @@ function screenCreate(rest) {
       (pr) => `<button class="choice-card" type="button" data-nav="#/projects/new/preset/${pr.id}">
         <div class="h4">${pr.name}</div>
         <p class="small muted">${pr.desc}</p>
-        <div class="chips">${pr.modules.filter((id) => id !== 'analytics').map((id) => `<span class="chip">${(NAV.find((n) => n.id === id) || {}).label}</span>`).join('')}</div>
+        <div class="chips">${pr.modules.filter((id) => id !== 'analytics').map((id) => navChip(id)).join('')}</div>
       </button>`,
     ).join('')
     return createChrome(`${header('Пресет проекта', 'folder', '', 'create')}
@@ -316,10 +317,8 @@ function screenOverview(pid) {
   ].filter(Boolean)
   const names = pinsOf(pid)
     .filter((id) => id !== 'analytics')
-    .map((id) => (NAV.find((n) => n.id === id) || {}).label)
-    .filter(Boolean)
   const pills = names.length
-    ? `<div class="module-pills">${names.map((n) => `<span class="chip">${n}</span>`).join('')}</div>`
+    ? `<div class="module-pills">${names.map((id) => navChip(id)).join('')}</div>`
     : `<div class="module-pills"><span class="chip">нет закреплений</span></div>`
   const statsGridHtml = statsGrid(stats)
   const note = noteText(pid)

@@ -7,7 +7,7 @@ function agentCard(pid, a, mini) {
     ${entityFoot([
       `<div class="chips">${mediumChip(a.medium || 'voice')}</div>`,
       mini ? '' : `<div class="small muted">${a.lang}</div>`,
-      `<div class="verysmall muted">${a.updated}</div>`,
+      entityDates(a),
     ])}
   </button>`
 }
@@ -15,15 +15,15 @@ function agentCard(pid, a, mini) {
 function botCard(pid, b, mini) {
   const nlu = b.nluId && findNlu(pid, b.nluId)
   const ai = b.aiId && findAgent(pid, b.aiId)
-  const inside = [nlu && `NLU-модель · ${nlu.name}`, ai && `AI-агент · ${ai.name}`].filter(Boolean)
+  const inside = [nlu && entityRef('nlu', nlu.name), ai && entityRef('ai', ai.name)].filter(Boolean)
   return `<button class="entity-card is-graph ${mini ? 'is-mini' : ''}" type="button" data-nav="#/p/${pid}/bots/${b.id}">
     ${entityHead('graph', chip(b.status))}
     <div class="h5 entity-title">${b.name}</div>
     <div class="entity-sig" aria-hidden="true"><div class="flow-sig"><i></i><span></span><i></i><span></span><i></i></div></div>
     ${entityFoot([
       `<div class="chips">${mediumChip(b.medium || 'text')}</div>`,
-      !mini && inside.length ? `<div class="rel-line">Внутри: ${inside.join(', ')}</div>` : '',
-      `<div class="verysmall muted">${b.updated}</div>`,
+      !mini && inside.length ? `<div class="rel-line">${inside.join('')}</div>` : '',
+      entityDates(b),
     ])}
   </button>`
 }
@@ -36,8 +36,8 @@ function nluCard(pid, n, mini) {
     <div class="entity-sig"><span class="sig-num">${n.intents || 0}</span><span class="small muted">намерений</span></div>
     ${entityFoot([
       `<div class="small muted">${n.entities || 0} сущностей</div>`,
-      mini ? '' : (host ? `<div class="rel-line">В сценарии · ${host.name}</div>` : '<div class="rel-line">С клиентом не говорит</div>'),
-      `<div class="verysmall muted">${n.updated}</div>`,
+      mini ? '' : (host ? entityRef('graph', host.name) : '<div class="rel-line">С клиентом не говорит</div>'),
+      entityDates(n),
     ])}
   </button>`
 }
@@ -53,6 +53,7 @@ function jobCard(pid, j, mini) {
     ${entityFoot([
       j.brain ? brainMark(j.brain) : '',
       `<div class="verysmall muted">${j.from} → ${j.to}</div>`,
+      entityDates(j),
     ])}
   </button>`
 }
@@ -65,10 +66,10 @@ function chatCard(c) {
     <div class="entity-sig"><p class="chat-preview">${c.preview}</p></div>
     ${entityFoot([
       `<div class="chat-meta">
-        <div class="chips">${c.brain ? kindChip(c.brain.kind) : ''}<span class="chip">${c.channel}</span></div>
-        ${c.brain ? `<div class="rel-line">${c.brain.name}</div>` : ''}
-        <div class="verysmall muted">${c.time}</div>
+        ${c.brain ? brainMark(c.brain) : ''}
+        <span class="chip">${c.channel}</span>
       </div>`,
+      entityDates(c),
     ])}
   </button>`
 }
@@ -84,6 +85,7 @@ function campaignCard(c) {
     </div>
     ${entityFoot([
       `<div class="small muted">${c.channel}</div>`,
+      entityDates(c),
     ])}
   </button>`
 }
@@ -94,8 +96,8 @@ function docCard(d) {
     <div class="h5 entity-title">${d.name}</div>
     <div class="entity-sig">${icon('file')}<span class="small muted">${d.size}</span></div>
     ${entityFoot([
-      d.agent ? `<div class="rel-line">Для AI-агента · ${d.agent}</div>` : '',
-      `<div class="verysmall muted">${d.updated}</div>`,
+      d.agent ? entityRef('ai', d.agent) : '',
+      entityDates(d),
     ])}
   </button>`
 }
@@ -105,7 +107,10 @@ function phoneCard(ph) {
     ${entityHead('phone', chip(ph.status))}
     <div class="h5 entity-title">${ph.city}</div>
     <div class="entity-sig"><span class="phone-sig">${ph.number}</span></div>
-    ${entityFoot([`<div class="verysmall muted">${ph.until}</div>`])}
+    ${entityFoot([
+      `<div class="verysmall muted">${ph.until}</div>`,
+      entityDates(ph),
+    ])}
   </button>`
 }
 
@@ -114,7 +119,10 @@ function offerCard(ph) {
     ${entityHead('offer', `<span class="chip">${ph.city}</span>`)}
     <div class="h5 entity-title">${ph.city}</div>
     <div class="entity-sig"><span class="phone-sig">${ph.number}</span></div>
-    ${entityFoot([`<div class="small muted">${ph.price}</div>`])}
+    ${entityFoot([
+      `<div class="small muted">${ph.price}</div>`,
+      entityDates(ph),
+    ])}
   </button>`
 }
 
@@ -126,6 +134,7 @@ function tplCard(kind, skin, t) {
     ${entityFoot([
       t.brain ? brainMark(t.brain) : '',
       t.medium ? `<div class="chips">${mediumChip(t.medium)}</div>` : '',
+      entityDates(t),
     ])}
   </button>`
 }
@@ -141,7 +150,7 @@ function reportCard(r) {
         : r.service
           ? `<div class="small muted">${r.service}</div>`
           : '',
-      `<div class="verysmall muted">${r.updated}</div>`,
+      entityDates(r),
     ])}
   </button>`
 }
@@ -151,7 +160,10 @@ function marketCard(m) {
     ${entityHead('market', kindChip(m.kind))}
     <div class="h5 entity-title">${m.name}</div>
     <div class="entity-sig"><span class="sig-num sig-price">${m.price}</span></div>
-    ${entityFoot([`<div class="small muted">Готовый объект в магазин компании</div>`])}
+    ${entityFoot([
+      `<div class="small muted">Готовый объект в магазин компании</div>`,
+      entityDates(m),
+    ])}
   </button>`
 }
 

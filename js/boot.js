@@ -174,7 +174,7 @@ document.addEventListener('click', (e) => {
     const medium = (mediumEl && mediumEl.value) || 'voice'
     AGENTS[pid] = AGENTS[pid] || []
     const id = 'agt_' + Math.random().toString(36).slice(2, 6)
-    AGENTS[pid].unshift({ id, name, lang, status: 'draft', updated: 'только что', kind: 'ai', medium })
+    AGENTS[pid].unshift({ id, name, lang, status: 'draft', created: 'только что', updated: 'только что', kind: 'ai', medium })
     project(pid).agents = AGENTS[pid].length
     ui.modal = null
     maybePromote(pid)
@@ -185,7 +185,7 @@ document.addEventListener('click', (e) => {
     const pid = ui.currentPid
     BOTS[pid] = BOTS[pid] || []
     const id = 'bot_' + Math.random().toString(36).slice(2, 6)
-    BOTS[pid].unshift({ id, name: 'Новый сценарий', channel: 'WhatsApp', status: 'draft', updated: 'только что', kind: 'graph', medium: 'text' })
+    BOTS[pid].unshift({ id, name: 'Новый сценарий', channel: 'WhatsApp', status: 'draft', created: 'только что', updated: 'только что', kind: 'graph', medium: 'text' })
     project(pid).bots = BOTS[pid].length
     if (!maybePromote(pid)) {
       ui.toast = 'Сценарий создали'
@@ -199,7 +199,7 @@ document.addEventListener('click', (e) => {
     const pid = ui.currentPid
     NLU[pid] = NLU[pid] || []
     const id = 'nlu_' + Math.random().toString(36).slice(2, 6)
-    NLU[pid].unshift({ id, name: 'Новая NLU-модель', status: 'draft', updated: 'только что', intents: 0, entities: 0 })
+    NLU[pid].unshift({ id, name: 'Новая NLU-модель', status: 'draft', created: 'только что', updated: 'только что', intents: 0, entities: 0 })
     project(pid).nlu = NLU[pid].length
     if (!maybePromote(pid)) {
       ui.toast = 'NLU-модель создали'
@@ -213,7 +213,7 @@ document.addEventListener('click', (e) => {
     const pid = ui.currentPid
     JOBS[pid] = JOBS[pid] || []
     const id = 'job_' + Math.random().toString(36).slice(2, 6)
-    JOBS[pid].unshift({ id, name: 'Первый обзвон', status: 'draft', progress: 0, from: 'сегодня', to: 'сегодня' })
+    JOBS[pid].unshift({ id, name: 'Первый обзвон', status: 'draft', progress: 0, from: 'сегодня', to: 'сегодня', created: 'только что', updated: 'только что' })
     project(pid).calls = JOBS[pid].length
     if (!maybePromote(pid)) {
       ui.toast = 'Задание создали'
